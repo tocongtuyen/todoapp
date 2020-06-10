@@ -16,8 +16,8 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import Dialog from 'react-native-dialog';
 import ActionSheet from 'react-native-actionsheet';
 
-import Header from './headercomponent.js';
-import GroupTask from './grouptaskcomponent.js';
+import Header from '../components/headercomponent.js';
+import GroupTask from '../components/grouptaskcomponent.js';
 
 const ProfileItem = ({icon, name}) => (
   <TouchableOpacity style={styles.itemContainer}>
@@ -28,8 +28,8 @@ const ProfileItem = ({icon, name}) => (
 );
 
 export default class Dashboard extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.dbRef = firebase.firestore().collection('groups');
     this.state = {
       uid: '',
@@ -44,7 +44,6 @@ export default class Dashboard extends Component {
   storeGroup() {
     if (this.state.groupname === '') {
       alert('Fill at least your name!');
-      // nó chạy vào alter này thì phải
     } else {
       this.setState({
         isLoading: true,
@@ -53,14 +52,10 @@ export default class Dashboard extends Component {
         .add({
           groupname: this.state.groupname,
           userid: this.state.uid,
+          timestamp: firebase.firestore.FieldValue.serverTimestamp(),
         })
         .then(res => {
-          console.log('====================================');
-          console.log(res.id);
-          console.log('====================================');
-          this.setState({
-            groupname: '',
-          });
+          this.refreshGroup();
         })
         .catch(err => {
           console.error('Error found: ', err);
@@ -95,31 +90,80 @@ export default class Dashboard extends Component {
   };
 
   componentDidMount() {
-    this.setState({
-      displayName: firebase.auth().currentUser.displayName,
-      uid: firebase.auth().currentUser.uid,
-    });
-    this.unsubscribe = this.dbRef.onSnapshot(this.getCollection);
+    this.setState(
+      {
+        displayName: firebase.auth().currentUser.displayName,
+        uid: firebase.auth().currentUser.uid,
+      },
+      () => {
+        this.refreshGroup();
+      },
+    );
+    // this.unsubscribe = this.dbRef.onSnapshot(this.getCollection);
   }
   componentWillUnmount() {
-    this.unsubscribe();
+    // this.unsubscribe();
   }
 
-  getCollection = querySnapshot => {
-    const groupArr = [];
-    querySnapshot.forEach(res => {
-      const {groupname, userid} = res.data();
-      groupArr.push({
-        key: res.id,
-        // res,
-        groupname,
-        userid,
+  // getCollection = querySnapshot => {
+  //   const groupArr = [];
+  //   querySnapshot.forEach(res => {
+  //     const {groupname, userid} = res.data();
+  //     groupArr.push({
+  //       key: res.id,
+  //       // res,
+  //       groupname,
+  //       userid,
+  //     });
+  //   });
+  //   this.setState({
+  //     groupArr,
+  //   });
+  // };
+
+  // getGroupByUserId = id => {
+  //   firebase
+  //     .firestore()
+  //     .collection('groups')
+  //     .where('userid', '==', id + '')
+  //     .orderBy('timestamp')
+  //     .onSnapshot(querySnapshot => {
+  //       if (querySnapshot) {
+  //         const groupArr = [];
+  //         querySnapshot.forEach(res => {
+  //           groupArr.push({
+  //             key: res.id,
+  //             ...res.data(),
+  //           });
+  //         });
+  //         this.setState({
+  //           groupArr,
+  //         });
+  //       }
+  //     });
+  // };
+  refreshGroup() {
+    this.getGroupByUserId(this.state.uid).then(groups => {
+      this.setState({groupArr: groups});
+    });
+  }
+  getGroupByUserId = id => {
+    return firebase
+      .firestore()
+      .collection('groups')
+      .where('userid', '==', id + '')
+      .orderBy('timestamp')
+      .get()
+      .then(querySnapshot => {
+        return querySnapshot.docs.map(i => ({
+          key: i.id,
+          ...i.data(),
+        }));
+      })
+      .catch(error => {
+        console.log(error);
+        return [];
       });
-    });
-    this.setState({
-      groupArr,
-    });
-    console.log(groupArr);
   };
 
   deleteGroup = key => {
@@ -129,6 +173,7 @@ export default class Dashboard extends Component {
       .doc(key);
     dbRef.delete().then(res => {
       console.log('Item removed from database');
+      this.refreshGroup();
     });
   };
 
@@ -154,7 +199,7 @@ export default class Dashboard extends Component {
             <ProfileItem icon="calendar-today" name="Xem lịch" />
             <ProfileItem icon="chart-line" name="Xem thống kê" />
             {/*  */}
-            <View style={styles.divider} />
+            {/* <View style={styles.divider} />
             <FlatList
               data={this.state.groupArr}
               renderItem={({item}) => (
@@ -167,11 +212,17 @@ export default class Dashboard extends Component {
                     this.ActionSheet.show();
                   }}
                   // onRightPress={() => this.ActionSheet.show()}
-                  onClick={() => this.props.navigation.navigate('TaskScreen')}
+                  onClick={() => {
+                    this.props.navigation.navigate('TaskScreen', {
+                      key: item.key,
+                      userid: this.state.uid,
+                      title: item.groupname,
+                    });
+                  }}
                 />
               )}
-              keyExtractor={item => item.id}
-            />
+              keyExtractor={item => item.key}
+            /> */}
             <ActionSheet
               ref={o => (this.ActionSheet = o)}
               title={'Dữ liệu sẽ bị xoá vĩnh viễn!'}
@@ -198,8 +249,11 @@ export default class Dashboard extends Component {
         <TouchableOpacity
           style={styles.itemContainer}
           onPress={() => {
-            this.showDialog();
-            console.log(this.state.dialogVisible);
+            // this.showDialog();
+            // console.log(this.state.dialogVisible);
+            this.props.navigation.navigate('Tasklist', {
+              userid: this.state.uid,
+            });
           }}>
           <MaterialCommunityIcons
             name="shape-square-plus"
@@ -207,7 +261,7 @@ export default class Dashboard extends Component {
             color="gray"
           />
           <Text style={[styles.itemText, {marginLeft: 20, color: 'gray'}]}>
-            Danh sách mới{' '}
+            Danh sách công việc{' '}
           </Text>
           {/* <FontAwesome name="angle-right" size={26} color="#1e1e1e" /> */}
         </TouchableOpacity>

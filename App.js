@@ -4,10 +4,12 @@ import * as React from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 
-import Login from './src/components/login';
-import Signup from './src/components/signup';
-import Dashboard from './src/components/dashboard';
-import TaskScreen from './src/components/taskscreen';
+import Login from './src/screens/login';
+import Signup from './src/screens/signup';
+import Dashboard from './src/screens/dashboard';
+import TaskScreen from './src/screens/taskscreen';
+import Addtask from './src/screens/addtask';
+import Tasklist from './src/screens/tasklist.js';
 
 const Stack = createStackNavigator();
 
@@ -45,6 +47,16 @@ function MyStack() {
         name="TaskScreen"
         component={TaskScreen}
         options={{title: 'Công việc'}}
+      />
+      <Stack.Screen
+        name="Addtask"
+        component={Addtask}
+        options={{title: 'Thêm công việc'}}
+      />
+      <Stack.Screen
+        name="Tasklist"
+        component={Tasklist}
+        options={{title: 'Danh sách công việc'}}
       />
     </Stack.Navigator>
   );

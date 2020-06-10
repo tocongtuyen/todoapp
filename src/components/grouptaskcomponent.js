@@ -3,7 +3,6 @@ import {View, Text, StyleSheet, Animated, TouchableOpacity} from 'react-native';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import Swipeable from 'react-native-gesture-handler/Swipeable';
-import ActionSheet from 'react-native-actionsheet';
 
 const RightActions = ({progress, dragX, onPress}) => {
   const scale = dragX.interpolate({
