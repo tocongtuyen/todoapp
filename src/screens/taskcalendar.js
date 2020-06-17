@@ -18,9 +18,10 @@ import Header from '../components/headercomponent.js'
 import DateTimePicker from 'react-native-modal-datetime-picker'
 import firebase from '../database/firebase'
 import ActionSheet from 'react-native-actionsheet'
+import CalendarStrip from 'react-native-calendar-strip'
 const { width: vw } = Dimensions.get('window')
 
-export default class tasklist extends Component {
+export default class TaskCalendar extends Component {
     constructor(props) {
         super(props)
         this.state = {
@@ -135,26 +136,77 @@ export default class tasklist extends Component {
                         />
                     </TouchableOpacity>
 
-                    <Text style={styles.newTask}>Danh sách</Text>
+                    {/* <Text style={styles.newTask}>Danh sách</Text> */}
                 </View>
-                {/* nut them để chuyển sang màng hình thêm task */}
-                <TouchableOpacity
-                    onPress={() => {
-                        this.props.navigation.navigate('Addtask', {
-                            userid: this.state.userid,
-                            onSelect: this.onSelect,
+                <CalendarStrip
+                    ref={(ref) => {
+                        this.calenderRef = ref
+                    }}
+                    calendarAnimation={{ type: 'sequence', duration: 30 }}
+                    daySelectionAnimation={{
+                        type: 'background',
+                        duration: 200,
+                        highlightColor: '#ffffff',
+                    }}
+                    style={{
+                        height: 150,
+                        paddingTop: 20,
+                        paddingBottom: 20,
+                    }}
+                    calendarHeaderStyle={{ color: '#000000' }}
+                    dateNumberStyle={{ color: '#000000', paddingTop: 10 }}
+                    dateNameStyle={{ color: '#BBBBBB' }}
+                    highlightDateNumberStyle={{
+                        color: '#fff',
+                        backgroundColor: '#2E66E7',
+                        marginTop: 10,
+                        height: 35,
+                        width: 35,
+                        textAlign: 'center',
+                        borderRadius: 17.5,
+                        overflow: 'hidden',
+                        paddingTop: 6,
+                        fontWeight: '400',
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                    }}
+                    highlightDateNameStyle={{ color: '#2E66E7' }}
+                    disabledDateNameStyle={{ color: 'grey' }}
+                    disabledDateNumberStyle={{ color: 'grey', paddingTop: 10 }}
+                    datesWhitelist={datesWhitelist}
+                    iconLeft={require('../assets/left-arrow.png')}
+                    iconRight={require('../assets/right-arrow.png')}
+                    iconContainer={{ flex: 0.1 }}
+                    markedDates={markedDate}
+                    onDateSelected={(date) => {
+                        const selectedDate = `${moment(date).format(
+                            'YYYY'
+                        )}-${moment(date).format('MM')}-${moment(date).format(
+                            'DD'
+                        )}`
+                        this._updateCurrentTask(selectedDate)
+                        this.setState({
+                            currentDate: selectedDate,
                         })
                     }}
-                    style={styles.viewTask}
-                >
-                    <Image
-                        source={require('../assets/plus.png')}
-                        style={{
-                            height: 30,
-                            width: 30,
-                        }}
-                    />
-                </TouchableOpacity>
+                />
+                {/* nut them để chuyển sang màng hình thêm task */}
+                {/* <TouchableOpacity
+          onPress={() => {
+            this.props.navigation.navigate('Addtask', {
+              userid: this.state.userid,
+              onSelect: this.onSelect,
+            });
+          }}
+          style={styles.viewTask}>
+          <Image
+            source={require('../assets/plus.png')}
+            style={{
+              height: 30,
+              width: 30,
+            }}
+          />
+        </TouchableOpacity> */}
                 {/*  */}
                 <View
                     style={{
@@ -167,19 +219,13 @@ export default class tasklist extends Component {
                             paddingBottom: 20,
                         }}
                     >
-                        <View style={{ marginTop: 20 }}>
+                        <View style={{ marginTop: 0 }}>
                             <FlatList
                                 data={this.state.todoList}
                                 renderItem={({ item }) => (
                                     <TouchableOpacity
                                         onPress={() => {
                                             console.log(item.time.toDate())
-                                            this.props.navigation.navigate(
-                                                'UpdateTask',
-                                                {
-                                                    taskid: item.key,
-                                                }
-                                            )
                                         }}
                                         key={item.key}
                                     >

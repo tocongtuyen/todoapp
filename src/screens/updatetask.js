@@ -20,11 +20,11 @@ const { width: vw } = Dimensions.get('window')
 import DateTimePicker from 'react-native-modal-datetime-picker'
 import firebase from '../database/firebase'
 
-class detailtask extends Component {
+class UpdateTask extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            userid: this.props.route.params.userid,
+            // userid: this.props.route.params.userid,
             selectedDay: {
                 [`${moment().format('YYYY')}-${moment().format(
                     'MM'
@@ -44,7 +44,8 @@ class detailtask extends Component {
             timeType: '',
             creatTodo: {},
             createEventAsyncRes: '',
-            color: { colorLeft: '#979CA2', colorRight: '#E7E7EA' },
+            color: '#4AD565',
+            isCompleted: false,
         }
     }
 
@@ -67,7 +68,6 @@ class detailtask extends Component {
                         new Date(this.state.alarmTime)
                     ),
                     color: this.state.color,
-                    session: 1,
                 })
                 .then((res) => {
                     this.props.navigation.goBack()
@@ -177,8 +177,9 @@ class detailtask extends Component {
                                     resizeMode="contain"
                                 />
                             </TouchableOpacity>
-
-                            <Text style={styles.newTask}>Thêm công việc</Text>
+                            <Text style={styles.newTask}>
+                                Cập nhật công việc
+                            </Text>
                         </View>
                         <ScrollView
                             contentContainerStyle={{
@@ -245,102 +246,69 @@ class detailtask extends Component {
                                         marginVertical: 10,
                                     }}
                                 >
-                                    Chọn màu
+                                    Chọn nhẵn
                                 </Text>
-                                <View
-                                    style={{
-                                        flexDirection: 'row',
-                                        justifyContent: 'space-between',
-                                    }}
-                                >
+                                <View style={{ flexDirection: 'row' }}>
                                     <TouchableOpacity
-                                        style={styles.mauvang}
+                                        style={styles.canlam}
                                         onPress={() =>
-                                            this.setState({
-                                                color: {
-                                                    colorLeft: '#E7B94B',
-                                                    colorRight: '#FFEFCB',
-                                                },
-                                            })
+                                            this.setState({ color: '#FF4D4E' })
                                         }
-                                    ></TouchableOpacity>
+                                    >
+                                        <Text
+                                            style={{
+                                                textAlign: 'center',
+                                                fontSize: 14,
+                                            }}
+                                        >
+                                            Cần làm
+                                        </Text>
+                                    </TouchableOpacity>
                                     <TouchableOpacity
-                                        style={styles.mauxanh}
+                                        style={styles.luachon}
                                         onPress={() =>
-                                            this.setState({
-                                                color: {
-                                                    colorLeft: '#55B053',
-                                                    colorRight: '#CFEECC',
-                                                },
-                                            })
+                                            this.setState({ color: '#F8D557' })
                                         }
-                                    ></TouchableOpacity>
+                                    >
+                                        <Text
+                                            style={{
+                                                textAlign: 'center',
+                                                fontSize: 14,
+                                            }}
+                                        >
+                                            Lựa chọn
+                                        </Text>
+                                    </TouchableOpacity>
                                     <TouchableOpacity
-                                        style={styles.maulam}
+                                        style={styles.uythac}
                                         onPress={() =>
-                                            this.setState({
-                                                color: {
-                                                    colorLeft: '#2EBEBD',
-                                                    colorRight: '#C0F2F6',
-                                                },
-                                            })
+                                            this.setState({ color: '#62CCFB' })
                                         }
-                                    ></TouchableOpacity>
+                                    >
+                                        <Text
+                                            style={{
+                                                textAlign: 'center',
+                                                fontSize: 14,
+                                            }}
+                                        >
+                                            Uỷ thác
+                                        </Text>
+                                    </TouchableOpacity>
                                     <TouchableOpacity
-                                        style={styles.maucham}
+                                        style={styles.xoabo}
                                         onPress={() =>
-                                            this.setState({
-                                                color: {
-                                                    colorLeft: '#5C8AD0',
-                                                    colorRight: '#D2E2FC',
-                                                },
-                                            })
+                                            this.setState({ color: '#4CD565' })
                                         }
-                                    ></TouchableOpacity>
-                                    <TouchableOpacity
-                                        style={styles.mautim}
-                                        onPress={() =>
-                                            this.setState({
-                                                color: {
-                                                    colorLeft: '#8273D1',
-                                                    colorRight: '#E0DAFE',
-                                                },
-                                            })
-                                        }
-                                    ></TouchableOpacity>
-                                    <TouchableOpacity
-                                        style={styles.mauhong}
-                                        onPress={() =>
-                                            this.setState({
-                                                color: {
-                                                    colorLeft: '#B684DE',
-                                                    colorRight: '#F1DDFF',
-                                                },
-                                            })
-                                        }
-                                    ></TouchableOpacity>
-                                    <TouchableOpacity
-                                        style={styles.maudo}
-                                        onPress={() =>
-                                            this.setState({
-                                                color: {
-                                                    colorLeft: '#B23435',
-                                                    colorRight: '#F2C4C1',
-                                                },
-                                            })
-                                        }
-                                    ></TouchableOpacity>
-                                    <TouchableOpacity
-                                        style={styles.mauxam}
-                                        onPress={() =>
-                                            this.setState({
-                                                color: {
-                                                    colorLeft: '#979CA2',
-                                                    colorRight: '#E7E7EA',
-                                                },
-                                            })
-                                        }
-                                    ></TouchableOpacity>
+                                    >
+                                        <Text
+                                            style={{
+                                                textAlign: 'center',
+                                                fontSize: 14,
+                                            }}
+                                        >
+                                            Xoá bỏ
+                                        </Text>
+                                    </TouchableOpacity>
                                 </View>
                                 <View style={styles.notesContent} />
                                 <View>
@@ -367,7 +335,7 @@ class detailtask extends Component {
                                             fontWeight: '600',
                                         }}
                                     >
-                                        Bắt đầu làm
+                                        Thời gian bắt đầu
                                     </Text>
                                     <TouchableOpacity
                                         onPress={() =>
@@ -419,6 +387,47 @@ class detailtask extends Component {
                                         onValueChange={this.handleAlarmSet}
                                     />
                                 </View>
+                                <View style={styles.seperator} />
+                                <View
+                                    style={{
+                                        flexDirection: 'row',
+                                        justifyContent: 'space-between',
+                                        alignItems: 'center',
+                                    }}
+                                >
+                                    <View>
+                                        <Text
+                                            style={{
+                                                color: '#9CAAC4',
+                                                fontSize: 16,
+                                                fontWeight: '600',
+                                            }}
+                                        >
+                                            Trạng thái công việc
+                                        </Text>
+                                        <View
+                                            style={{
+                                                height: 25,
+                                                marginTop: 3,
+                                            }}
+                                        >
+                                            <Text style={{ fontSize: 19 }}>
+                                                {this.state.isCompleted
+                                                    ? 'Hoàn thành'
+                                                    : 'Không hoàn thành'}
+                                            </Text>
+                                        </View>
+                                    </View>
+                                    <Switch
+                                        value={this.state.isCompleted}
+                                        onValueChange={() => {
+                                            this.setState({
+                                                isCompleted: !this.state
+                                                    .isCompleted,
+                                            })
+                                        }}
+                                    />
+                                </View>
                             </View>
                             <TouchableOpacity
                                 disabled={taskText === ''}
@@ -442,7 +451,7 @@ class detailtask extends Component {
                                         color: '#fff',
                                     }}
                                 >
-                                    Thêm công việc
+                                    Cập nhật công việc
                                 </Text>
                             </TouchableOpacity>
                         </ScrollView>
@@ -453,7 +462,7 @@ class detailtask extends Component {
     }
 }
 
-export default detailtask
+export default UpdateTask
 
 const styles = StyleSheet.create({
     createTaskButton: {
@@ -483,61 +492,36 @@ const styles = StyleSheet.create({
         alignSelf: 'center',
         marginVertical: 20,
     },
-    mautim: {
-        height: 30,
-        width: 30,
-        backgroundColor: '#8273D1',
+    xoabo: {
+        height: 23,
+        width: 60,
+        backgroundColor: '#4CD565',
         justifyContent: 'center',
-        borderRadius: 15,
+        borderRadius: 5,
     },
-    mauhong: {
-        height: 30,
-        width: 30,
-        backgroundColor: '#B684DE',
+    uythac: {
+        height: 23,
+        width: 60,
+        backgroundColor: '#62CCFB',
         justifyContent: 'center',
-        borderRadius: 15,
+        borderRadius: 5,
+        marginRight: 7,
     },
-    mauxanh: {
-        height: 30,
-        width: 30,
-        backgroundColor: '#55B053',
+    luachon: {
+        height: 23,
+        width: 60,
+        backgroundColor: '#F8D557',
         justifyContent: 'center',
-        borderRadius: 15,
+        borderRadius: 5,
+        marginRight: 7,
     },
-    maucham: {
-        height: 30,
-        width: 30,
-        backgroundColor: '#5C8AD0',
+    canlam: {
+        height: 23,
+        width: 60,
+        backgroundColor: '#FF4D4E',
         justifyContent: 'center',
-        borderRadius: 15,
-    },
-    maudo: {
-        height: 30,
-        width: 30,
-        backgroundColor: '#B23435',
-        justifyContent: 'center',
-        borderRadius: 15,
-    },
-    mauvang: {
-        height: 30,
-        width: 30,
-        backgroundColor: '#E7B94B',
-        justifyContent: 'center',
-        borderRadius: 15,
-    },
-    maulam: {
-        height: 30,
-        width: 30,
-        backgroundColor: '#2EBEBD',
-        justifyContent: 'center',
-        borderRadius: 15,
-    },
-    mauxam: {
-        height: 30,
-        width: 30,
-        backgroundColor: '#979CA2',
-        justifyContent: 'center',
-        borderRadius: 15,
+        borderRadius: 5,
+        marginRight: 7,
     },
     title: {
         height: 25,

@@ -1,102 +1,129 @@
-import React from 'react';
-import {StyleSheet, Text, View, TouchableOpacity} from 'react-native';
-import moment from 'moment';
+import React from 'react'
+import {
+    StyleSheet,
+    Text,
+    View,
+    TouchableOpacity,
+    Animated,
+} from 'react-native'
+import moment from 'moment'
+import AntDesign from 'react-native-vector-icons/AntDesign'
+import Swipeable from 'react-native-gesture-handler/Swipeable'
 
-const taskitem = props => {
-  return (
-    <View style={[styles.taskListContent, {shadowColor: props.color}]}>
-      <View
-        style={{
-          marginLeft: 13,
-        }}>
+const RightActions = ({ progress, dragX, onPress }) => {
+    const scale = dragX.interpolate({
+        inputRange: [-100, 0],
+        outputRange: [1, 0],
+        extrapolate: 'clamp',
+    })
+    return (
+        <TouchableOpacity onPress={onPress}>
+            <View style={styles.rightAction}>
+                <Animated.Text
+                    style={[styles.actionText, { transform: [{ scale }] }]}
+                >
+                    <AntDesign name="delete" size={25} color="#fff" />
+                </Animated.Text>
+            </View>
+        </TouchableOpacity>
+    )
+}
+
+const taskitem = (props) => {
+    return (
+        // <Swipeable
+        //     renderRightActions={(progress, dragX) => (
+        //         <RightActions
+        //             progress={progress}
+        //             dragX={dragX}
+        //             onPress={props.onRightPress}
+        //         />
+        //     )}
+        // >
         <View
-          style={{
-            flexDirection: 'row',
-            alignItems: 'center',
-          }}>
-          <View
-            style={{
-              height: 12,
-              width: 12,
-              borderRadius: 6,
-              backgroundColor: props.color,
-              marginRight: 8,
-            }}
-          />
-          <Text
-            style={{
-              color: '#554A4C',
-              fontSize: 20,
-              fontWeight: '700',
-            }}>
-            {props.title}
-          </Text>
-        </View>
-        <View style={{flexDirection: 'row'}}>
-          <View
-            style={{
-              flexDirection: 'row',
-              marginLeft: 20,
-              justifyContent: 'space-between',
-            }}>
-            <View>
-              <Text
+            style={[
+                styles.taskListContent,
+                { backgroundColor: `${props.color.colorRight}` },
+            ]}
+        >
+            <View
                 style={{
-                  color: '#BBBBBB',
-                  fontSize: 14,
-                  marginRight: 5,
-                }}>
-                {`${moment(props.time).format('YYYY')}/${moment(
-                  props.time,
-                ).format('MM')}/${moment(props.time).format('DD')}`}
-              </Text>
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                }}
+            >
+                <View
+                    style={{
+                        height: 70,
+                        width: 5,
+                        // borderRadius: 8,
+                        backgroundColor: props.color.colorLeft,
+                        marginRight: 5,
+                    }}
+                />
+                <View style={{ marginRight: 8 }}>
+                    <Text
+                        style={{
+                            color: '#554A4C',
+                            fontSize: 15,
+                            fontWeight: '700',
+                        }}
+                    >
+                        {props.title}
+                    </Text>
+                    <Text
+                        style={{
+                            color: 'gray',
+                            fontSize: 14,
+                            marginRight: 5,
+                        }}
+                    >
+                        {`${moment(props.time).format('h:mm A')}`}
+                    </Text>
+                </View>
             </View>
-            <View>
-              <Text
-                style={{
-                  color: '#BBBBBB',
-                  fontSize: 14,
-                  marginLeft: 20,
-                }}>
-                {props.notes}
-              </Text>
-            </View>
-          </View>
         </View>
-      </View>
-      <View
-        style={{
-          height: 60,
-          width: 5,
-          backgroundColor: props.color,
-          borderRadius: 5,
-        }}
-      />
-    </View>
-  );
-};
+        // </Swipeable>
+    )
+}
 
-export default taskitem;
+export default taskitem
 
 const styles = StyleSheet.create({
-  taskListContent: {
-    height: 80,
-    width: 350,
-    alignSelf: 'center',
-    borderRadius: 10,
-    shadowColor: '#2E66E7',
-    backgroundColor: '#ffffff',
-    marginTop: 5,
-    marginBottom: 10,
-    shadowOffset: {
-      width: 3,
-      height: 3,
+    taskListContent: {
+        height: 70,
+        width: 125,
+        alignSelf: 'center',
+        // borderRadius: 10,
+        shadowColor: '#2E66E7',
+        backgroundColor: '#ffffff',
+        marginTop: 1,
+        marginBottom: 1,
+        shadowOffset: {
+            width: 3,
+            height: 3,
+        },
+        shadowRadius: 5,
+        // shadowOpacity: 0.5,
+        elevation: 3,
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
     },
-    shadowRadius: 5,
-    shadowOpacity: 0.5,
-    elevation: 3,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-  },
-});
+    rightAction: {
+        backgroundColor: '#dd2c00',
+        justifyContent: 'center',
+        flex: 1,
+        alignItems: 'center',
+        marginTop: 5,
+        marginBottom: 10,
+        marginRight: 30,
+        borderRadius: 10,
+    },
+    actionText: {
+        color: '#fff',
+        fontWeight: '600',
+        paddingLeft: 30,
+        paddingRight: 30,
+    },
+})
