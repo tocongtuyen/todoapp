@@ -2,6 +2,7 @@
 
 import React, { Component } from 'react'
 import {
+    SafeAreaView,
     StyleSheet,
     View,
     Text,
@@ -92,15 +93,10 @@ export default class Dashboard extends Component {
     }
 
     componentDidMount() {
-        this.setState(
-            {
-                displayName: firebase.auth().currentUser.displayName,
-                uid: firebase.auth().currentUser.uid,
-            },
-            () => {
-                this.refreshGroup()
-            }
-        )
+        this.setState({
+            displayName: firebase.auth().currentUser.displayName,
+            uid: firebase.auth().currentUser.uid,
+        })
         // this.unsubscribe = this.dbRef.onSnapshot(this.getCollection);
     }
     componentWillUnmount() {
@@ -178,35 +174,49 @@ export default class Dashboard extends Component {
 
     render() {
         return (
-            <View style={styles.screenContainer}>
-                {/* <Text style={styles.textStyle}>Hello, {this.state.displayName}</Text>
+            <SafeAreaView style={{ flex: 1, backgroundColor: '#424F61' }}>
+                <View style={styles.screenContainer}>
+                    {/* <Text style={styles.textStyle}>Hello, {this.state.displayName}</Text>
         <Button color="#3740FE" title="Logout" onPress={() => this.signOut()} /> */}
-                <Header
-                    title={this.state.displayName}
-                    iconLeft="user"
-                    iconRight="search1"
-                />
-                {/*  */}
-                <ScrollView>
-                    <View style={styles.bodyContainer}>
-                        <ProfileItem
-                            icon="alarm-light-outline"
-                            name="Xem công việc mỗi ngày"
-                            onPress={() => {
-                                this.props.navigation.navigate('TaskCalendar', {
-                                    userid: this.state.uid,
-                                })
-                            }}
-                        />
-                        <ProfileItem
-                            icon="checkbox-marked-outline"
-                            name="Công việc hoàn thành"
-                        />
-                        {/* <ProfileItem icon="alarm-check" name="Công việc quan trọng" /> */}
-                        <ProfileItem icon="calendar-today" name="Xem lịch" />
-                        <ProfileItem icon="chart-line" name="Xem thống kê" />
-                        {/*  */}
-                        {/* <View style={styles.divider} />
+                    <Header
+                        title={this.state.displayName}
+                        iconLeft="user"
+                        iconRight="search1"
+                    />
+                    {/*  */}
+                    <ScrollView>
+                        <View style={styles.bodyContainer}>
+                            <ProfileItem
+                                icon="alarm-light-outline"
+                                name="Xem công việc theo ngày"
+                                onPress={() => {
+                                    this.props.navigation.navigate(
+                                        'TaskCalendar',
+                                        {
+                                            userid: this.state.uid,
+                                        }
+                                    )
+                                }}
+                            />
+                            <ProfileItem
+                                icon="calendar-today"
+                                name="Xem công việc theo tuần"
+                                onPress={() => {
+                                    this.props.navigation.navigate(
+                                        'Calendarscreen',
+                                        {
+                                            userid: this.state.uid,
+                                        }
+                                    )
+                                }}
+                            />
+                            {/* <ProfileItem icon="alarm-check" name="Công việc quan trọng" /> */}
+                            <ProfileItem
+                                icon="chart-line"
+                                name="Xem thống kê"
+                            />
+                            {/*  */}
+                            {/* <View style={styles.divider} />
             <FlatList
               data={this.state.groupArr}
               renderItem={({item}) => (
@@ -230,68 +240,72 @@ export default class Dashboard extends Component {
               )}
               keyExtractor={item => item.key}
             /> */}
-                        <ActionSheet
-                            ref={(o) => (this.ActionSheet = o)}
-                            title={'Dữ liệu sẽ bị xoá vĩnh viễn!'}
-                            options={['Xoá danh sách', 'Huỷ bỏ']}
-                            cancelButtonIndex={1}
-                            destructiveButtonIndex={0}
-                            onPress={(index) => {
-                                if (index == 0) {
-                                    this.deleteGroup(this.state.keyGroupCurrent)
-                                    console.log(this.state.keyGroupCurrent)
-                                }
+                            <ActionSheet
+                                ref={(o) => (this.ActionSheet = o)}
+                                title={'Dữ liệu sẽ bị xoá vĩnh viễn!'}
+                                options={['Xoá danh sách', 'Huỷ bỏ']}
+                                cancelButtonIndex={1}
+                                destructiveButtonIndex={0}
+                                onPress={(index) => {
+                                    if (index == 0) {
+                                        this.deleteGroup(
+                                            this.state.keyGroupCurrent
+                                        )
+                                        console.log(this.state.keyGroupCurrent)
+                                    }
+                                }}
+                            />
+                            {/*  */}
+                            <View style={styles.divider} />
+                            <TouchableOpacity
+                                style={styles.itemContainer}
+                                onPress={() => this.signOut()}
+                            >
+                                <Text style={styles.itemText}>Đăng xuất</Text>
+                                {/* <FontAwesome name="angle-right" size={26} color="#1e1e1e" /> */}
+                            </TouchableOpacity>
+                        </View>
+                    </ScrollView>
+                    <TouchableOpacity
+                        style={styles.itemContainer}
+                        onPress={() => {
+                            this.props.navigation.navigate('Addtask', {
+                                userid: this.state.uid,
+                            })
+                        }}
+                    >
+                        <MaterialCommunityIcons
+                            name="shape-square-plus"
+                            size={30}
+                            color="gray"
+                        />
+                        <Text
+                            style={[
+                                styles.itemText,
+                                { marginLeft: 20, color: 'gray' },
+                            ]}
+                        >
+                            Thêm mới công việc{' '}
+                        </Text>
+                        {/* <FontAwesome name="angle-right" size={26} color="#1e1e1e" /> */}
+                    </TouchableOpacity>
+                    <Dialog.Container visible={this.state.dialogVisible}>
+                        <Dialog.Title>Danh sách mới</Dialog.Title>
+                        <Dialog.Input
+                            placeholder="Nhập tên danh sách"
+                            onChangeText={(text) => {
+                                console.log(text)
+                                this.setState({ groupname: text })
                             }}
                         />
-                        {/*  */}
-                        <View style={styles.divider} />
-                        <TouchableOpacity
-                            style={styles.itemContainer}
-                            onPress={() => this.signOut()}
-                        >
-                            <Text style={styles.itemText}>Đăng xuất</Text>
-                            {/* <FontAwesome name="angle-right" size={26} color="#1e1e1e" /> */}
-                        </TouchableOpacity>
-                    </View>
-                </ScrollView>
-                <TouchableOpacity
-                    style={styles.itemContainer}
-                    onPress={() => {
-                        // this.showDialog();
-                        // console.log(this.state.dialogVisible);
-                        this.props.navigation.navigate('Tasklist', {
-                            userid: this.state.uid,
-                        })
-                    }}
-                >
-                    <MaterialCommunityIcons
-                        name="shape-square-plus"
-                        size={30}
-                        color="gray"
-                    />
-                    <Text
-                        style={[
-                            styles.itemText,
-                            { marginLeft: 20, color: 'gray' },
-                        ]}
-                    >
-                        Danh sách công việc{' '}
-                    </Text>
-                    {/* <FontAwesome name="angle-right" size={26} color="#1e1e1e" /> */}
-                </TouchableOpacity>
-                <Dialog.Container visible={this.state.dialogVisible}>
-                    <Dialog.Title>Danh sách mới</Dialog.Title>
-                    <Dialog.Input
-                        placeholder="Nhập tên danh sách"
-                        onChangeText={(text) => {
-                            console.log(text)
-                            this.setState({ groupname: text })
-                        }}
-                    />
-                    <Dialog.Button label="Huỷ " onPress={this.handleCancel} />
-                    <Dialog.Button label="Lưu" onPress={this.handleSave} />
-                </Dialog.Container>
-            </View>
+                        <Dialog.Button
+                            label="Huỷ "
+                            onPress={this.handleCancel}
+                        />
+                        <Dialog.Button label="Lưu" onPress={this.handleSave} />
+                    </Dialog.Container>
+                </View>
+            </SafeAreaView>
         )
     }
 }

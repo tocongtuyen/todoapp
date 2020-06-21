@@ -47,7 +47,7 @@ export default class Login extends Component {
                         email: '',
                         password: '',
                     })
-                    this.props.navigation.navigate('Calendarscreen')
+                    this.props.navigation.navigate('Dashboard')
                 })
                 .catch((error) => {
                     this.setState({ errorMessage: error.message })

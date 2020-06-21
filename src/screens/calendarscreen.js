@@ -13,6 +13,7 @@ import TaskItem from '../components/taskitem.js'
 import AntDesign from 'react-native-vector-icons/AntDesign'
 import { getTask } from '../database/api'
 import firebase from '../database/firebase'
+import ActionSheet from 'react-native-actionsheet'
 
 const renderDateOnWeek = (num) => {
     // Lấy số thứ tự của ngày hiện tại
@@ -54,7 +55,7 @@ const renderDateOnWeek = (num) => {
     return day_name
 }
 
-function nextDate(num) {
+function nextDate(num, b) {
     let today = moment()
     let nextday = moment(today).add(num, 'days')
     let stringday =
@@ -63,7 +64,15 @@ function nextDate(num) {
         moment(nextday).format('MM') +
         '/' +
         moment(nextday).format('DD')
-
+    if (b) {
+        return (
+            moment(nextday).format('DD') +
+            '/' +
+            moment(nextday).format('MM') +
+            '/' +
+            moment(nextday).format('YYYY')
+        )
+    }
     return stringday
 }
 
@@ -94,6 +103,7 @@ export default class calendarscreen extends Component {
             arrC4: [],
             arrC5: [],
             arrC6: [],
+            keyTaskCurrent: '',
         }
     }
 
@@ -108,7 +118,7 @@ export default class calendarscreen extends Component {
             .onSnapshot((querySnapshot) => {
                 let todo = []
                 querySnapshot.forEach(function (doc) {
-                    todo.push({ key: doc.id, ...doc.data() })
+                    todo.push({ key: doc.id, data: doc.data(), ...doc.data() })
                 })
                 console.log(todo)
                 this.setState({ arrS0: todo })
@@ -126,7 +136,7 @@ export default class calendarscreen extends Component {
             .onSnapshot((querySnapshot) => {
                 let todo = []
                 querySnapshot.forEach(function (doc) {
-                    todo.push({ key: doc.id, ...doc.data() })
+                    todo.push({ key: doc.id, data: doc.data(), ...doc.data() })
                 })
                 console.log(todo)
                 this.setState({ arrS1: todo })
@@ -144,7 +154,7 @@ export default class calendarscreen extends Component {
             .onSnapshot((querySnapshot) => {
                 let todo = []
                 querySnapshot.forEach(function (doc) {
-                    todo.push({ key: doc.id, ...doc.data() })
+                    todo.push({ key: doc.id, data: doc.data(), ...doc.data() })
                 })
                 console.log(todo)
                 this.setState({ arrS2: todo })
@@ -162,7 +172,7 @@ export default class calendarscreen extends Component {
             .onSnapshot((querySnapshot) => {
                 let todo = []
                 querySnapshot.forEach(function (doc) {
-                    todo.push({ key: doc.id, ...doc.data() })
+                    todo.push({ key: doc.id, data: doc.data(), ...doc.data() })
                 })
                 console.log(todo)
                 this.setState({ arrS3: todo })
@@ -180,7 +190,7 @@ export default class calendarscreen extends Component {
             .onSnapshot((querySnapshot) => {
                 let todo = []
                 querySnapshot.forEach(function (doc) {
-                    todo.push({ key: doc.id, ...doc.data() })
+                    todo.push({ key: doc.id, data: doc.data(), ...doc.data() })
                 })
                 console.log(todo)
                 this.setState({ arrS4: todo })
@@ -198,7 +208,7 @@ export default class calendarscreen extends Component {
             .onSnapshot((querySnapshot) => {
                 let todo = []
                 querySnapshot.forEach(function (doc) {
-                    todo.push({ key: doc.id, ...doc.data() })
+                    todo.push({ key: doc.id, data: doc.data(), ...doc.data() })
                 })
                 console.log(todo)
                 this.setState({ arrS5: todo })
@@ -216,7 +226,7 @@ export default class calendarscreen extends Component {
             .onSnapshot((querySnapshot) => {
                 let todo = []
                 querySnapshot.forEach(function (doc) {
-                    todo.push({ key: doc.id, ...doc.data() })
+                    todo.push({ key: doc.id, data: doc.data(), ...doc.data() })
                 })
                 console.log(todo)
                 this.setState({ arrS6: todo })
@@ -234,7 +244,7 @@ export default class calendarscreen extends Component {
             .onSnapshot((querySnapshot) => {
                 let todo = []
                 querySnapshot.forEach(function (doc) {
-                    todo.push({ key: doc.id, ...doc.data() })
+                    todo.push({ key: doc.id, data: doc.data(), ...doc.data() })
                 })
                 console.log(todo)
                 this.setState({ arrT0: todo })
@@ -252,7 +262,7 @@ export default class calendarscreen extends Component {
             .onSnapshot((querySnapshot) => {
                 let todo = []
                 querySnapshot.forEach(function (doc) {
-                    todo.push({ key: doc.id, ...doc.data() })
+                    todo.push({ key: doc.id, data: doc.data(), ...doc.data() })
                 })
                 console.log(todo)
                 this.setState({ arrT1: todo })
@@ -270,7 +280,7 @@ export default class calendarscreen extends Component {
             .onSnapshot((querySnapshot) => {
                 let todo = []
                 querySnapshot.forEach(function (doc) {
-                    todo.push({ key: doc.id, ...doc.data() })
+                    todo.push({ key: doc.id, data: doc.data(), ...doc.data() })
                 })
                 console.log(todo)
                 this.setState({ arrT2: todo })
@@ -288,7 +298,7 @@ export default class calendarscreen extends Component {
             .onSnapshot((querySnapshot) => {
                 let todo = []
                 querySnapshot.forEach(function (doc) {
-                    todo.push({ key: doc.id, ...doc.data() })
+                    todo.push({ key: doc.id, data: doc.data(), ...doc.data() })
                 })
                 console.log(todo)
                 this.setState({ arrT3: todo })
@@ -306,7 +316,7 @@ export default class calendarscreen extends Component {
             .onSnapshot((querySnapshot) => {
                 let todo = []
                 querySnapshot.forEach(function (doc) {
-                    todo.push({ key: doc.id, ...doc.data() })
+                    todo.push({ key: doc.id, data: doc.data(), ...doc.data() })
                 })
                 console.log(todo)
                 this.setState({ arrT4: todo })
@@ -324,7 +334,7 @@ export default class calendarscreen extends Component {
             .onSnapshot((querySnapshot) => {
                 let todo = []
                 querySnapshot.forEach(function (doc) {
-                    todo.push({ key: doc.id, ...doc.data() })
+                    todo.push({ key: doc.id, data: doc.data(), ...doc.data() })
                 })
                 console.log(todo)
                 this.setState({ arrT5: todo })
@@ -342,7 +352,7 @@ export default class calendarscreen extends Component {
             .onSnapshot((querySnapshot) => {
                 let todo = []
                 querySnapshot.forEach(function (doc) {
-                    todo.push({ key: doc.id, ...doc.data() })
+                    todo.push({ key: doc.id, data: doc.data(), ...doc.data() })
                 })
                 console.log(todo)
                 this.setState({ arrT6: todo })
@@ -360,7 +370,7 @@ export default class calendarscreen extends Component {
             .onSnapshot((querySnapshot) => {
                 let todo = []
                 querySnapshot.forEach(function (doc) {
-                    todo.push({ key: doc.id, ...doc.data() })
+                    todo.push({ key: doc.id, data: doc.data(), ...doc.data() })
                 })
                 console.log(todo)
                 this.setState({ arrC0: todo })
@@ -378,7 +388,7 @@ export default class calendarscreen extends Component {
             .onSnapshot((querySnapshot) => {
                 let todo = []
                 querySnapshot.forEach(function (doc) {
-                    todo.push({ key: doc.id, ...doc.data() })
+                    todo.push({ key: doc.id, data: doc.data(), ...doc.data() })
                 })
                 console.log(todo)
                 this.setState({ arrC1: todo })
@@ -396,7 +406,7 @@ export default class calendarscreen extends Component {
             .onSnapshot((querySnapshot) => {
                 let todo = []
                 querySnapshot.forEach(function (doc) {
-                    todo.push({ key: doc.id, ...doc.data() })
+                    todo.push({ key: doc.id, data: doc.data(), ...doc.data() })
                 })
                 console.log(todo)
                 this.setState({ arrC2: todo })
@@ -414,7 +424,7 @@ export default class calendarscreen extends Component {
             .onSnapshot((querySnapshot) => {
                 let todo = []
                 querySnapshot.forEach(function (doc) {
-                    todo.push({ key: doc.id, ...doc.data() })
+                    todo.push({ key: doc.id, data: doc.data(), ...doc.data() })
                 })
                 console.log(todo)
                 this.setState({ arrC3: todo })
@@ -432,7 +442,7 @@ export default class calendarscreen extends Component {
             .onSnapshot((querySnapshot) => {
                 let todo = []
                 querySnapshot.forEach(function (doc) {
-                    todo.push({ key: doc.id, ...doc.data() })
+                    todo.push({ key: doc.id, data: doc.data(), ...doc.data() })
                 })
                 console.log(todo)
                 this.setState({ arrC4: todo })
@@ -450,7 +460,7 @@ export default class calendarscreen extends Component {
             .onSnapshot((querySnapshot) => {
                 let todo = []
                 querySnapshot.forEach(function (doc) {
-                    todo.push({ key: doc.id, ...doc.data() })
+                    todo.push({ key: doc.id, data: doc.data(), ...doc.data() })
                 })
                 console.log(todo)
                 this.setState({ arrC5: todo })
@@ -468,11 +478,18 @@ export default class calendarscreen extends Component {
             .onSnapshot((querySnapshot) => {
                 let todo = []
                 querySnapshot.forEach(function (doc) {
-                    todo.push({ key: doc.id, ...doc.data() })
+                    todo.push({ key: doc.id, data: doc.data(), ...doc.data() })
                 })
                 console.log(todo)
                 this.setState({ arrC6: todo })
             })
+    }
+
+    deleteTask = (key) => {
+        const dbRef = firebase.firestore().collection('tasks').doc(key)
+        dbRef.delete().then((res) => {
+            console.log('Item removed from database')
+        })
     }
 
     componentDidMount() {
@@ -593,283 +610,168 @@ export default class calendarscreen extends Component {
     render() {
         return (
             <SafeAreaView style={{ flex: 1, backgroundColor: '#424F61' }}>
+                <ActionSheet
+                    ref={(o) => (this.ActionSheet = o)}
+                    title={'Dữ liệu sẽ bị xoá vĩnh viễn!'}
+                    options={['Xoá công việc', 'Huỷ bỏ']}
+                    cancelButtonIndex={1}
+                    destructiveButtonIndex={0}
+                    onPress={(index) => {
+                        if (index == 0) {
+                            this.deleteTask(this.state.keyTaskCurrent)
+                        }
+                    }}
+                />
                 <View
                     style={{
                         height: 50,
                         // backgroundColor: '#EFEFEF',
                         flexDirection: 'row',
                         alignItems: 'center',
-                        justifyContent: 'flex-end',
-                    }}
-                >
-                    <TouchableOpacity
-                        onPress={() => {
-                            console.log('vai')
-                            this.props.navigation.navigate('Addtask', {
-                                userid: this.state.uid,
-                            })
-                        }}
-                    >
-                        <AntDesign
-                            name={'plus'}
-                            size={30}
-                            color={'#EFEFEF'}
-                            style={{ width: 32, marginRight: 10 }}
-                        />
-                    </TouchableOpacity>
-                </View>
-                <View
-                    style={{
-                        flexDirection: 'row',
                         justifyContent: 'space-between',
                     }}
                 >
-                    {/* lui 1 tuan */}
-                    <TouchableOpacity
-                        style={styles.buttonSlide}
-                        onPress={() => {
-                            this.setState(
-                                (state) => ({
-                                    number: state.number - 7,
-                                }),
-                                () => {
-                                    this.getTaskS0(
-                                        this.state.uid,
-                                        nextDate(0 + this.state.number),
-                                        nextDate(1 + this.state.number)
-                                    )
-                                    this.getTaskT0(
-                                        this.state.uid,
-                                        nextDate(0 + this.state.number),
-                                        nextDate(1 + this.state.number)
-                                    )
-                                    this.getTaskC0(
-                                        this.state.uid,
-                                        nextDate(0 + this.state.number),
-                                        nextDate(1 + this.state.number)
-                                    )
-                                    this.getTaskS1(
-                                        this.state.uid,
-                                        nextDate(1 + this.state.number),
-                                        nextDate(2 + this.state.number)
-                                    )
-                                    this.getTaskT1(
-                                        this.state.uid,
-                                        nextDate(1 + this.state.number),
-                                        nextDate(2 + this.state.number)
-                                    )
-                                    this.getTaskC1(
-                                        this.state.uid,
-                                        nextDate(1 + this.state.number),
-                                        nextDate(2 + this.state.number)
-                                    )
-                                    this.getTaskS2(
-                                        this.state.uid,
-                                        nextDate(2 + this.state.number),
-                                        nextDate(3 + this.state.number)
-                                    )
-                                    this.getTaskT2(
-                                        this.state.uid,
-                                        nextDate(2 + this.state.number),
-                                        nextDate(3 + this.state.number)
-                                    )
-                                    this.getTaskC2(
-                                        this.state.uid,
-                                        nextDate(2 + this.state.number),
-                                        nextDate(3 + this.state.number)
-                                    )
-                                    this.getTaskS3(
-                                        this.state.uid,
-                                        nextDate(3 + this.state.number),
-                                        nextDate(4 + this.state.number)
-                                    )
-                                    this.getTaskT3(
-                                        this.state.uid,
-                                        nextDate(3 + this.state.number),
-                                        nextDate(4 + this.state.number)
-                                    )
-                                    this.getTaskC3(
-                                        this.state.uid,
-                                        nextDate(3 + this.state.number),
-                                        nextDate(4 + this.state.number)
-                                    )
-                                    this.getTaskS4(
-                                        this.state.uid,
-                                        nextDate(4 + this.state.number),
-                                        nextDate(5 + this.state.number)
-                                    )
-                                    this.getTaskT4(
-                                        this.state.uid,
-                                        nextDate(4 + this.state.number),
-                                        nextDate(5 + this.state.number)
-                                    )
-                                    this.getTaskC4(
-                                        this.state.uid,
-                                        nextDate(4 + this.state.number),
-                                        nextDate(5 + this.state.number)
-                                    )
-                                    this.getTaskS5(
-                                        this.state.uid,
-                                        nextDate(5 + this.state.number),
-                                        nextDate(6 + this.state.number)
-                                    )
-                                    this.getTaskT5(
-                                        this.state.uid,
-                                        nextDate(5 + this.state.number),
-                                        nextDate(6 + this.state.number)
-                                    )
-                                    this.getTaskC5(
-                                        this.state.uid,
-                                        nextDate(5 + this.state.number),
-                                        nextDate(6 + this.state.number)
-                                    )
-                                    this.getTaskS6(
-                                        this.state.uid,
-                                        nextDate(6 + this.state.number),
-                                        nextDate(7 + this.state.number)
-                                    )
-                                    this.getTaskT6(
-                                        this.state.uid,
-                                        nextDate(6 + this.state.number),
-                                        nextDate(7 + this.state.number)
-                                    )
-                                    this.getTaskC6(
-                                        this.state.uid,
-                                        nextDate(6 + this.state.number),
-                                        nextDate(7 + this.state.number)
-                                    )
-                                }
-                            )
-                        }}
-                    >
-                        <Text style={{ color: 'white' }}>{'< tuần trước'}</Text>
-                    </TouchableOpacity>
-                    {/* Tuan hien tai */}
-                    <TouchableOpacity
-                        style={styles.buttonSlide}
-                        onPress={() => {
-                            this.setState({ number: 0 }, () => {
-                                this.getTaskS0(
-                                    this.state.uid,
-                                    nextDate(0 + this.state.number),
-                                    nextDate(1 + this.state.number)
-                                )
-                                this.getTaskT0(
-                                    this.state.uid,
-                                    nextDate(0 + this.state.number),
-                                    nextDate(1 + this.state.number)
-                                )
-                                this.getTaskC0(
-                                    this.state.uid,
-                                    nextDate(0 + this.state.number),
-                                    nextDate(1 + this.state.number)
-                                )
-                                this.getTaskS1(
-                                    this.state.uid,
-                                    nextDate(1 + this.state.number),
-                                    nextDate(2 + this.state.number)
-                                )
-                                this.getTaskT1(
-                                    this.state.uid,
-                                    nextDate(1 + this.state.number),
-                                    nextDate(2 + this.state.number)
-                                )
-                                this.getTaskC1(
-                                    this.state.uid,
-                                    nextDate(1 + this.state.number),
-                                    nextDate(2 + this.state.number)
-                                )
-                                this.getTaskS2(
-                                    this.state.uid,
-                                    nextDate(2 + this.state.number),
-                                    nextDate(3 + this.state.number)
-                                )
-                                this.getTaskT2(
-                                    this.state.uid,
-                                    nextDate(2 + this.state.number),
-                                    nextDate(3 + this.state.number)
-                                )
-                                this.getTaskC2(
-                                    this.state.uid,
-                                    nextDate(2 + this.state.number),
-                                    nextDate(3 + this.state.number)
-                                )
-                                this.getTaskS3(
-                                    this.state.uid,
-                                    nextDate(3 + this.state.number),
-                                    nextDate(4 + this.state.number)
-                                )
-                                this.getTaskT3(
-                                    this.state.uid,
-                                    nextDate(3 + this.state.number),
-                                    nextDate(4 + this.state.number)
-                                )
-                                this.getTaskC3(
-                                    this.state.uid,
-                                    nextDate(3 + this.state.number),
-                                    nextDate(4 + this.state.number)
-                                )
-                                this.getTaskS4(
-                                    this.state.uid,
-                                    nextDate(4 + this.state.number),
-                                    nextDate(5 + this.state.number)
-                                )
-                                this.getTaskT4(
-                                    this.state.uid,
-                                    nextDate(4 + this.state.number),
-                                    nextDate(5 + this.state.number)
-                                )
-                                this.getTaskC4(
-                                    this.state.uid,
-                                    nextDate(4 + this.state.number),
-                                    nextDate(5 + this.state.number)
-                                )
-                                this.getTaskS5(
-                                    this.state.uid,
-                                    nextDate(5 + this.state.number),
-                                    nextDate(6 + this.state.number)
-                                )
-                                this.getTaskT5(
-                                    this.state.uid,
-                                    nextDate(5 + this.state.number),
-                                    nextDate(6 + this.state.number)
-                                )
-                                this.getTaskC5(
-                                    this.state.uid,
-                                    nextDate(5 + this.state.number),
-                                    nextDate(6 + this.state.number)
-                                )
-                                this.getTaskS6(
-                                    this.state.uid,
-                                    nextDate(6 + this.state.number),
-                                    nextDate(7 + this.state.number)
-                                )
-                                this.getTaskT6(
-                                    this.state.uid,
-                                    nextDate(6 + this.state.number),
-                                    nextDate(7 + this.state.number)
-                                )
-                                this.getTaskC6(
-                                    this.state.uid,
-                                    nextDate(6 + this.state.number),
-                                    nextDate(7 + this.state.number)
-                                )
-                            })
-                        }}
-                    >
-                        <Text style={{ color: 'white' }}>
-                            {'tuần hiện tại'}
+                    {/* <View style={{ marginLeft: 10 }}>
+                        <Text style={{ color: 'white', fontSize: 20 }}>
+                            {nextDate(0 + this.state.number) +
+                                ' - ' +
+                                nextDate(6 + this.state.number)}
                         </Text>
-                    </TouchableOpacity>
-                    {/* Tang 1 tuan */}
-                    <TouchableOpacity
-                        style={styles.buttonSlide}
-                        onPress={() => {
-                            this.setState(
-                                (state) => ({
-                                    number: state.number + 7,
-                                }),
-                                () => {
+                    </View> */}
+
+                    <View
+                        style={{
+                            flexDirection: 'row',
+                            justifyContent: 'space-between',
+                        }}
+                    >
+                        {/* lui 1 tuan */}
+                        <TouchableOpacity
+                            style={styles.buttonSlide}
+                            onPress={() => {
+                                this.setState(
+                                    (state) => ({
+                                        number: state.number - 7,
+                                    }),
+                                    () => {
+                                        this.getTaskS0(
+                                            this.state.uid,
+                                            nextDate(0 + this.state.number),
+                                            nextDate(1 + this.state.number)
+                                        )
+                                        this.getTaskT0(
+                                            this.state.uid,
+                                            nextDate(0 + this.state.number),
+                                            nextDate(1 + this.state.number)
+                                        )
+                                        this.getTaskC0(
+                                            this.state.uid,
+                                            nextDate(0 + this.state.number),
+                                            nextDate(1 + this.state.number)
+                                        )
+                                        this.getTaskS1(
+                                            this.state.uid,
+                                            nextDate(1 + this.state.number),
+                                            nextDate(2 + this.state.number)
+                                        )
+                                        this.getTaskT1(
+                                            this.state.uid,
+                                            nextDate(1 + this.state.number),
+                                            nextDate(2 + this.state.number)
+                                        )
+                                        this.getTaskC1(
+                                            this.state.uid,
+                                            nextDate(1 + this.state.number),
+                                            nextDate(2 + this.state.number)
+                                        )
+                                        this.getTaskS2(
+                                            this.state.uid,
+                                            nextDate(2 + this.state.number),
+                                            nextDate(3 + this.state.number)
+                                        )
+                                        this.getTaskT2(
+                                            this.state.uid,
+                                            nextDate(2 + this.state.number),
+                                            nextDate(3 + this.state.number)
+                                        )
+                                        this.getTaskC2(
+                                            this.state.uid,
+                                            nextDate(2 + this.state.number),
+                                            nextDate(3 + this.state.number)
+                                        )
+                                        this.getTaskS3(
+                                            this.state.uid,
+                                            nextDate(3 + this.state.number),
+                                            nextDate(4 + this.state.number)
+                                        )
+                                        this.getTaskT3(
+                                            this.state.uid,
+                                            nextDate(3 + this.state.number),
+                                            nextDate(4 + this.state.number)
+                                        )
+                                        this.getTaskC3(
+                                            this.state.uid,
+                                            nextDate(3 + this.state.number),
+                                            nextDate(4 + this.state.number)
+                                        )
+                                        this.getTaskS4(
+                                            this.state.uid,
+                                            nextDate(4 + this.state.number),
+                                            nextDate(5 + this.state.number)
+                                        )
+                                        this.getTaskT4(
+                                            this.state.uid,
+                                            nextDate(4 + this.state.number),
+                                            nextDate(5 + this.state.number)
+                                        )
+                                        this.getTaskC4(
+                                            this.state.uid,
+                                            nextDate(4 + this.state.number),
+                                            nextDate(5 + this.state.number)
+                                        )
+                                        this.getTaskS5(
+                                            this.state.uid,
+                                            nextDate(5 + this.state.number),
+                                            nextDate(6 + this.state.number)
+                                        )
+                                        this.getTaskT5(
+                                            this.state.uid,
+                                            nextDate(5 + this.state.number),
+                                            nextDate(6 + this.state.number)
+                                        )
+                                        this.getTaskC5(
+                                            this.state.uid,
+                                            nextDate(5 + this.state.number),
+                                            nextDate(6 + this.state.number)
+                                        )
+                                        this.getTaskS6(
+                                            this.state.uid,
+                                            nextDate(6 + this.state.number),
+                                            nextDate(7 + this.state.number)
+                                        )
+                                        this.getTaskT6(
+                                            this.state.uid,
+                                            nextDate(6 + this.state.number),
+                                            nextDate(7 + this.state.number)
+                                        )
+                                        this.getTaskC6(
+                                            this.state.uid,
+                                            nextDate(6 + this.state.number),
+                                            nextDate(7 + this.state.number)
+                                        )
+                                    }
+                                )
+                            }}
+                        >
+                            <Text style={{ color: 'white' }}>
+                                {'< tuần trước'}
+                            </Text>
+                        </TouchableOpacity>
+                        {/* Tuan hien tai */}
+                        <TouchableOpacity
+                            style={styles.buttonSlide}
+                            onPress={() => {
+                                this.setState({ number: 0 }, () => {
                                     this.getTaskS0(
                                         this.state.uid,
                                         nextDate(0 + this.state.number),
@@ -975,22 +877,155 @@ export default class calendarscreen extends Component {
                                         nextDate(6 + this.state.number),
                                         nextDate(7 + this.state.number)
                                     )
-                                }
-                            )
-                        }}
-                    >
-                        <Text style={{ color: 'white' }}>{'tuần sau >'}</Text>
-                    </TouchableOpacity>
+                                })
+                            }}
+                        >
+                            <Text style={{ color: 'white' }}>
+                                {'tuần hiện tại'}
+                            </Text>
+                        </TouchableOpacity>
+                        {/* Tang 1 tuan */}
+                        <TouchableOpacity
+                            style={styles.buttonSlide}
+                            onPress={() => {
+                                this.setState(
+                                    (state) => ({
+                                        number: state.number + 7,
+                                    }),
+                                    () => {
+                                        this.getTaskS0(
+                                            this.state.uid,
+                                            nextDate(0 + this.state.number),
+                                            nextDate(1 + this.state.number)
+                                        )
+                                        this.getTaskT0(
+                                            this.state.uid,
+                                            nextDate(0 + this.state.number),
+                                            nextDate(1 + this.state.number)
+                                        )
+                                        this.getTaskC0(
+                                            this.state.uid,
+                                            nextDate(0 + this.state.number),
+                                            nextDate(1 + this.state.number)
+                                        )
+                                        this.getTaskS1(
+                                            this.state.uid,
+                                            nextDate(1 + this.state.number),
+                                            nextDate(2 + this.state.number)
+                                        )
+                                        this.getTaskT1(
+                                            this.state.uid,
+                                            nextDate(1 + this.state.number),
+                                            nextDate(2 + this.state.number)
+                                        )
+                                        this.getTaskC1(
+                                            this.state.uid,
+                                            nextDate(1 + this.state.number),
+                                            nextDate(2 + this.state.number)
+                                        )
+                                        this.getTaskS2(
+                                            this.state.uid,
+                                            nextDate(2 + this.state.number),
+                                            nextDate(3 + this.state.number)
+                                        )
+                                        this.getTaskT2(
+                                            this.state.uid,
+                                            nextDate(2 + this.state.number),
+                                            nextDate(3 + this.state.number)
+                                        )
+                                        this.getTaskC2(
+                                            this.state.uid,
+                                            nextDate(2 + this.state.number),
+                                            nextDate(3 + this.state.number)
+                                        )
+                                        this.getTaskS3(
+                                            this.state.uid,
+                                            nextDate(3 + this.state.number),
+                                            nextDate(4 + this.state.number)
+                                        )
+                                        this.getTaskT3(
+                                            this.state.uid,
+                                            nextDate(3 + this.state.number),
+                                            nextDate(4 + this.state.number)
+                                        )
+                                        this.getTaskC3(
+                                            this.state.uid,
+                                            nextDate(3 + this.state.number),
+                                            nextDate(4 + this.state.number)
+                                        )
+                                        this.getTaskS4(
+                                            this.state.uid,
+                                            nextDate(4 + this.state.number),
+                                            nextDate(5 + this.state.number)
+                                        )
+                                        this.getTaskT4(
+                                            this.state.uid,
+                                            nextDate(4 + this.state.number),
+                                            nextDate(5 + this.state.number)
+                                        )
+                                        this.getTaskC4(
+                                            this.state.uid,
+                                            nextDate(4 + this.state.number),
+                                            nextDate(5 + this.state.number)
+                                        )
+                                        this.getTaskS5(
+                                            this.state.uid,
+                                            nextDate(5 + this.state.number),
+                                            nextDate(6 + this.state.number)
+                                        )
+                                        this.getTaskT5(
+                                            this.state.uid,
+                                            nextDate(5 + this.state.number),
+                                            nextDate(6 + this.state.number)
+                                        )
+                                        this.getTaskC5(
+                                            this.state.uid,
+                                            nextDate(5 + this.state.number),
+                                            nextDate(6 + this.state.number)
+                                        )
+                                        this.getTaskS6(
+                                            this.state.uid,
+                                            nextDate(6 + this.state.number),
+                                            nextDate(7 + this.state.number)
+                                        )
+                                        this.getTaskT6(
+                                            this.state.uid,
+                                            nextDate(6 + this.state.number),
+                                            nextDate(7 + this.state.number)
+                                        )
+                                        this.getTaskC6(
+                                            this.state.uid,
+                                            nextDate(6 + this.state.number),
+                                            nextDate(7 + this.state.number)
+                                        )
+                                    }
+                                )
+                            }}
+                        >
+                            <Text style={{ color: 'white' }}>
+                                {'tuần sau >'}
+                            </Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity
+                            onPress={() => {
+                                this.props.navigation.navigate('Addtask', {
+                                    userid: this.state.uid,
+                                })
+                            }}
+                        >
+                            <AntDesign
+                                name={'plus'}
+                                size={30}
+                                color={'#EFEFEF'}
+                                style={{ width: 32, marginRight: 10 }}
+                            />
+                        </TouchableOpacity>
+                    </View>
                 </View>
                 <View style={styles.container}>
                     <View>
                         <View style={styles.colmday}>
-                            <View
-                                style={[
-                                    styles.headercolm,
-                                    { backgroundColor: '#424F61' },
-                                ]}
-                            >
+                            <View style={[styles.headercolm, {}]}>
                                 <TouchableOpacity
                                     onPress={() => {
                                         getTask(
@@ -1000,9 +1035,7 @@ export default class calendarscreen extends Component {
                                             3
                                         )
                                     }}
-                                >
-                                    <Text>0</Text>
-                                </TouchableOpacity>
+                                />
                             </View>
                             <View
                                 style={[
@@ -1012,7 +1045,7 @@ export default class calendarscreen extends Component {
                             >
                                 <Text>Sáng</Text>
                             </View>
-                            <View style={styles.dividercolunm}></View>
+                            <View style={styles.dividercolunm} />
                             <View
                                 style={[
                                     styles.stylecolunm,
@@ -1021,7 +1054,7 @@ export default class calendarscreen extends Component {
                             >
                                 <Text>Trưa</Text>
                             </View>
-                            <View style={styles.dividercolunm}></View>
+                            <View style={styles.dividercolunm} />
                             <View
                                 style={[
                                     styles.stylecolunm,
@@ -1047,7 +1080,7 @@ export default class calendarscreen extends Component {
                                                 height: 5,
                                                 backgroundColor: '#0074DF',
                                             }}
-                                        ></View>
+                                        />
                                         <View style={styles.stylecolunm}>
                                             <Text
                                                 style={{
@@ -1068,7 +1101,8 @@ export default class calendarscreen extends Component {
                                                 }}
                                             >
                                                 {nextDate(
-                                                    0 + this.state.number
+                                                    0 + this.state.number,
+                                                    true
                                                 )}
                                             </Text>
                                         </View>
@@ -1079,7 +1113,10 @@ export default class calendarscreen extends Component {
                                             <View>
                                                 <FlatList
                                                     data={this.state.arrS0}
-                                                    renderItem={({ item }) => (
+                                                    renderItem={({
+                                                        item,
+                                                        index,
+                                                    }) => (
                                                         <TouchableOpacity
                                                             onPress={() => {
                                                                 this.props.navigation.navigate(
@@ -1087,6 +1124,8 @@ export default class calendarscreen extends Component {
                                                                     {
                                                                         taskid:
                                                                             item.key,
+                                                                        data:
+                                                                            item.data,
                                                                     }
                                                                 )
                                                             }}
@@ -1100,6 +1139,17 @@ export default class calendarscreen extends Component {
                                                                     item.color
                                                                 }
                                                                 time={item.time.toDate()}
+                                                                index={index}
+                                                                onRightPress={() => {
+                                                                    // this.deleteGroup(item.key);
+                                                                    this.setState(
+                                                                        {
+                                                                            keyTaskCurrent:
+                                                                                item.key,
+                                                                        }
+                                                                    )
+                                                                    this.ActionSheet.show()
+                                                                }}
                                                             />
                                                         </TouchableOpacity>
                                                     )}
@@ -1110,14 +1160,17 @@ export default class calendarscreen extends Component {
                                             </View>
                                         </ScrollView>
                                     </View>
-                                    <View style={styles.dividercolunm}></View>
+                                    <View style={styles.dividercolunm} />
                                     <View style={styles.stylecolunm}>
                                         {/* T0 */}
                                         <ScrollView>
                                             <View>
                                                 <FlatList
                                                     data={this.state.arrT0}
-                                                    renderItem={({ item }) => (
+                                                    renderItem={({
+                                                        item,
+                                                        index,
+                                                    }) => (
                                                         <TouchableOpacity
                                                             onPress={() => {
                                                                 this.props.navigation.navigate(
@@ -1125,6 +1178,8 @@ export default class calendarscreen extends Component {
                                                                     {
                                                                         taskid:
                                                                             item.key,
+                                                                        data:
+                                                                            item.data,
                                                                     }
                                                                 )
                                                             }}
@@ -1138,6 +1193,17 @@ export default class calendarscreen extends Component {
                                                                     item.color
                                                                 }
                                                                 time={item.time.toDate()}
+                                                                index={index}
+                                                                onRightPress={() => {
+                                                                    // this.deleteGroup(item.key);
+                                                                    this.setState(
+                                                                        {
+                                                                            keyTaskCurrent:
+                                                                                item.key,
+                                                                        }
+                                                                    )
+                                                                    this.ActionSheet.show()
+                                                                }}
                                                             />
                                                         </TouchableOpacity>
                                                     )}
@@ -1148,14 +1214,17 @@ export default class calendarscreen extends Component {
                                             </View>
                                         </ScrollView>
                                     </View>
-                                    <View style={styles.dividercolunm}></View>
+                                    <View style={styles.dividercolunm} />
                                     <View style={styles.stylecolunm}>
                                         {/* <Text>Chiều</Text> */}
                                         <ScrollView>
                                             <View>
                                                 <FlatList
                                                     data={this.state.arrC0}
-                                                    renderItem={({ item }) => (
+                                                    renderItem={({
+                                                        item,
+                                                        index,
+                                                    }) => (
                                                         <TouchableOpacity
                                                             onPress={() => {
                                                                 this.props.navigation.navigate(
@@ -1163,6 +1232,8 @@ export default class calendarscreen extends Component {
                                                                     {
                                                                         taskid:
                                                                             item.key,
+                                                                        data:
+                                                                            item.data,
                                                                     }
                                                                 )
                                                             }}
@@ -1176,6 +1247,17 @@ export default class calendarscreen extends Component {
                                                                     item.color
                                                                 }
                                                                 time={item.time.toDate()}
+                                                                index={index}
+                                                                onRightPress={() => {
+                                                                    // this.deleteGroup(item.key);
+                                                                    this.setState(
+                                                                        {
+                                                                            keyTaskCurrent:
+                                                                                item.key,
+                                                                        }
+                                                                    )
+                                                                    this.ActionSheet.show()
+                                                                }}
                                                             />
                                                         </TouchableOpacity>
                                                     )}
@@ -1187,7 +1269,7 @@ export default class calendarscreen extends Component {
                                         </ScrollView>
                                     </View>
                                 </View>
-                                <View style={styles.divider}></View>
+                                <View style={styles.divider} />
                                 <View style={styles.colmday}>
                                     <View
                                         style={[
@@ -1203,7 +1285,10 @@ export default class calendarscreen extends Component {
                                         <Text
                                             style={styles.textHeaderColunmDate}
                                         >
-                                            {nextDate(1 + this.state.number)}
+                                            {nextDate(
+                                                1 + this.state.number,
+                                                true
+                                            )}
                                         </Text>
                                     </View>
                                     <View style={styles.stylecolunm}>
@@ -1212,7 +1297,10 @@ export default class calendarscreen extends Component {
                                             <View>
                                                 <FlatList
                                                     data={this.state.arrS1}
-                                                    renderItem={({ item }) => (
+                                                    renderItem={({
+                                                        item,
+                                                        index,
+                                                    }) => (
                                                         <TouchableOpacity
                                                             onPress={() => {
                                                                 this.props.navigation.navigate(
@@ -1220,6 +1308,8 @@ export default class calendarscreen extends Component {
                                                                     {
                                                                         taskid:
                                                                             item.key,
+                                                                        data:
+                                                                            item.data,
                                                                     }
                                                                 )
                                                             }}
@@ -1233,6 +1323,17 @@ export default class calendarscreen extends Component {
                                                                     item.color
                                                                 }
                                                                 time={item.time.toDate()}
+                                                                index={index}
+                                                                onRightPress={() => {
+                                                                    // this.deleteGroup(item.key);
+                                                                    this.setState(
+                                                                        {
+                                                                            keyTaskCurrent:
+                                                                                item.key,
+                                                                        }
+                                                                    )
+                                                                    this.ActionSheet.show()
+                                                                }}
                                                             />
                                                         </TouchableOpacity>
                                                     )}
@@ -1243,14 +1344,17 @@ export default class calendarscreen extends Component {
                                             </View>
                                         </ScrollView>
                                     </View>
-                                    <View style={styles.dividercolunm}></View>
+                                    <View style={styles.dividercolunm} />
                                     <View style={styles.stylecolunm}>
                                         {/* <Text>Trưa</Text> */}
                                         <ScrollView>
                                             <View>
                                                 <FlatList
                                                     data={this.state.arrT1}
-                                                    renderItem={({ item }) => (
+                                                    renderItem={({
+                                                        item,
+                                                        index,
+                                                    }) => (
                                                         <TouchableOpacity
                                                             onPress={() => {
                                                                 this.props.navigation.navigate(
@@ -1258,6 +1362,8 @@ export default class calendarscreen extends Component {
                                                                     {
                                                                         taskid:
                                                                             item.key,
+                                                                        data:
+                                                                            item.data,
                                                                     }
                                                                 )
                                                             }}
@@ -1271,6 +1377,16 @@ export default class calendarscreen extends Component {
                                                                     item.color
                                                                 }
                                                                 time={item.time.toDate()}
+                                                                index={index}
+                                                                onRightPress={() => {
+                                                                    this.setState(
+                                                                        {
+                                                                            keyTaskCurrent:
+                                                                                item.key,
+                                                                        }
+                                                                    )
+                                                                    this.ActionSheet.show()
+                                                                }}
                                                             />
                                                         </TouchableOpacity>
                                                     )}
@@ -1281,14 +1397,17 @@ export default class calendarscreen extends Component {
                                             </View>
                                         </ScrollView>
                                     </View>
-                                    <View style={styles.dividercolunm}></View>
+                                    <View style={styles.dividercolunm} />
                                     <View style={styles.stylecolunm}>
                                         {/* <Text>Chiều</Text> */}
                                         <ScrollView>
                                             <View>
                                                 <FlatList
                                                     data={this.state.arrC1}
-                                                    renderItem={({ item }) => (
+                                                    renderItem={({
+                                                        item,
+                                                        index,
+                                                    }) => (
                                                         <TouchableOpacity
                                                             onPress={() => {
                                                                 this.props.navigation.navigate(
@@ -1296,6 +1415,8 @@ export default class calendarscreen extends Component {
                                                                     {
                                                                         taskid:
                                                                             item.key,
+                                                                        data:
+                                                                            item.data,
                                                                     }
                                                                 )
                                                             }}
@@ -1309,6 +1430,16 @@ export default class calendarscreen extends Component {
                                                                     item.color
                                                                 }
                                                                 time={item.time.toDate()}
+                                                                index={index}
+                                                                onRightPress={() => {
+                                                                    this.setState(
+                                                                        {
+                                                                            keyTaskCurrent:
+                                                                                item.key,
+                                                                        }
+                                                                    )
+                                                                    this.ActionSheet.show()
+                                                                }}
                                                             />
                                                         </TouchableOpacity>
                                                     )}
@@ -1320,7 +1451,7 @@ export default class calendarscreen extends Component {
                                         </ScrollView>
                                     </View>
                                 </View>
-                                <View style={styles.divider}></View>
+                                <View style={styles.divider} />
                                 <View style={styles.colmday}>
                                     <View style={styles.headercolm}>
                                         <Text style={styles.textHeaderColunm}>
@@ -1331,7 +1462,10 @@ export default class calendarscreen extends Component {
                                         <Text
                                             style={styles.textHeaderColunmDate}
                                         >
-                                            {nextDate(2 + this.state.number)}
+                                            {nextDate(
+                                                2 + this.state.number,
+                                                true
+                                            )}
                                         </Text>
                                     </View>
                                     <View style={styles.stylecolunm}>
@@ -1340,7 +1474,10 @@ export default class calendarscreen extends Component {
                                             <View>
                                                 <FlatList
                                                     data={this.state.arrS2}
-                                                    renderItem={({ item }) => (
+                                                    renderItem={({
+                                                        item,
+                                                        index,
+                                                    }) => (
                                                         <TouchableOpacity
                                                             onPress={() => {
                                                                 this.props.navigation.navigate(
@@ -1348,6 +1485,8 @@ export default class calendarscreen extends Component {
                                                                     {
                                                                         taskid:
                                                                             item.key,
+                                                                        data:
+                                                                            item.data,
                                                                     }
                                                                 )
                                                             }}
@@ -1361,6 +1500,17 @@ export default class calendarscreen extends Component {
                                                                     item.color
                                                                 }
                                                                 time={item.time.toDate()}
+                                                                index={index}
+                                                                onRightPress={() => {
+                                                                    // this.deleteGroup(item.key);
+                                                                    this.setState(
+                                                                        {
+                                                                            keyTaskCurrent:
+                                                                                item.key,
+                                                                        }
+                                                                    )
+                                                                    this.ActionSheet.show()
+                                                                }}
                                                             />
                                                         </TouchableOpacity>
                                                     )}
@@ -1371,14 +1521,17 @@ export default class calendarscreen extends Component {
                                             </View>
                                         </ScrollView>
                                     </View>
-                                    <View style={styles.dividercolunm}></View>
+                                    <View style={styles.dividercolunm} />
                                     <View style={styles.stylecolunm}>
                                         {/* <Text>Trưa</Text> */}
                                         <ScrollView>
                                             <View>
                                                 <FlatList
                                                     data={this.state.arrT2}
-                                                    renderItem={({ item }) => (
+                                                    renderItem={({
+                                                        item,
+                                                        index,
+                                                    }) => (
                                                         <TouchableOpacity
                                                             onPress={() => {
                                                                 this.props.navigation.navigate(
@@ -1386,6 +1539,8 @@ export default class calendarscreen extends Component {
                                                                     {
                                                                         taskid:
                                                                             item.key,
+                                                                        data:
+                                                                            item.data,
                                                                     }
                                                                 )
                                                             }}
@@ -1399,6 +1554,17 @@ export default class calendarscreen extends Component {
                                                                     item.color
                                                                 }
                                                                 time={item.time.toDate()}
+                                                                index={index}
+                                                                onRightPress={() => {
+                                                                    // this.deleteGroup(item.key);
+                                                                    this.setState(
+                                                                        {
+                                                                            keyTaskCurrent:
+                                                                                item.key,
+                                                                        }
+                                                                    )
+                                                                    this.ActionSheet.show()
+                                                                }}
                                                             />
                                                         </TouchableOpacity>
                                                     )}
@@ -1409,14 +1575,17 @@ export default class calendarscreen extends Component {
                                             </View>
                                         </ScrollView>
                                     </View>
-                                    <View style={styles.dividercolunm}></View>
+                                    <View style={styles.dividercolunm} />
                                     <View style={styles.stylecolunm}>
                                         {/* <Text>Chiều</Text> */}
                                         <ScrollView>
                                             <View>
                                                 <FlatList
                                                     data={this.state.arrC2}
-                                                    renderItem={({ item }) => (
+                                                    renderItem={({
+                                                        item,
+                                                        index,
+                                                    }) => (
                                                         <TouchableOpacity
                                                             onPress={() => {
                                                                 this.props.navigation.navigate(
@@ -1424,6 +1593,8 @@ export default class calendarscreen extends Component {
                                                                     {
                                                                         taskid:
                                                                             item.key,
+                                                                        data:
+                                                                            item.data,
                                                                     }
                                                                 )
                                                             }}
@@ -1437,6 +1608,17 @@ export default class calendarscreen extends Component {
                                                                     item.color
                                                                 }
                                                                 time={item.time.toDate()}
+                                                                index={index}
+                                                                onRightPress={() => {
+                                                                    // this.deleteGroup(item.key);
+                                                                    this.setState(
+                                                                        {
+                                                                            keyTaskCurrent:
+                                                                                item.key,
+                                                                        }
+                                                                    )
+                                                                    this.ActionSheet.show()
+                                                                }}
                                                             />
                                                         </TouchableOpacity>
                                                     )}
@@ -1448,7 +1630,7 @@ export default class calendarscreen extends Component {
                                         </ScrollView>
                                     </View>
                                 </View>
-                                <View style={styles.divider}></View>
+                                <View style={styles.divider} />
                                 <View style={styles.colmday}>
                                     <View
                                         style={[
@@ -1469,7 +1651,10 @@ export default class calendarscreen extends Component {
                                         <Text
                                             style={styles.textHeaderColunmDate}
                                         >
-                                            {nextDate(3 + this.state.number)}
+                                            {nextDate(
+                                                3 + this.state.number,
+                                                true
+                                            )}
                                         </Text>
                                     </View>
                                     <View style={styles.stylecolunm}>
@@ -1478,7 +1663,10 @@ export default class calendarscreen extends Component {
                                             <View>
                                                 <FlatList
                                                     data={this.state.arrS3}
-                                                    renderItem={({ item }) => (
+                                                    renderItem={({
+                                                        item,
+                                                        index,
+                                                    }) => (
                                                         <TouchableOpacity
                                                             onPress={() => {
                                                                 this.props.navigation.navigate(
@@ -1486,6 +1674,8 @@ export default class calendarscreen extends Component {
                                                                     {
                                                                         taskid:
                                                                             item.key,
+                                                                        data:
+                                                                            item.data,
                                                                     }
                                                                 )
                                                             }}
@@ -1499,6 +1689,17 @@ export default class calendarscreen extends Component {
                                                                     item.color
                                                                 }
                                                                 time={item.time.toDate()}
+                                                                index={index}
+                                                                onRightPress={() => {
+                                                                    // this.deleteGroup(item.key);
+                                                                    this.setState(
+                                                                        {
+                                                                            keyTaskCurrent:
+                                                                                item.key,
+                                                                        }
+                                                                    )
+                                                                    this.ActionSheet.show()
+                                                                }}
                                                             />
                                                         </TouchableOpacity>
                                                     )}
@@ -1509,14 +1710,17 @@ export default class calendarscreen extends Component {
                                             </View>
                                         </ScrollView>
                                     </View>
-                                    <View style={styles.dividercolunm}></View>
+                                    <View style={styles.dividercolunm} />
                                     <View style={styles.stylecolunm}>
                                         {/* <Text>Trưa</Text> */}
                                         <ScrollView>
                                             <View>
                                                 <FlatList
                                                     data={this.state.arrT3}
-                                                    renderItem={({ item }) => (
+                                                    renderItem={({
+                                                        item,
+                                                        index,
+                                                    }) => (
                                                         <TouchableOpacity
                                                             onPress={() => {
                                                                 this.props.navigation.navigate(
@@ -1524,6 +1728,8 @@ export default class calendarscreen extends Component {
                                                                     {
                                                                         taskid:
                                                                             item.key,
+                                                                        data:
+                                                                            item.data,
                                                                     }
                                                                 )
                                                             }}
@@ -1537,6 +1743,17 @@ export default class calendarscreen extends Component {
                                                                     item.color
                                                                 }
                                                                 time={item.time.toDate()}
+                                                                index={index}
+                                                                onRightPress={() => {
+                                                                    // this.deleteGroup(item.key);
+                                                                    this.setState(
+                                                                        {
+                                                                            keyTaskCurrent:
+                                                                                item.key,
+                                                                        }
+                                                                    )
+                                                                    this.ActionSheet.show()
+                                                                }}
                                                             />
                                                         </TouchableOpacity>
                                                     )}
@@ -1547,14 +1764,17 @@ export default class calendarscreen extends Component {
                                             </View>
                                         </ScrollView>
                                     </View>
-                                    <View style={styles.dividercolunm}></View>
+                                    <View style={styles.dividercolunm} />
                                     <View style={styles.stylecolunm}>
                                         {/* <Text>Chiều</Text> */}
                                         <ScrollView>
                                             <View>
                                                 <FlatList
                                                     data={this.state.arrC3}
-                                                    renderItem={({ item }) => (
+                                                    renderItem={({
+                                                        item,
+                                                        index,
+                                                    }) => (
                                                         <TouchableOpacity
                                                             onPress={() => {
                                                                 this.props.navigation.navigate(
@@ -1562,6 +1782,8 @@ export default class calendarscreen extends Component {
                                                                     {
                                                                         taskid:
                                                                             item.key,
+                                                                        data:
+                                                                            item.data,
                                                                     }
                                                                 )
                                                             }}
@@ -1575,6 +1797,17 @@ export default class calendarscreen extends Component {
                                                                     item.color
                                                                 }
                                                                 time={item.time.toDate()}
+                                                                index={index}
+                                                                onRightPress={() => {
+                                                                    // this.deleteGroup(item.key);
+                                                                    this.setState(
+                                                                        {
+                                                                            keyTaskCurrent:
+                                                                                item.key,
+                                                                        }
+                                                                    )
+                                                                    this.ActionSheet.show()
+                                                                }}
                                                             />
                                                         </TouchableOpacity>
                                                     )}
@@ -1586,7 +1819,7 @@ export default class calendarscreen extends Component {
                                         </ScrollView>
                                     </View>
                                 </View>
-                                <View style={styles.divider}></View>
+                                <View style={styles.divider} />
                                 <View style={styles.colmday}>
                                     <View style={styles.headercolm}>
                                         <Text style={styles.textHeaderColunm}>
@@ -1597,7 +1830,10 @@ export default class calendarscreen extends Component {
                                         <Text
                                             style={styles.textHeaderColunmDate}
                                         >
-                                            {nextDate(4 + this.state.number)}
+                                            {nextDate(
+                                                4 + this.state.number,
+                                                true
+                                            )}
                                         </Text>
                                     </View>
                                     <View style={styles.stylecolunm}>
@@ -1606,7 +1842,10 @@ export default class calendarscreen extends Component {
                                             <View>
                                                 <FlatList
                                                     data={this.state.arrS4}
-                                                    renderItem={({ item }) => (
+                                                    renderItem={({
+                                                        item,
+                                                        index,
+                                                    }) => (
                                                         <TouchableOpacity
                                                             onPress={() => {
                                                                 this.props.navigation.navigate(
@@ -1614,6 +1853,8 @@ export default class calendarscreen extends Component {
                                                                     {
                                                                         taskid:
                                                                             item.key,
+                                                                        data:
+                                                                            item.data,
                                                                     }
                                                                 )
                                                             }}
@@ -1627,6 +1868,17 @@ export default class calendarscreen extends Component {
                                                                     item.color
                                                                 }
                                                                 time={item.time.toDate()}
+                                                                index={index}
+                                                                onRightPress={() => {
+                                                                    // this.deleteGroup(item.key);
+                                                                    this.setState(
+                                                                        {
+                                                                            keyTaskCurrent:
+                                                                                item.key,
+                                                                        }
+                                                                    )
+                                                                    this.ActionSheet.show()
+                                                                }}
                                                             />
                                                         </TouchableOpacity>
                                                     )}
@@ -1637,14 +1889,17 @@ export default class calendarscreen extends Component {
                                             </View>
                                         </ScrollView>
                                     </View>
-                                    <View style={styles.dividercolunm}></View>
+                                    <View style={styles.dividercolunm} />
                                     <View style={styles.stylecolunm}>
                                         {/* <Text>Trưa</Text> */}
                                         <ScrollView>
                                             <View>
                                                 <FlatList
                                                     data={this.state.arrT4}
-                                                    renderItem={({ item }) => (
+                                                    renderItem={({
+                                                        item,
+                                                        index,
+                                                    }) => (
                                                         <TouchableOpacity
                                                             onPress={() => {
                                                                 this.props.navigation.navigate(
@@ -1652,6 +1907,8 @@ export default class calendarscreen extends Component {
                                                                     {
                                                                         taskid:
                                                                             item.key,
+                                                                        data:
+                                                                            item.data,
                                                                     }
                                                                 )
                                                             }}
@@ -1665,6 +1922,17 @@ export default class calendarscreen extends Component {
                                                                     item.color
                                                                 }
                                                                 time={item.time.toDate()}
+                                                                index={index}
+                                                                onRightPress={() => {
+                                                                    // this.deleteGroup(item.key);
+                                                                    this.setState(
+                                                                        {
+                                                                            keyTaskCurrent:
+                                                                                item.key,
+                                                                        }
+                                                                    )
+                                                                    this.ActionSheet.show()
+                                                                }}
                                                             />
                                                         </TouchableOpacity>
                                                     )}
@@ -1675,14 +1943,17 @@ export default class calendarscreen extends Component {
                                             </View>
                                         </ScrollView>
                                     </View>
-                                    <View style={styles.dividercolunm}></View>
+                                    <View style={styles.dividercolunm} />
                                     <View style={styles.stylecolunm}>
                                         {/* <Text>Chiều</Text> */}
                                         <ScrollView>
                                             <View>
                                                 <FlatList
                                                     data={this.state.arrC4}
-                                                    renderItem={({ item }) => (
+                                                    renderItem={({
+                                                        item,
+                                                        index,
+                                                    }) => (
                                                         <TouchableOpacity
                                                             onPress={() => {
                                                                 this.props.navigation.navigate(
@@ -1690,6 +1961,8 @@ export default class calendarscreen extends Component {
                                                                     {
                                                                         taskid:
                                                                             item.key,
+                                                                        data:
+                                                                            item.data,
                                                                     }
                                                                 )
                                                             }}
@@ -1703,6 +1976,17 @@ export default class calendarscreen extends Component {
                                                                     item.color
                                                                 }
                                                                 time={item.time.toDate()}
+                                                                index={index}
+                                                                onRightPress={() => {
+                                                                    // this.deleteGroup(item.key);
+                                                                    this.setState(
+                                                                        {
+                                                                            keyTaskCurrent:
+                                                                                item.key,
+                                                                        }
+                                                                    )
+                                                                    this.ActionSheet.show()
+                                                                }}
                                                             />
                                                         </TouchableOpacity>
                                                     )}
@@ -1714,7 +1998,7 @@ export default class calendarscreen extends Component {
                                         </ScrollView>
                                     </View>
                                 </View>
-                                <View style={styles.divider}></View>
+                                <View style={styles.divider} />
                                 <View style={styles.colmday}>
                                     <View
                                         style={[
@@ -1730,7 +2014,10 @@ export default class calendarscreen extends Component {
                                         <Text
                                             style={styles.textHeaderColunmDate}
                                         >
-                                            {nextDate(5 + this.state.number)}
+                                            {nextDate(
+                                                5 + this.state.number,
+                                                true
+                                            )}
                                         </Text>
                                     </View>
                                     <View style={styles.stylecolunm}>
@@ -1739,7 +2026,10 @@ export default class calendarscreen extends Component {
                                             <View>
                                                 <FlatList
                                                     data={this.state.arrS5}
-                                                    renderItem={({ item }) => (
+                                                    renderItem={({
+                                                        item,
+                                                        index,
+                                                    }) => (
                                                         <TouchableOpacity
                                                             onPress={() => {
                                                                 this.props.navigation.navigate(
@@ -1747,6 +2037,8 @@ export default class calendarscreen extends Component {
                                                                     {
                                                                         taskid:
                                                                             item.key,
+                                                                        data:
+                                                                            item.data,
                                                                     }
                                                                 )
                                                             }}
@@ -1760,6 +2052,17 @@ export default class calendarscreen extends Component {
                                                                     item.color
                                                                 }
                                                                 time={item.time.toDate()}
+                                                                index={index}
+                                                                onRightPress={() => {
+                                                                    // this.deleteGroup(item.key);
+                                                                    this.setState(
+                                                                        {
+                                                                            keyTaskCurrent:
+                                                                                item.key,
+                                                                        }
+                                                                    )
+                                                                    this.ActionSheet.show()
+                                                                }}
                                                             />
                                                         </TouchableOpacity>
                                                     )}
@@ -1770,14 +2073,17 @@ export default class calendarscreen extends Component {
                                             </View>
                                         </ScrollView>
                                     </View>
-                                    <View style={styles.dividercolunm}></View>
+                                    <View style={styles.dividercolunm} />
                                     <View style={styles.stylecolunm}>
                                         {/* <Text>Trưa</Text> */}
                                         <ScrollView>
                                             <View>
                                                 <FlatList
                                                     data={this.state.arrT5}
-                                                    renderItem={({ item }) => (
+                                                    renderItem={({
+                                                        item,
+                                                        index,
+                                                    }) => (
                                                         <TouchableOpacity
                                                             onPress={() => {
                                                                 this.props.navigation.navigate(
@@ -1785,6 +2091,8 @@ export default class calendarscreen extends Component {
                                                                     {
                                                                         taskid:
                                                                             item.key,
+                                                                        data:
+                                                                            item.data,
                                                                     }
                                                                 )
                                                             }}
@@ -1798,6 +2106,17 @@ export default class calendarscreen extends Component {
                                                                     item.color
                                                                 }
                                                                 time={item.time.toDate()}
+                                                                index={index}
+                                                                onRightPress={() => {
+                                                                    // this.deleteGroup(item.key);
+                                                                    this.setState(
+                                                                        {
+                                                                            keyTaskCurrent:
+                                                                                item.key,
+                                                                        }
+                                                                    )
+                                                                    this.ActionSheet.show()
+                                                                }}
                                                             />
                                                         </TouchableOpacity>
                                                     )}
@@ -1808,14 +2127,17 @@ export default class calendarscreen extends Component {
                                             </View>
                                         </ScrollView>
                                     </View>
-                                    <View style={styles.dividercolunm}></View>
+                                    <View style={styles.dividercolunm} />
                                     <View style={styles.stylecolunm}>
                                         {/* <Text>Chiều</Text> */}
                                         <ScrollView>
                                             <View>
                                                 <FlatList
                                                     data={this.state.arrC5}
-                                                    renderItem={({ item }) => (
+                                                    renderItem={({
+                                                        item,
+                                                        index,
+                                                    }) => (
                                                         <TouchableOpacity
                                                             onPress={() => {
                                                                 this.props.navigation.navigate(
@@ -1823,6 +2145,8 @@ export default class calendarscreen extends Component {
                                                                     {
                                                                         taskid:
                                                                             item.key,
+                                                                        data:
+                                                                            item.data,
                                                                     }
                                                                 )
                                                             }}
@@ -1836,6 +2160,17 @@ export default class calendarscreen extends Component {
                                                                     item.color
                                                                 }
                                                                 time={item.time.toDate()}
+                                                                index={index}
+                                                                onRightPress={() => {
+                                                                    // this.deleteGroup(item.key);
+                                                                    this.setState(
+                                                                        {
+                                                                            keyTaskCurrent:
+                                                                                item.key,
+                                                                        }
+                                                                    )
+                                                                    this.ActionSheet.show()
+                                                                }}
                                                             />
                                                         </TouchableOpacity>
                                                     )}
@@ -1847,7 +2182,7 @@ export default class calendarscreen extends Component {
                                         </ScrollView>
                                     </View>
                                 </View>
-                                <View style={styles.divider}></View>
+                                <View style={styles.divider} />
                                 <View style={styles.colmday}>
                                     <View style={styles.headercolm}>
                                         <Text style={styles.textHeaderColunm}>
@@ -1858,7 +2193,10 @@ export default class calendarscreen extends Component {
                                         <Text
                                             style={styles.textHeaderColunmDate}
                                         >
-                                            {nextDate(6 + this.state.number)}
+                                            {nextDate(
+                                                6 + this.state.number,
+                                                true
+                                            )}
                                         </Text>
                                     </View>
                                     <View style={styles.stylecolunm}>
@@ -1867,7 +2205,10 @@ export default class calendarscreen extends Component {
                                             <View>
                                                 <FlatList
                                                     data={this.state.arrS6}
-                                                    renderItem={({ item }) => (
+                                                    renderItem={({
+                                                        item,
+                                                        index,
+                                                    }) => (
                                                         <TouchableOpacity
                                                             onPress={() => {
                                                                 this.props.navigation.navigate(
@@ -1875,6 +2216,8 @@ export default class calendarscreen extends Component {
                                                                     {
                                                                         taskid:
                                                                             item.key,
+                                                                        data:
+                                                                            item.data,
                                                                     }
                                                                 )
                                                             }}
@@ -1888,6 +2231,17 @@ export default class calendarscreen extends Component {
                                                                     item.color
                                                                 }
                                                                 time={item.time.toDate()}
+                                                                index={index}
+                                                                onRightPress={() => {
+                                                                    // this.deleteGroup(item.key);
+                                                                    this.setState(
+                                                                        {
+                                                                            keyTaskCurrent:
+                                                                                item.key,
+                                                                        }
+                                                                    )
+                                                                    this.ActionSheet.show()
+                                                                }}
                                                             />
                                                         </TouchableOpacity>
                                                     )}
@@ -1898,14 +2252,17 @@ export default class calendarscreen extends Component {
                                             </View>
                                         </ScrollView>
                                     </View>
-                                    <View style={styles.dividercolunm}></View>
+                                    <View style={styles.dividercolunm} />
                                     <View style={styles.stylecolunm}>
                                         {/* <Text>Trưa</Text> */}
                                         <ScrollView>
                                             <View>
                                                 <FlatList
                                                     data={this.state.arrT6}
-                                                    renderItem={({ item }) => (
+                                                    renderItem={({
+                                                        item,
+                                                        index,
+                                                    }) => (
                                                         <TouchableOpacity
                                                             onPress={() => {
                                                                 this.props.navigation.navigate(
@@ -1913,6 +2270,8 @@ export default class calendarscreen extends Component {
                                                                     {
                                                                         taskid:
                                                                             item.key,
+                                                                        data:
+                                                                            item.data,
                                                                     }
                                                                 )
                                                             }}
@@ -1926,6 +2285,17 @@ export default class calendarscreen extends Component {
                                                                     item.color
                                                                 }
                                                                 time={item.time.toDate()}
+                                                                index={index}
+                                                                onRightPress={() => {
+                                                                    // this.deleteGroup(item.key);
+                                                                    this.setState(
+                                                                        {
+                                                                            keyTaskCurrent:
+                                                                                item.key,
+                                                                        }
+                                                                    )
+                                                                    this.ActionSheet.show()
+                                                                }}
                                                             />
                                                         </TouchableOpacity>
                                                     )}
@@ -1936,14 +2306,17 @@ export default class calendarscreen extends Component {
                                             </View>
                                         </ScrollView>
                                     </View>
-                                    <View style={styles.dividercolunm}></View>
+                                    <View style={styles.dividercolunm} />
                                     <View style={styles.stylecolunm}>
                                         {/* <Text>Chiều</Text> */}
                                         <ScrollView>
                                             <View>
                                                 <FlatList
                                                     data={this.state.arrC6}
-                                                    renderItem={({ item }) => (
+                                                    renderItem={({
+                                                        item,
+                                                        index,
+                                                    }) => (
                                                         <TouchableOpacity
                                                             onPress={() => {
                                                                 this.props.navigation.navigate(
@@ -1951,6 +2324,8 @@ export default class calendarscreen extends Component {
                                                                     {
                                                                         taskid:
                                                                             item.key,
+                                                                        data:
+                                                                            item.data,
                                                                     }
                                                                 )
                                                             }}
@@ -1964,6 +2339,17 @@ export default class calendarscreen extends Component {
                                                                     item.color
                                                                 }
                                                                 time={item.time.toDate()}
+                                                                index={index}
+                                                                onRightPress={() => {
+                                                                    // this.deleteGroup(item.key);
+                                                                    this.setState(
+                                                                        {
+                                                                            keyTaskCurrent:
+                                                                                item.key,
+                                                                        }
+                                                                    )
+                                                                    this.ActionSheet.show()
+                                                                }}
                                                             />
                                                         </TouchableOpacity>
                                                     )}
@@ -1993,8 +2379,8 @@ const styles = StyleSheet.create({
     },
     calendar: {
         flex: 1,
-        width: 900,
-        height: 731,
+        width: 770,
+        height: 768,
         flexDirection: 'row',
         backgroundColor: '#B0D9F8',
     },

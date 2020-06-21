@@ -11,6 +11,7 @@ import {
     Switch,
     StyleSheet,
     Alert,
+    SafeAreaView,
 } from 'react-native'
 import moment from 'moment'
 import { CalendarList } from 'react-native-calendars'
@@ -18,6 +19,7 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 // import Header from '../headercomponent.js';
 const { width: vw } = Dimensions.get('window')
 import DateTimePicker from 'react-native-modal-datetime-picker'
+import FontAwesome from 'react-native-vector-icons/FontAwesome'
 import firebase from '../database/firebase'
 
 class UpdateTask extends Component {
@@ -46,56 +48,44 @@ class UpdateTask extends Component {
             createEventAsyncRes: '',
             color: '#4AD565',
             isCompleted: false,
+            selectedTask: this.props.route.params.data,
+            id: this.props.route.params.taskid,
         }
     }
 
-    addTask() {
-        if (this.state.taskname === '') {
-            alert('Fill at least your name!')
+    checkHour(time) {
+        let tamp = new Date(time).getHours()
+        console.log(tamp)
+        if (tamp < 11) {
+            return 1
+        } else if (tamp >= 11 && tamp < 16) {
+            return 2
         } else {
-            this.setState({
-                isLoading: true,
-            })
-            firebase
-                .firestore()
-                .collection('tasks')
-                .add({
-                    userid: this.state.userid,
-                    isCompleted: false,
-                    title: this.state.taskText,
-                    notes: this.state.notesText,
-                    time: firebase.firestore.Timestamp.fromDate(
-                        new Date(this.state.alarmTime)
-                    ),
-                    color: this.state.color,
-                })
-                .then((res) => {
-                    this.props.navigation.goBack()
-                    // this.getTaskByGroupId(this.state.userid).then(tasks => {
-                    //   this.props.route.params.onSelect({todoList: tasks});
-                    // });
-                })
-                .catch((err) => {
-                    console.error('Error found: ', err)
-                })
+            return 3
         }
     }
 
-    getTaskByGroupId = (id) => {
-        return firebase
+    updateTask = (item) => {
+        const updateDBRef = firebase
             .firestore()
             .collection('tasks')
-            .where('userid', '==', id + '')
-            .get()
-            .then((querySnapshot) => {
-                return querySnapshot.docs.map((i) => ({
-                    key: i.id,
-                    ...i.data(),
-                }))
+            .doc(this.state.id)
+        updateDBRef
+            .set({
+                ...item,
+                time: firebase.firestore.Timestamp.fromDate(
+                    new Date(item.time.toDate())
+                ),
+                session: this.checkHour(item.time.toDate()),
+            })
+            .then((docRef) => {
+                this.props.navigation.goBack()
             })
             .catch((error) => {
-                console.log(error)
-                return []
+                console.error('Error: ', error)
+                // this.setState({
+                //     isLoading: false,
+                // })
             })
     }
 
@@ -111,21 +101,44 @@ class UpdateTask extends Component {
         this.setState({ isDateTimePickerVisible: false })
 
     _handleDatePicked = (date) => {
-        const { currentDay } = this.state
-        const selectedDatePicked = currentDay
+        const { selectedTask } = this.state
+        const prevSelectedTask = { ...selectedTask }
+        const selectedDatePicked = prevSelectedTask.time.toDate()
         const hour = moment(date).hour()
         const minute = moment(date).minute()
         const newModifiedDay = moment(selectedDatePicked)
             .hour(hour)
             .minute(minute)
 
+        prevSelectedTask.time = newModifiedDay
         this.setState({
-            alarmTime: newModifiedDay,
+            selectedTask: prevSelectedTask,
         })
 
-        console.log(date)
-
         this._hideDateTimePicker()
+    }
+
+    getTaskById = (id) => {
+        return firebase
+            .firestore()
+            .collection('tasks')
+            .doc('QbdXFnnICWgJrjxGEGSL')
+            .get()
+            .then((docRef) => {
+                // console.log(docRef.data())
+                return docRef.data()
+            })
+            .catch((error) => {})
+    }
+
+    componentDidMount() {
+        // const taskid = this.props.route.params.taskid
+        // this.getTaskById('QbdXFnnICWgJrjxGEGSL').then((tasks) => {
+        //     this.setState({ selectedTask: tasks }, () => {
+        //         console.log(this.state.selectedTask)
+        //     })
+        // })
+        console.log(this.state.currentDay)
     }
 
     render() {
@@ -139,55 +152,67 @@ class UpdateTask extends Component {
                 isAlarmSet,
                 alarmTime,
                 isDateTimePickerVisible,
+                selectedTask,
             },
             props: { navigation },
         } = this
 
         return (
-            <View style={styles.screenContainer}>
-                {/* <Header
+            <SafeAreaView>
+                <View style={styles.screenContainer}>
+                    {/* <Header
           title="Danh sách"
           iconLeft="arrow-left"
           iconRight="ellipsis1"
           onLeftPress={() => this.props.navigation.goBack()}
         /> */}
-                <DateTimePicker
-                    isVisible={isDateTimePickerVisible}
-                    onConfirm={this._handleDatePicked}
-                    onCancel={this._hideDateTimePicker}
-                    mode="time"
-                />
-                <View style={styles.container}>
-                    <View
-                        style={{
-                            height: visibleHeight,
-                        }}
-                    >
-                        <View style={styles.backButton}>
-                            <TouchableOpacity
-                                onPress={() => this.props.navigation.goBack()}
-                                style={{
-                                    marginRight: vw / 2 - 120,
-                                    marginLeft: 20,
-                                }}
-                            >
-                                <Image
-                                    style={{ height: 25, width: 40 }}
-                                    source={require('../assets/back.png')}
-                                    resizeMode="contain"
-                                />
-                            </TouchableOpacity>
-                            <Text style={styles.newTask}>
-                                Cập nhật công việc
-                            </Text>
-                        </View>
-                        <ScrollView
-                            contentContainerStyle={{
-                                paddingBottom: 30,
+                    <DateTimePicker
+                        isVisible={isDateTimePickerVisible}
+                        onConfirm={this._handleDatePicked}
+                        onCancel={this._hideDateTimePicker}
+                        date={
+                            new Date(
+                                moment(selectedTask.time.toDate()).add(
+                                    -1,
+                                    'hours'
+                                )
+                            )
+                        }
+                        mode="time"
+                    />
+                    <View style={styles.container}>
+                        <View
+                            style={{
+                                height: visibleHeight,
                             }}
                         >
-                            <View style={styles.calenderContainer}>
-                                <CalendarList
+                            <View style={styles.backButton}>
+                                <TouchableOpacity
+                                    onPress={() =>
+                                        this.props.navigation.goBack()
+                                    }
+                                    style={{
+                                        marginRight: vw / 2 - 120,
+                                        marginLeft: 20,
+                                    }}
+                                >
+                                    <Image
+                                        style={{ height: 25, width: 40 }}
+                                        source={require('../assets/back.png')}
+                                        resizeMode="contain"
+                                    />
+                                </TouchableOpacity>
+                                <Text style={styles.newTask}>
+                                    Cập nhật công việc
+                                </Text>
+                            </View>
+                            <ScrollView
+                                contentContainerStyle={{
+                                    paddingBottom: 30,
+                                }}
+                            >
+                                <View style={styles.calenderContainer}>
+                                    {/* <CalendarList
                                     style={{
                                         width: 350,
                                         height: 350,
@@ -228,236 +253,363 @@ class UpdateTask extends Component {
                                         textDisabledColor: '#d9dbe0',
                                     }}
                                     markedDates={selectedDay}
-                                />
-                            </View>
-                            <View style={styles.taskContainer}>
-                                <TextInput
-                                    style={styles.title}
-                                    onChangeText={(text) =>
-                                        this.setState({ taskText: text })
-                                    }
-                                    value={taskText}
-                                    placeholder="Nhập công việc cần làm"
-                                />
-                                <Text
-                                    style={{
-                                        fontSize: 14,
-                                        color: '#BDC6D8',
-                                        marginVertical: 10,
-                                    }}
-                                >
-                                    Chọn nhẵn
-                                </Text>
-                                <View style={{ flexDirection: 'row' }}>
-                                    <TouchableOpacity
-                                        style={styles.canlam}
-                                        onPress={() =>
-                                            this.setState({ color: '#FF4D4E' })
-                                        }
-                                    >
-                                        <Text
-                                            style={{
-                                                textAlign: 'center',
-                                                fontSize: 14,
-                                            }}
-                                        >
-                                            Cần làm
-                                        </Text>
-                                    </TouchableOpacity>
-                                    <TouchableOpacity
-                                        style={styles.luachon}
-                                        onPress={() =>
-                                            this.setState({ color: '#F8D557' })
-                                        }
-                                    >
-                                        <Text
-                                            style={{
-                                                textAlign: 'center',
-                                                fontSize: 14,
-                                            }}
-                                        >
-                                            Lựa chọn
-                                        </Text>
-                                    </TouchableOpacity>
-                                    <TouchableOpacity
-                                        style={styles.uythac}
-                                        onPress={() =>
-                                            this.setState({ color: '#62CCFB' })
-                                        }
-                                    >
-                                        <Text
-                                            style={{
-                                                textAlign: 'center',
-                                                fontSize: 14,
-                                            }}
-                                        >
-                                            Uỷ thác
-                                        </Text>
-                                    </TouchableOpacity>
-                                    <TouchableOpacity
-                                        style={styles.xoabo}
-                                        onPress={() =>
-                                            this.setState({ color: '#4CD565' })
-                                        }
-                                    >
-                                        <Text
-                                            style={{
-                                                textAlign: 'center',
-                                                fontSize: 14,
-                                            }}
-                                        >
-                                            Xoá bỏ
-                                        </Text>
-                                    </TouchableOpacity>
+                                /> */}
                                 </View>
-                                <View style={styles.notesContent} />
-                                <View>
-                                    <Text style={styles.notes}>Ghi chú</Text>
-                                    <TextInput
-                                        style={{
-                                            height: 25,
-                                            fontSize: 19,
-                                            marginTop: 3,
-                                        }}
-                                        onChangeText={(text) =>
-                                            this.setState({ notesText: text })
-                                        }
-                                        value={notesText}
-                                        placeholder="Nhập ghi chú cho công việc."
-                                    />
-                                </View>
-                                <View style={styles.seperator} />
-                                <View>
+                                <View style={styles.taskContainer}>
                                     <Text
                                         style={{
                                             color: '#9CAAC4',
                                             fontSize: 16,
                                             fontWeight: '600',
+                                            marginVertical: 10,
                                         }}
                                     >
-                                        Thời gian bắt đầu
+                                        Tên công việc
                                     </Text>
-                                    <TouchableOpacity
-                                        onPress={() =>
-                                            this._showDateTimePicker()
-                                        }
+                                    <TextInput
+                                        style={styles.title}
+                                        onChangeText={(text) => {
+                                            const prevSelectedTask = {
+                                                ...selectedTask,
+                                            }
+                                            prevSelectedTask.title = text
+                                            this.setState(
+                                                {
+                                                    selectedTask: prevSelectedTask,
+                                                },
+                                                () => {
+                                                    console.log(
+                                                        selectedTask.title
+                                                    )
+                                                }
+                                            )
+                                        }}
+                                        value={selectedTask.title}
+                                        placeholder="Nhập công việc cần làm"
+                                    />
+                                    <View style={styles.seperator} />
+                                    <Text
                                         style={{
-                                            height: 25,
-                                            marginTop: 3,
+                                            fontSize: 14,
+                                            color: '#BDC6D8',
+                                            marginVertical: 5,
                                         }}
                                     >
-                                        <Text style={{ fontSize: 19 }}>
-                                            {moment(alarmTime).format('h:mm A')}
-                                        </Text>
-                                    </TouchableOpacity>
-                                </View>
-                                <View style={styles.seperator} />
-                                <View
-                                    style={{
-                                        flexDirection: 'row',
-                                        justifyContent: 'space-between',
-                                        alignItems: 'center',
-                                    }}
-                                >
-                                    <View>
-                                        <Text
-                                            style={{
-                                                color: '#9CAAC4',
-                                                fontSize: 16,
-                                                fontWeight: '600',
-                                            }}
-                                        >
-                                            Nhắc nhở
-                                        </Text>
-                                        <View
-                                            style={{
-                                                height: 25,
-                                                marginTop: 3,
-                                            }}
-                                        >
-                                            <Text style={{ fontSize: 19 }}>
-                                                {moment(alarmTime).format(
-                                                    'h:mm A'
-                                                )}
-                                            </Text>
-                                        </View>
-                                    </View>
-                                    <Switch
-                                        value={isAlarmSet}
-                                        onValueChange={this.handleAlarmSet}
-                                    />
-                                </View>
-                                <View style={styles.seperator} />
-                                <View
-                                    style={{
-                                        flexDirection: 'row',
-                                        justifyContent: 'space-between',
-                                        alignItems: 'center',
-                                    }}
-                                >
-                                    <View>
-                                        <Text
-                                            style={{
-                                                color: '#9CAAC4',
-                                                fontSize: 16,
-                                                fontWeight: '600',
-                                            }}
-                                        >
-                                            Trạng thái công việc
-                                        </Text>
-                                        <View
-                                            style={{
-                                                height: 25,
-                                                marginTop: 3,
-                                            }}
-                                        >
-                                            <Text style={{ fontSize: 19 }}>
-                                                {this.state.isCompleted
-                                                    ? 'Hoàn thành'
-                                                    : 'Không hoàn thành'}
-                                            </Text>
-                                        </View>
-                                    </View>
-                                    <Switch
-                                        value={this.state.isCompleted}
-                                        onValueChange={() => {
-                                            this.setState({
-                                                isCompleted: !this.state
-                                                    .isCompleted,
-                                            })
+                                        Chọn màu
+                                    </Text>
+                                    <View
+                                        style={{
+                                            flexDirection: 'row',
+                                            justifyContent: 'space-between',
                                         }}
-                                    />
+                                    >
+                                        <TouchableOpacity
+                                            style={styles.mauvang}
+                                            onPress={() =>
+                                                this.setState({
+                                                    color: {
+                                                        colorLeft: '#E7B94B',
+                                                        colorRight: '#FFEFCB',
+                                                    },
+                                                })
+                                            }
+                                        />
+                                        <TouchableOpacity
+                                            style={styles.mauxanh}
+                                            onPress={() =>
+                                                this.setState({
+                                                    color: {
+                                                        colorLeft: '#55B053',
+                                                        colorRight: '#CFEECC',
+                                                    },
+                                                })
+                                            }
+                                        />
+                                        <TouchableOpacity
+                                            style={styles.maulam}
+                                            onPress={() =>
+                                                this.setState({
+                                                    color: {
+                                                        colorLeft: '#2EBEBD',
+                                                        colorRight: '#C0F2F6',
+                                                    },
+                                                })
+                                            }
+                                        />
+                                        <TouchableOpacity
+                                            style={styles.maucham}
+                                            onPress={() =>
+                                                this.setState({
+                                                    color: {
+                                                        colorLeft: '#5C8AD0',
+                                                        colorRight: '#D2E2FC',
+                                                    },
+                                                })
+                                            }
+                                        />
+                                        <TouchableOpacity
+                                            style={styles.mautim}
+                                            onPress={() =>
+                                                this.setState({
+                                                    color: {
+                                                        colorLeft: '#8273D1',
+                                                        colorRight: '#E0DAFE',
+                                                    },
+                                                })
+                                            }
+                                        />
+                                        <TouchableOpacity
+                                            style={styles.mauhong}
+                                            onPress={() =>
+                                                this.setState({
+                                                    color: {
+                                                        colorLeft: '#B684DE',
+                                                        colorRight: '#F1DDFF',
+                                                    },
+                                                })
+                                            }
+                                        />
+                                        <TouchableOpacity
+                                            style={styles.maudo}
+                                            onPress={() =>
+                                                this.setState({
+                                                    color: {
+                                                        colorLeft: '#B23435',
+                                                        colorRight: '#F2C4C1',
+                                                    },
+                                                })
+                                            }
+                                        />
+                                        <TouchableOpacity
+                                            style={styles.mauxam}
+                                            onPress={() =>
+                                                this.setState({
+                                                    color: {
+                                                        colorLeft: '#979CA2',
+                                                        colorRight: '#E7E7EA',
+                                                    },
+                                                })
+                                            }
+                                        />
+                                    </View>
+                                    <View style={styles.notesContent} />
+                                    <View>
+                                        <Text style={styles.notes}>
+                                            Ghi chú
+                                        </Text>
+                                        <TextInput
+                                            style={{
+                                                height: 75,
+                                                fontSize: 19,
+                                                marginTop: 3,
+                                            }}
+                                            multiline
+                                            numberOfLines={4}
+                                            onChangeText={(text) => {
+                                                const prevSelectedTask = {
+                                                    ...selectedTask,
+                                                }
+                                                prevSelectedTask.notes = text
+                                                this.setState({
+                                                    selectedTask: prevSelectedTask,
+                                                })
+                                            }}
+                                            value={selectedTask.notes}
+                                            placeholder="Nhập ghi chú cho công việc."
+                                        />
+                                    </View>
+                                    <View style={styles.seperator} />
+                                    <View>
+                                        <Text
+                                            style={{
+                                                color: '#9CAAC4',
+                                                fontSize: 16,
+                                                fontWeight: '600',
+                                            }}
+                                        >
+                                            Bắt đầu làm
+                                        </Text>
+                                        <TouchableOpacity
+                                            onPress={() =>
+                                                this._showDateTimePicker()
+                                            }
+                                            style={{
+                                                height: 25,
+                                                marginTop: 3,
+                                            }}
+                                        >
+                                            <Text style={{ fontSize: 19 }}>
+                                                {moment(
+                                                    selectedTask.time.toDate()
+                                                ).format('h:mm A')}
+                                            </Text>
+                                        </TouchableOpacity>
+                                    </View>
+                                    <View style={styles.seperator} />
+                                    <View
+                                        style={{
+                                            flexDirection: 'row',
+                                            justifyContent: 'space-between',
+                                            alignItems: 'center',
+                                        }}
+                                    >
+                                        <View>
+                                            <Text
+                                                style={{
+                                                    color: '#9CAAC4',
+                                                    fontSize: 16,
+                                                    fontWeight: '600',
+                                                }}
+                                            >
+                                                Nhắc nhở
+                                            </Text>
+                                            <View
+                                                style={{
+                                                    height: 25,
+                                                    marginTop: 3,
+                                                }}
+                                            >
+                                                <Text style={{ fontSize: 19 }}>
+                                                    {moment(alarmTime).format(
+                                                        'h:mm A'
+                                                    )}
+                                                </Text>
+                                            </View>
+                                        </View>
+                                        <Switch
+                                            value={isAlarmSet}
+                                            onValueChange={this.handleAlarmSet}
+                                        />
+                                    </View>
+                                    <View style={styles.seperator} />
+                                    <View
+                                        style={{
+                                            flexDirection: 'row',
+                                            justifyContent: 'space-between',
+                                            alignItems: 'center',
+                                        }}
+                                    >
+                                        <View>
+                                            <Text
+                                                style={{
+                                                    color: '#9CAAC4',
+                                                    fontSize: 16,
+                                                    fontWeight: '600',
+                                                }}
+                                            >
+                                                Ngày kết thúc
+                                            </Text>
+                                            <TouchableOpacity
+                                                style={{
+                                                    height: 25,
+                                                    marginTop: 3,
+                                                }}
+                                                onPress={
+                                                    this._showDateTimePicker1
+                                                }
+                                            >
+                                                <Text style={{ fontSize: 19 }}>
+                                                    {moment(alarmTime).format(
+                                                        'DD/MM/YYYY'
+                                                    )}
+                                                </Text>
+                                            </TouchableOpacity>
+                                        </View>
+                                        <View
+                                            style={{
+                                                // height: 50,
+                                                // backgroundColor: '#EFEFEF',
+                                                flexDirection: 'row',
+                                                alignItems: 'center',
+                                                justifyContent: 'space-between',
+                                            }}
+                                        >
+                                            <Text>Không lặp</Text>
+                                            <FontAwesome
+                                                name={'angle-right'}
+                                                size={30}
+                                                color={'gray'}
+                                                style={{
+                                                    marginLeft: 10,
+                                                }}
+                                            />
+                                        </View>
+                                    </View>
+                                    <View style={styles.seperator} />
+                                    <View
+                                        style={{
+                                            flexDirection: 'row',
+                                            justifyContent: 'space-between',
+                                            alignItems: 'center',
+                                        }}
+                                    >
+                                        <View>
+                                            <Text
+                                                style={{
+                                                    color: '#9CAAC4',
+                                                    fontSize: 16,
+                                                    fontWeight: '600',
+                                                }}
+                                            >
+                                                Trạng thái công việc
+                                            </Text>
+                                            <View
+                                                style={{
+                                                    height: 25,
+                                                    marginTop: 3,
+                                                }}
+                                            >
+                                                <Text style={{ fontSize: 19 }}>
+                                                    {selectedTask.isCompleted
+                                                        ? 'Hoàn thành'
+                                                        : 'Không hoàn thành'}
+                                                </Text>
+                                            </View>
+                                        </View>
+                                        <Switch
+                                            value={selectedTask.isCompleted}
+                                            onValueChange={() => {
+                                                const prevSelectedTask = {
+                                                    ...selectedTask,
+                                                }
+                                                prevSelectedTask.isCompleted = !selectedTask.isCompleted
+                                                this.setState({
+                                                    selectedTask: prevSelectedTask,
+                                                })
+                                            }}
+                                        />
+                                    </View>
                                 </View>
-                            </View>
-                            <TouchableOpacity
-                                disabled={taskText === ''}
-                                style={[
-                                    styles.createTaskButton,
-                                    {
-                                        backgroundColor:
-                                            taskText === ''
-                                                ? 'rgba(46, 102, 231,0.5)'
-                                                : '#2E66E7',
-                                    },
-                                ]}
-                                onPress={async () => {
-                                    this.addTask()
-                                }}
-                            >
-                                <Text
-                                    style={{
-                                        fontSize: 18,
-                                        textAlign: 'center',
-                                        color: '#fff',
+                                <TouchableOpacity
+                                    disabled={selectedTask.title === ''}
+                                    style={[
+                                        styles.createTaskButton,
+                                        {
+                                            backgroundColor:
+                                                selectedTask.title === ''
+                                                    ? 'rgba(46, 102, 231,0.5)'
+                                                    : '#2E66E7',
+                                        },
+                                    ]}
+                                    onPress={async () => {
+                                        this.updateTask(this.state.selectedTask)
                                     }}
                                 >
-                                    Cập nhật công việc
-                                </Text>
-                            </TouchableOpacity>
-                        </ScrollView>
+                                    <Text
+                                        style={{
+                                            fontSize: 18,
+                                            textAlign: 'center',
+                                            color: '#fff',
+                                        }}
+                                    >
+                                        Cập nhật công việc
+                                    </Text>
+                                </TouchableOpacity>
+                            </ScrollView>
+                        </View>
                     </View>
                 </View>
-            </View>
+            </SafeAreaView>
         )
     }
 }
@@ -469,7 +621,7 @@ const styles = StyleSheet.create({
         width: 252,
         height: 48,
         alignSelf: 'center',
-        marginTop: 40,
+        marginTop: 20,
         borderRadius: 5,
         justifyContent: 'center',
     },
@@ -492,36 +644,61 @@ const styles = StyleSheet.create({
         alignSelf: 'center',
         marginVertical: 20,
     },
-    xoabo: {
-        height: 23,
-        width: 60,
-        backgroundColor: '#4CD565',
+    mautim: {
+        height: 30,
+        width: 30,
+        backgroundColor: '#8273D1',
         justifyContent: 'center',
-        borderRadius: 5,
+        borderRadius: 15,
     },
-    uythac: {
-        height: 23,
-        width: 60,
-        backgroundColor: '#62CCFB',
+    mauhong: {
+        height: 30,
+        width: 30,
+        backgroundColor: '#B684DE',
         justifyContent: 'center',
-        borderRadius: 5,
-        marginRight: 7,
+        borderRadius: 15,
     },
-    luachon: {
-        height: 23,
-        width: 60,
-        backgroundColor: '#F8D557',
+    mauxanh: {
+        height: 30,
+        width: 30,
+        backgroundColor: '#55B053',
         justifyContent: 'center',
-        borderRadius: 5,
-        marginRight: 7,
+        borderRadius: 15,
     },
-    canlam: {
-        height: 23,
-        width: 60,
-        backgroundColor: '#FF4D4E',
+    maucham: {
+        height: 30,
+        width: 30,
+        backgroundColor: '#5C8AD0',
         justifyContent: 'center',
-        borderRadius: 5,
-        marginRight: 7,
+        borderRadius: 15,
+    },
+    maudo: {
+        height: 30,
+        width: 30,
+        backgroundColor: '#B23435',
+        justifyContent: 'center',
+        borderRadius: 15,
+    },
+    mauvang: {
+        height: 30,
+        width: 30,
+        backgroundColor: '#E7B94B',
+        justifyContent: 'center',
+        borderRadius: 15,
+    },
+    maulam: {
+        height: 30,
+        width: 30,
+        backgroundColor: '#2EBEBD',
+        justifyContent: 'center',
+        borderRadius: 15,
+    },
+    mauxam: {
+        height: 30,
+        width: 30,
+        backgroundColor: '#979CA2',
+        justifyContent: 'center',
+        borderRadius: 15,
     },
     title: {
         height: 25,
@@ -549,7 +726,7 @@ const styles = StyleSheet.create({
     calenderContainer: {
         marginTop: 10,
         width: 350,
-        height: 350,
+        height: 10,
         alignSelf: 'center',
     },
     newTask: {
@@ -561,7 +738,7 @@ const styles = StyleSheet.create({
     },
     backButton: {
         flexDirection: 'row',
-        marginTop: 60,
+        marginTop: 10,
         width: '100%',
         alignItems: 'center',
     },

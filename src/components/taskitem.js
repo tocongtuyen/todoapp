@@ -22,68 +22,81 @@ const RightActions = ({ progress, dragX, onPress }) => {
                 <Animated.Text
                     style={[styles.actionText, { transform: [{ scale }] }]}
                 >
-                    <AntDesign name="delete" size={25} color="#fff" />
+                    <AntDesign name="delete" size={26} color="#fff" />
                 </Animated.Text>
             </View>
         </TouchableOpacity>
     )
 }
 
+let row: Array<any> = []
+let prevOpenedRow
+function closeRow(index) {
+    if (prevOpenedRow && prevOpenedRow !== row[index]) {
+        prevOpenedRow.close()
+    }
+    // console.log(index)
+
+    prevOpenedRow = row[index]
+}
+
 const taskitem = (props) => {
     return (
-        // <Swipeable
-        //     renderRightActions={(progress, dragX) => (
-        //         <RightActions
-        //             progress={progress}
-        //             dragX={dragX}
-        //             onPress={props.onRightPress}
-        //         />
-        //     )}
-        // >
-        <View
-            style={[
-                styles.taskListContent,
-                { backgroundColor: `${props.color.colorRight}` },
-            ]}
+        <Swipeable
+            ref={(ref) => (row[props.index] = ref)}
+            renderRightActions={(progress, dragX) => (
+                <RightActions
+                    progress={progress}
+                    dragX={dragX}
+                    onPress={props.onRightPress}
+                />
+            )}
+            onSwipeableOpen={closeRow(props.index)}
         >
             <View
-                style={{
-                    flexDirection: 'row',
-                    alignItems: 'center',
-                }}
+                style={[
+                    styles.taskListContent,
+                    { backgroundColor: `${props.color.colorRight}` },
+                ]}
             >
                 <View
                     style={{
-                        height: 70,
-                        width: 5,
-                        // borderRadius: 8,
-                        backgroundColor: props.color.colorLeft,
-                        marginRight: 5,
+                        flexDirection: 'row',
+                        alignItems: 'center',
                     }}
-                />
-                <View style={{ marginRight: 8 }}>
-                    <Text
+                >
+                    <View
                         style={{
-                            color: '#554A4C',
-                            fontSize: 15,
-                            fontWeight: '700',
-                        }}
-                    >
-                        {props.title}
-                    </Text>
-                    <Text
-                        style={{
-                            color: 'gray',
-                            fontSize: 14,
+                            height: 70,
+                            width: 5,
+                            // borderRadius: 8,
+                            backgroundColor: props.color.colorLeft,
                             marginRight: 5,
                         }}
-                    >
-                        {`${moment(props.time).format('h:mm A')}`}
-                    </Text>
+                    />
+                    <View style={{ marginRight: 10 }}>
+                        <Text
+                            style={{
+                                color: '#554A4C',
+                                fontSize: 15,
+                                fontWeight: '700',
+                            }}
+                        >
+                            {props.title}
+                        </Text>
+                        <Text
+                            style={{
+                                color: 'gray',
+                                fontSize: 14,
+                                marginRight: 5,
+                            }}
+                        >
+                            {`${moment(props.time).format('HH:mm')}`}
+                        </Text>
+                    </View>
                 </View>
             </View>
-        </View>
-        // </Swipeable>
+        </Swipeable>
     )
 }
 
@@ -91,8 +104,8 @@ export default taskitem
 
 const styles = StyleSheet.create({
     taskListContent: {
-        height: 70,
-        width: 125,
+        height: 60,
+        width: 110,
         alignSelf: 'center',
         // borderRadius: 10,
         shadowColor: '#2E66E7',
@@ -115,15 +128,15 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         flex: 1,
         alignItems: 'center',
-        marginTop: 5,
-        marginBottom: 10,
-        marginRight: 30,
-        borderRadius: 10,
+        marginTop: 1,
+        marginBottom: 1,
+        // marginRight: 30,
+        // borderRadius: 10,
     },
     actionText: {
         color: '#fff',
         fontWeight: '600',
-        paddingLeft: 30,
-        paddingRight: 30,
+        paddingLeft: 25,
+        paddingRight: 25,
     },
 })

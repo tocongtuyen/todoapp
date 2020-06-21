@@ -9,106 +9,204 @@ import {
     Dimensions,
     TextInput,
     TouchableOpacity,
+    Image,
 } from 'react-native'
 
 import Feather from 'react-native-vector-icons/Feather'
+import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons'
+import AntDesign from 'react-native-vector-icons/AntDesign'
 import Ionicons from 'react-native-vector-icons/Ionicons'
 import FontAwesome from 'react-native-vector-icons/FontAwesome'
 // import List from './ListCard'
 import Card from '../components/card'
 import BackgroundCurve from '../components/BackgroundCurve'
+import firebase from '../database/firebase'
 // import { useNavigation } from '@react-navigation/native'
-const Home = () => {
-    // const navigate = useNavigation()
 
-    return (
-        <>
-            <StatusBar barStyle="dark-content" />
-            <View style={styles.container}>
-                <BackgroundCurve style={styles.svg} />
-                <ScrollView style={styles.scrollView}>
-                    <View style={styles.headerContainer}>
-                        <View style={styles.headerGroupIndicator}>
-                            <View style={styles.headerGroupIndicatorLeft}>
-                                <Feather
-                                    name="map-pin"
-                                    color="#fff"
-                                    size={16}
-                                />
-                                <Text style={styles.headerGroupIndicatorText}>
-                                    Boston (BOS)
-                                </Text>
-                                <Feather
-                                    name="chevron-down"
-                                    color="#fff"
-                                    size={16}
-                                />
-                            </View>
-                            <View style={styles.headerGroupIndicatorRight}>
-                                <Feather
-                                    name="settings"
-                                    color="#fff"
-                                    size={16}
-                                />
-                            </View>
-                        </View>
-                        <Text
-                            style={styles.heading}
-                        >{`Where would \nyou want to go?`}</Text>
-                        <View style={styles.groupInputContainer}>
-                            <View style={styles.inputSearchContainer}>
-                                <TextInput
-                                    style={styles.inputSearch}
-                                    value="New York Citi (JFK) "
-                                />
-                                <TouchableOpacity
-                                    style={styles.buttonSearch}
-                                    onPress={() =>
-                                        // navigate.navigate('Watchlist')
-                                        console.log('o')
-                                    }
-                                >
+class Home extends React.Component {
+    constructor(props) {
+        super(props)
+        this.state = {
+            uid: '',
+            displayName: '',
+        }
+    }
+
+    componentDidMount() {
+        this.setState({
+            displayName: firebase.auth().currentUser.displayName,
+            uid: firebase.auth().currentUser.uid,
+        })
+        // this.unsubscribe = this.dbRef.onSnapshot(this.getCollection);
+    }
+
+    render() {
+        return (
+            <>
+                <StatusBar barStyle="dark-content" />
+                <View style={styles.container}>
+                    <BackgroundCurve style={styles.svg} />
+                    <ScrollView style={styles.scrollView}>
+                        <View style={styles.headerContainer}>
+                            <View style={styles.headerGroupIndicator}>
+                                <View style={styles.headerGroupIndicatorLeft}>
+                                    <SimpleLineIcons
+                                        name="user"
+                                        size={16}
+                                        color="#fff"
+                                    />
+                                    <Text
+                                        style={styles.headerGroupIndicatorText}
+                                    >
+                                        {this.state.displayName}
+                                    </Text>
+                                    {/* <Feather
+                                        name="chevron-down"
+                                        color="#fff"
+                                        size={16}
+                                    /> */}
+                                </View>
+                                <View style={styles.headerGroupIndicatorRight}>
                                     <Feather
-                                        name="search"
-                                        color="gray"
-                                        size={16}
-                                    />
-                                </TouchableOpacity>
-                            </View>
-                            <View style={styles.listBtn}>
-                                <TouchableOpacity style={styles.button}>
-                                    <Ionicons
-                                        name="ios-airplane"
+                                        name="settings"
                                         color="#fff"
                                         size={16}
                                     />
-                                    <Text style={styles.buttonText}>
-                                        Flights
-                                    </Text>
+                                </View>
+                            </View>
+
+                            <Image
+                                source={require('../assets/logo.png')}
+                                style={{
+                                    width: 200,
+                                    height: 200,
+                                    alignSelf: 'center',
+                                    margin: 30,
+                                    // tintColor:'white',
+                                }}
+                            />
+                            {/* <Text
+                                style={styles.heading}
+                            >{`Where would \nyou want to go?`}</Text> */}
+                            {/* <View style={styles.groupInputContainer}>
+                                <View style={styles.inputSearchContainer}>
+                                    <TextInput
+                                        style={styles.inputSearch}
+                                        value="New York Citi (JFK) "
+                                    />
+                                    <TouchableOpacity
+                                        style={styles.buttonSearch}
+                                        onPress={() =>
+                                            // navigate.navigate('Watchlist')
+                                            console.log('o')
+                                        }
+                                    >
+                                        <Feather
+                                            name="search"
+                                            color="gray"
+                                            size={16}
+                                        />
+                                    </TouchableOpacity>
+                                </View>
+                                <View style={styles.listBtn}>
+                                    <TouchableOpacity style={styles.button}>
+                                        <Ionicons
+                                            name="ios-airplane"
+                                            color="#fff"
+                                            size={16}
+                                        />
+                                        <Text style={styles.buttonText}>
+                                            Flights
+                                        </Text>
+                                    </TouchableOpacity>
+                                    <TouchableOpacity
+                                        style={[
+                                            styles.button,
+                                            { backgroundColor: 'transparent' },
+                                        ]}
+                                    >
+                                        <FontAwesome
+                                            name="hotel"
+                                            color="#fff"
+                                            size={16}
+                                        />
+                                        <Text style={styles.buttonText}>
+                                            Hotels
+                                        </Text>
+                                    </TouchableOpacity>
+                                </View>
+                            </View> */}
+                        </View>
+                        <View>
+                            <View
+                                style={{
+                                    flexDirection: 'row',
+                                    justifyContent: 'space-between',
+                                    paddingLeft: 20,
+                                    paddingRight: 20,
+                                }}
+                            >
+                                <TouchableOpacity
+                                    style={styles.cardItem}
+                                    onPress={() => {
+                                        // this.showDialog();
+                                        // console.log(this.state.dialogVisible);
+                                        this.props.navigation.navigate(
+                                            'TaskCalendar',
+                                            {
+                                                userid: this.state.uid,
+                                            }
+                                        )
+                                    }}
+                                >
+                                    <Text>Xem công việc theo ngày</Text>
                                 </TouchableOpacity>
                                 <TouchableOpacity
-                                    style={[
-                                        styles.button,
-                                        { backgroundColor: 'transparent' },
-                                    ]}
+                                    style={styles.cardItem}
+                                    onPress={() => {
+                                        // this.showDialog();
+                                        // console.log(this.state.dialogVisible);
+                                        this.props.navigation.navigate(
+                                            'Calendarscreen',
+                                            {
+                                                userid: this.state.uid,
+                                            }
+                                        )
+                                    }}
                                 >
-                                    <FontAwesome
-                                        name="hotel"
-                                        color="#fff"
-                                        size={16}
-                                    />
-                                    <Text style={styles.buttonText}>
-                                        Hotels
-                                    </Text>
+                                    <Text>Xem công việc theo tuần</Text>
+                                </TouchableOpacity>
+                            </View>
+                            <View
+                                style={{
+                                    flexDirection: 'row',
+                                    justifyContent: 'space-between',
+                                    padding: 20,
+                                }}
+                            >
+                                <TouchableOpacity style={styles.cardItem}>
+                                    <Text>Thống kê công việc</Text>
+                                </TouchableOpacity>
+                                <TouchableOpacity
+                                    style={styles.cardItem}
+                                    onPress={() => {
+                                        this.props.navigation.navigate(
+                                            'Addtask',
+                                            {
+                                                userid: this.state.uid,
+                                            }
+                                        )
+                                    }}
+                                >
+                                    <Text>Tạo mới công việc</Text>
                                 </TouchableOpacity>
                             </View>
                         </View>
-                    </View>
-                    <Card />
-                </ScrollView>
-            </View>
-        </>
-    )
+                    </ScrollView>
+                </View>
+            </>
+        )
+    }
 }
 
 const styles = StyleSheet.create({
@@ -193,6 +291,27 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignSelf: 'center',
         marginTop: 20,
+    },
+    cardItem: {
+        height: 200,
+        flex: 1,
+        alignSelf: 'center',
+        borderRadius: 10,
+        shadowColor: '#2E66E7',
+        backgroundColor: '#ffffff',
+        marginTop: 1,
+        marginBottom: 1,
+        shadowOffset: {
+            width: 3,
+            height: 3,
+        },
+        shadowRadius: 5,
+        shadowOpacity: 0.5,
+        elevation: 3,
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        margin: 10,
     },
 })
 
