@@ -13,6 +13,7 @@ import Tasklist from './src/screens/tasklist.js'
 import TaskCalendar from './src/screens/taskcalendar.js'
 import UpdateTask from './src/screens/updatetask.js'
 import Calendarscreen from './src/screens/calendarscreen'
+import AddColor from './src/screens/addcolor'
 import Home from './src/screens/home'
 
 const Stack = createStackNavigator()
@@ -76,6 +77,11 @@ function MyStack() {
             <Stack.Screen
                 name="Dashboard"
                 component={Dashboard}
+                options={{ title: 'Danh sách công việc' }}
+            />
+            <Stack.Screen
+                name="AddColor"
+                component={AddColor}
                 options={{ title: 'Danh sách công việc' }}
             />
         </Stack.Navigator>

@@ -22,6 +22,8 @@ import ActionSheet from 'react-native-actionsheet'
 import CalendarStrip from 'react-native-calendar-strip'
 const { width: vw } = Dimensions.get('window')
 import Timeline from 'react-native-timeline-flatlist'
+import AntDesign from 'react-native-vector-icons/AntDesign'
+import Rowtaskitem from '../components/rowtaskitem'
 
 function nextDate(num) {
     let today = moment()
@@ -43,6 +45,7 @@ function convertDateString(date) {
 export default class TaskCalendar extends Component {
     constructor(props) {
         super(props)
+        this.renderDetail = this.renderDetail.bind(this)
         this.state = {
             userid: firebase.auth().currentUser.uid,
             datesWhitelist: [
@@ -74,19 +77,43 @@ export default class TaskCalendar extends Component {
             .onSnapshot((querySnapshot) => {
                 let todo = []
                 querySnapshot.forEach(function (doc) {
-                    const { time, title, description, color } = doc.data()
+                    const {
+                        time,
+                        title,
+                        notes,
+                        isCompleted,
+                        color,
+                        colorid,
+                    } = doc.data()
                     todo.push({
                         key: doc.id,
-                        description,
+                        description: notes,
                         title,
-                        lineColor: color.colorLeft,
-                        circleColor: color.colorLeft,
+                        // lineColor: color.colorLeft,
+                        // circleColor: color.colorLeft,
+                        isCompleted,
                         time: convertDateString(time),
+                        data: doc.data(),
+                        colorid,
                     })
                 })
                 console.log(todo)
                 this.setState({ todoList: todo })
             })
+    }
+
+    renderDetail(rowData, sectionID, rowID) {
+        return (
+            <Rowtaskitem
+                rowData={rowData}
+                onPress={() => {
+                    this.props.navigation.navigate('UpdateTask', {
+                        taskid: rowData.key,
+                        data: rowData.data,
+                    })
+                }}
+            />
+        )
     }
 
     componentDidMount() {
@@ -108,19 +135,29 @@ export default class TaskCalendar extends Component {
             props: { navigation },
         } = this
         return (
-            <SafeAreaView>
+            <SafeAreaView style={{ flex: 1, backgroundColor: '#FFF' }}>
                 <View
                     style={{
                         flex: 1,
                         //   paddingTop: 20,
                     }}
                 >
-                    <View style={styles.backButton}>
+                    <View
+                        style={
+                            ([styles.backButton],
+                            {
+                                height: 35,
+                                flexDirection: 'row',
+                                justifyContent: 'space-between',
+                                alignItems: 'center',
+                            })
+                        }
+                    >
                         <TouchableOpacity
                             onPress={() => this.props.navigation.goBack()}
                             style={{
-                                marginRight: vw / 2 - 120,
-                                marginLeft: 20,
+                                // marginRight: vw / 2 - 120,
+                                marginLeft: 10,
                             }}
                         >
                             <Image
@@ -129,15 +166,47 @@ export default class TaskCalendar extends Component {
                                 resizeMode="contain"
                             />
                         </TouchableOpacity>
-
-                        {/* <Text style={styles.newTask}>Danh sách</Text> */}
+                        {/* <TouchableOpacity
+                            style={{
+                                borderRadius: 15,
+                                backgroundColor: '#0074D6',
+                            }}
+                            onPress={() => {
+                                this.getTask(
+                                    this.state.userid,
+                                    nextDate(0),
+                                    nextDate(1)
+                                )
+                            }}
+                        >
+                            <Text style={styles.buttonSlide}>
+                                Tuần hiện tại
+                            </Text>
+                        </TouchableOpacity> */}
+                        <TouchableOpacity
+                            onPress={() => {
+                                this.props.navigation.navigate('Addtask', {
+                                    userid: this.state.userid,
+                                })
+                            }}
+                        >
+                            <AntDesign
+                                name={'plus'}
+                                size={30}
+                                color={'#0074D6'}
+                                style={{ width: 32, marginRight: 10 }}
+                            />
+                        </TouchableOpacity>
                     </View>
                     <CalendarStrip
                         ref={(ref) => {
                             this.calenderRef = ref
                         }}
                         // scrollable="true"
-                        calendarAnimation={{ type: 'sequence', duration: 30 }}
+                        calendarAnimation={{
+                            type: 'sequence',
+                            duration: 30,
+                        }}
                         daySelectionAnimation={{
                             type: 'background',
                             duration: 200,
@@ -148,8 +217,13 @@ export default class TaskCalendar extends Component {
                             // paddingTop: 20,
                             paddingBottom: 20,
                         }}
-                        calendarHeaderStyle={{ color: '#000000' }}
-                        dateNumberStyle={{ color: '#000000', paddingTop: 10 }}
+                        calendarHeaderStyle={{
+                            color: '#000000',
+                        }}
+                        dateNumberStyle={{
+                            color: '#000000',
+                            paddingTop: 10,
+                        }}
                         dateNameStyle={{ color: '#BBBBBB' }}
                         highlightDateNumberStyle={{
                             color: '#fff',
@@ -165,7 +239,9 @@ export default class TaskCalendar extends Component {
                             justifyContent: 'center',
                             alignItems: 'center',
                         }}
-                        highlightDateNameStyle={{ color: '#2E66E7' }}
+                        highlightDateNameStyle={{
+                            color: '#2E66E7',
+                        }}
                         disabledDateNameStyle={{ color: 'grey' }}
                         disabledDateNumberStyle={{
                             color: 'grey',
@@ -234,13 +310,14 @@ export default class TaskCalendar extends Component {
                             <View
                                 style={{
                                     marginLeft: 40,
+                                    marginRight: 40,
                                 }}
                             >
                                 <Timeline
                                     data={this.state.todoList}
                                     circleSize={20}
-                                    circleColor="rgb(45,156,219)"
-                                    lineColor="rgb(45,156,219)"
+                                    circleColor="#424F61"
+                                    lineColor="#424F61"
                                     timeContainerStyle={{
                                         minWidth: 52,
                                         marginTop: -5,
@@ -252,11 +329,14 @@ export default class TaskCalendar extends Component {
                                         padding: 5,
                                         borderRadius: 13,
                                     }}
-                                    descriptionStyle={{ color: 'gray' }}
+                                    descriptionStyle={{
+                                        color: 'gray',
+                                    }}
                                     options={{
                                         style: { paddingTop: 5 },
                                     }}
                                     innerCircle={'dot'}
+                                    renderDetail={this.renderDetail}
                                 />
                             </View>
                         </ScrollView>
@@ -312,5 +392,28 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: 'rgba(0,0,0,0.5)',
+    },
+    title: {
+        fontSize: 16,
+        fontWeight: 'bold',
+    },
+    descriptionContainer: {
+        flexDirection: 'row',
+        paddingRight: 50,
+    },
+    image: {
+        width: 50,
+        height: 50,
+        borderRadius: 25,
+    },
+    textDescription: {
+        marginLeft: 10,
+        color: 'gray',
+    },
+    buttonSlide: {
+        color: 'white',
+        padding: 5,
+        // margin: 5,
+        alignItems: 'center',
     },
 })

@@ -5,10 +5,14 @@ import {
     View,
     TouchableOpacity,
     Animated,
+    Dimensions,
 } from 'react-native'
 import moment from 'moment'
 import AntDesign from 'react-native-vector-icons/AntDesign'
 import Swipeable from 'react-native-gesture-handler/Swipeable'
+import firebase from '../database/firebase'
+
+const windowWidth = Dimensions.get('window').width / 7
 
 const RightActions = ({ progress, dragX, onPress }) => {
     const scale = dragX.interpolate({
@@ -35,77 +39,120 @@ function closeRow(index) {
     if (prevOpenedRow && prevOpenedRow !== row[index]) {
         prevOpenedRow.close()
     }
-    // console.log(index)
-
     prevOpenedRow = row[index]
 }
 
-const taskitem = (props) => {
-    return (
-        <Swipeable
-            ref={(ref) => (row[props.index] = ref)}
-            renderRightActions={(progress, dragX) => (
-                <RightActions
-                    progress={progress}
-                    dragX={dragX}
-                    onPress={props.onRightPress}
-                />
-            )}
-            onSwipeableOpen={closeRow(props.index)}
-        >
-            <View
-                style={[
-                    styles.taskListContent,
-                    { backgroundColor: `${props.color.colorRight}` },
-                ]}
+class taskitem extends React.Component {
+    constructor(props) {
+        super(props)
+        this.state = { color: { label: 'di lam', color: '#FFF' } }
+    }
+
+    getColorById = (id) => {
+        return firebase
+            .firestore()
+            .collection('colors')
+            .doc(id + '')
+            .get()
+            .then((docRef) => {
+                console.log(docRef.data())
+                return docRef.data()
+            })
+            .catch((error) => {})
+    }
+
+    componentDidMount() {
+        this.getColorById(this.props.colorid).then((color) => {
+            this.setState({ color: color }, () => {
+                console.log(this.state.color)
+            })
+        })
+        console.log(this.state.currentDay)
+    }
+
+    render() {
+        const { onRightPress, index, title, time, isCompleted } = this.props
+        return (
+            <Swipeable
+                ref={(ref) => (row[index] = ref)}
+                renderRightActions={(progress, dragX) => (
+                    <RightActions
+                        progress={progress}
+                        dragX={dragX}
+                        onPress={onRightPress}
+                    />
+                )}
+                onSwipeableOpen={closeRow(index)}
             >
                 <View
-                    style={{
-                        flexDirection: 'row',
-                        alignItems: 'center',
-                    }}
+                    style={[
+                        styles.taskListContent,
+                        { backgroundColor: `${this.state.color.color}` },
+                    ]}
                 >
                     <View
                         style={{
-                            height: 70,
-                            width: 5,
-                            // borderRadius: 8,
-                            backgroundColor: props.color.colorLeft,
-                            marginRight: 5,
+                            flexDirection: 'row',
+                            alignItems: 'center',
                         }}
-                    />
-                    <View style={{ marginRight: 10 }}>
-                        <Text
+                    >
+                        <View
                             style={{
-                                color: '#554A4C',
-                                fontSize: 15,
-                                fontWeight: '700',
+                                height: 70,
+                                width: 5,
+                                // borderRadius: 8,
+                                // backgroundColor: this.state.color.color,
+                                marginRight: 2,
                             }}
-                        >
-                            {props.title}
-                        </Text>
-                        <Text
-                            style={{
-                                color: 'gray',
-                                fontSize: 14,
-                                marginRight: 5,
-                            }}
-                        >
-                            {`${moment(props.time).format('HH:mm')}`}
-                        </Text>
+                        />
+                        <View style={{ marginRight: 0 }}>
+                            <Text
+                                style={[
+                                    {
+                                        marginRight: 5,
+                                        color: '#554A4C',
+                                        // fontSize: 15,
+                                        fontSize: 11,
+                                        fontWeight: '500',
+                                    },
+                                    {
+                                        textDecorationLine: !isCompleted
+                                            ? 'none'
+                                            : 'line-through',
+                                        color: !isCompleted ? 'black' : 'gray',
+                                    },
+                                ]}
+                            >
+                                {title}
+                            </Text>
+                            <Text
+                                style={{
+                                    color: 'black',
+                                    // fontSize: 14,
+                                    fontSize: 11,
+                                    marginRight: 5,
+                                }}
+                            >
+                                {`${moment(time).format('HH:mm')}`}
+                            </Text>
+                        </View>
                     </View>
                 </View>
-            </View>
-        </Swipeable>
-    )
+            </Swipeable>
+        )
+    }
 }
 
 export default taskitem
 
 const styles = StyleSheet.create({
     taskListContent: {
-        height: 60,
-        width: 110,
+        height: 57,
+        flex: 1,
+        marginLeft: 1,
+        marginRight: 1,
+        width: windowWidth,
+        // width: 110,
         alignSelf: 'center',
         // borderRadius: 10,
         shadowColor: '#2E66E7',
@@ -136,7 +183,9 @@ const styles = StyleSheet.create({
     actionText: {
         color: '#fff',
         fontWeight: '600',
-        paddingLeft: 25,
-        paddingRight: 25,
+        // paddingLeft: 25,
+        // paddingRight: 25,
+        paddingLeft: 10,
+        paddingRight: 10,
     },
 })

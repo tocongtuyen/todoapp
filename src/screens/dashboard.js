@@ -14,6 +14,8 @@ import {
 } from 'react-native'
 import firebase from '../database/firebase'
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
+import Entypo from 'react-native-vector-icons/Entypo'
+import FontAwesome from 'react-native-vector-icons/FontAwesome'
 import Dialog from 'react-native-dialog'
 import ActionSheet from 'react-native-actionsheet'
 
@@ -26,7 +28,7 @@ const ProfileItem = ({ icon, name, onPress }) => (
         <Text style={[styles.itemText, { marginLeft: icon ? 20 : 0 }]}>
             {name}
         </Text>
-        {/* <FontAwesome name="angle-right" size={26} color="#1e1e1e" /> */}
+        <FontAwesome name="angle-right" size={26} color="#1e1e1e" />
     </TouchableOpacity>
 )
 
@@ -183,12 +185,18 @@ export default class Dashboard extends Component {
                         iconLeft="user"
                         iconRight="search1"
                     />
-                    {/*  */}
+                    {/* onPress={() => {
+                                    this.props.navigation.navigate(
+                                        'TaskCalendar',
+                                        {
+                                            userid: this.state.uid,
+                                        }
+                                    )
+                                }} */}
                     <ScrollView>
                         <View style={styles.bodyContainer}>
-                            <ProfileItem
-                                icon="alarm-light-outline"
-                                name="Xem công việc theo ngày"
+                            <TouchableOpacity
+                                style={styles.itemContainer}
                                 onPress={() => {
                                     this.props.navigation.navigate(
                                         'TaskCalendar',
@@ -197,7 +205,27 @@ export default class Dashboard extends Component {
                                         }
                                     )
                                 }}
-                            />
+                            >
+                                <Entypo
+                                    name={'light-up'}
+                                    size={30}
+                                    color="#1e1e1e"
+                                />
+                                <Text
+                                    style={[
+                                        styles.itemText,
+                                        { marginLeft: 20 },
+                                    ]}
+                                >
+                                    Xem công việc theo ngày
+                                </Text>
+                                <FontAwesome
+                                    name="angle-right"
+                                    size={26}
+                                    color="#1e1e1e"
+                                />
+                            </TouchableOpacity>
+                            <View style={styles.seperator}></View>
                             <ProfileItem
                                 icon="calendar-today"
                                 name="Xem công việc theo tuần"
@@ -211,6 +239,7 @@ export default class Dashboard extends Component {
                                 }}
                             />
                             {/* <ProfileItem icon="alarm-check" name="Công việc quan trọng" /> */}
+                            <View style={styles.seperator}></View>
                             <ProfileItem
                                 icon="chart-line"
                                 name="Xem thống kê"
@@ -316,7 +345,7 @@ const styles = StyleSheet.create({
     },
     bodyContainer: {
         flex: 1,
-        backgroundColor: '#ededed',
+        // backgroundColor: '#ededed',
     },
     //
     userContainer: {
@@ -362,5 +391,12 @@ const styles = StyleSheet.create({
     //
     divider: {
         height: 5,
+    },
+    seperator: {
+        height: 0.5,
+        width: '100%',
+        backgroundColor: '#979797',
+        alignSelf: 'center',
+        // marginVertical: 5,
     },
 })

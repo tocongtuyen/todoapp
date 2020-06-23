@@ -21,6 +21,7 @@ const { width: vw } = Dimensions.get('window')
 import DateTimePicker from 'react-native-modal-datetime-picker'
 import FontAwesome from 'react-native-vector-icons/FontAwesome'
 import firebase from '../database/firebase'
+import ActionSheet from 'react-native-actionsheet'
 
 class UpdateTask extends Component {
     constructor(props) {
@@ -131,6 +132,13 @@ class UpdateTask extends Component {
             .catch((error) => {})
     }
 
+    deleteTask = (key) => {
+        const dbRef = firebase.firestore().collection('tasks').doc(key)
+        dbRef.delete().then((res) => {
+            this.props.navigation.goBack()
+        })
+    }
+
     componentDidMount() {
         // const taskid = this.props.route.params.taskid
         // this.getTaskById('QbdXFnnICWgJrjxGEGSL').then((tasks) => {
@@ -159,6 +167,18 @@ class UpdateTask extends Component {
 
         return (
             <SafeAreaView>
+                <ActionSheet
+                    ref={(o) => (this.ActionSheet = o)}
+                    title={'Dữ liệu sẽ bị xoá vĩnh viễn!'}
+                    options={['Xoá công việc', 'Huỷ bỏ']}
+                    cancelButtonIndex={1}
+                    destructiveButtonIndex={0}
+                    onPress={(index) => {
+                        if (index == 0) {
+                            this.deleteTask(this.state.id)
+                        }
+                    }}
+                />
                 <View style={styles.screenContainer}>
                     {/* <Header
           title="Danh sách"
@@ -173,7 +193,7 @@ class UpdateTask extends Component {
                         date={
                             new Date(
                                 moment(selectedTask.time.toDate()).add(
-                                    -1,
+                                    0,
                                     'hours'
                                 )
                             )
@@ -186,14 +206,24 @@ class UpdateTask extends Component {
                                 height: visibleHeight,
                             }}
                         >
-                            <View style={styles.backButton}>
+                            <View
+                                style={
+                                    ([styles.backButton],
+                                    {
+                                        height: 35,
+                                        flexDirection: 'row',
+                                        justifyContent: 'space-between',
+                                        alignItems: 'center',
+                                    })
+                                }
+                            >
                                 <TouchableOpacity
                                     onPress={() =>
                                         this.props.navigation.goBack()
                                     }
                                     style={{
-                                        marginRight: vw / 2 - 120,
-                                        marginLeft: 20,
+                                        // marginRight: vw / 2 - 120,
+                                        marginLeft: 10,
                                     }}
                                 >
                                     <Image
@@ -203,8 +233,11 @@ class UpdateTask extends Component {
                                     />
                                 </TouchableOpacity>
                                 <Text style={styles.newTask}>
-                                    Cập nhật công việc
+                                    Chi tiết công việc
                                 </Text>
+                                <View style={{ marginRight: 30 }}>
+                                    <Text> </Text>
+                                </View>
                             </View>
                             <ScrollView
                                 contentContainerStyle={{
@@ -441,7 +474,7 @@ class UpdateTask extends Component {
                                             <Text style={{ fontSize: 19 }}>
                                                 {moment(
                                                     selectedTask.time.toDate()
-                                                ).format('h:mm A')}
+                                                ).format('HH:mm')}
                                             </Text>
                                         </TouchableOpacity>
                                     </View>
@@ -470,15 +503,23 @@ class UpdateTask extends Component {
                                                 }}
                                             >
                                                 <Text style={{ fontSize: 19 }}>
-                                                    {moment(alarmTime).format(
-                                                        'h:mm A'
-                                                    )}
+                                                    {moment(
+                                                        selectedTask.alarmTime.toDate()
+                                                    ).format('HH:mm')}
                                                 </Text>
                                             </View>
                                         </View>
                                         <Switch
-                                            value={isAlarmSet}
-                                            onValueChange={this.handleAlarmSet}
+                                            value={selectedTask.isAlarmSet}
+                                            onValueChange={() => {
+                                                const prevSelectedTask = {
+                                                    ...selectedTask,
+                                                }
+                                                prevSelectedTask.isAlarmSet = !selectedTask.isAlarmSet
+                                                this.setState({
+                                                    selectedTask: prevSelectedTask,
+                                                })
+                                            }}
                                         />
                                     </View>
                                     <View style={styles.seperator} />
@@ -509,9 +550,9 @@ class UpdateTask extends Component {
                                                 }
                                             >
                                                 <Text style={{ fontSize: 19 }}>
-                                                    {moment(alarmTime).format(
-                                                        'DD/MM/YYYY'
-                                                    )}
+                                                    {moment(
+                                                        selectedTask.time.toDate()
+                                                    ).format('DD/MM/YYYY')}
                                                 </Text>
                                             </TouchableOpacity>
                                         </View>
@@ -580,31 +621,57 @@ class UpdateTask extends Component {
                                         />
                                     </View>
                                 </View>
-                                <TouchableOpacity
-                                    disabled={selectedTask.title === ''}
-                                    style={[
-                                        styles.createTaskButton,
-                                        {
-                                            backgroundColor:
-                                                selectedTask.title === ''
-                                                    ? 'rgba(46, 102, 231,0.5)'
-                                                    : '#2E66E7',
-                                        },
-                                    ]}
-                                    onPress={async () => {
-                                        this.updateTask(this.state.selectedTask)
+                                <View
+                                    style={{
+                                        flexDirection: 'row',
+                                        justifyContent: 'center',
+                                        alignItems: 'center',
                                     }}
                                 >
-                                    <Text
-                                        style={{
-                                            fontSize: 18,
-                                            textAlign: 'center',
-                                            color: '#fff',
+                                    <TouchableOpacity
+                                        disabled={selectedTask.title === ''}
+                                        style={[
+                                            styles.updateButton,
+                                            {
+                                                backgroundColor:
+                                                    selectedTask.title === ''
+                                                        ? 'rgba(46, 102, 231,0.5)'
+                                                        : '#2E66E7',
+                                            },
+                                        ]}
+                                        onPress={async () => {
+                                            this.updateTask(
+                                                this.state.selectedTask
+                                            )
                                         }}
                                     >
-                                        Cập nhật công việc
-                                    </Text>
-                                </TouchableOpacity>
+                                        <Text
+                                            style={{
+                                                fontSize: 18,
+                                                textAlign: 'center',
+                                                color: '#fff',
+                                            }}
+                                        >
+                                            Cập nhật
+                                        </Text>
+                                    </TouchableOpacity>
+                                    <TouchableOpacity
+                                        style={styles.deleteButton}
+                                        onPress={async () => {
+                                            this.ActionSheet.show()
+                                        }}
+                                    >
+                                        <Text
+                                            style={{
+                                                fontSize: 18,
+                                                textAlign: 'center',
+                                                color: '#fff',
+                                            }}
+                                        >
+                                            Xoá
+                                        </Text>
+                                    </TouchableOpacity>
+                                </View>
                             </ScrollView>
                         </View>
                     </View>
@@ -746,5 +813,24 @@ const styles = StyleSheet.create({
         flex: 1,
         paddingTop: 1,
         backgroundColor: '#eaeef7',
+    },
+    deleteButton: {
+        backgroundColor: '#ff6347',
+        width: 150,
+        height: 38,
+        alignSelf: 'center',
+        marginTop: 20,
+        borderRadius: 5,
+        justifyContent: 'center',
+    },
+    updateButton: {
+        backgroundColor: '#2E66E7',
+        width: 150,
+        height: 38,
+        alignSelf: 'center',
+        marginTop: 20,
+        borderRadius: 5,
+        justifyContent: 'center',
+        marginRight: 20,
     },
 })

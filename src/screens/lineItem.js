@@ -76,6 +76,7 @@ export default class Example extends Component {
     renderDetail(rowData, sectionID, rowID) {
         let title = <Text style={[styles.title]}>{rowData.title}</Text>
         var desc = null
+        console.log(rowData)
         if (rowData.description && rowData.imageUrl)
             desc = (
                 <View style={styles.descriptionContainer}>

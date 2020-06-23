@@ -32,25 +32,25 @@ const renderDateOnWeek = (num) => {
     // Lấy tên thứ của ngày hiện tại
     switch (current_day) {
         case 0:
-            day_name = 'Chủ nhật'
+            day_name = 'CN'
             break
         case 1:
-            day_name = 'Thứ hai'
+            day_name = 'Thứ 2'
             break
         case 2:
-            day_name = 'Thứ ba'
+            day_name = 'Thứ 3'
             break
         case 3:
-            day_name = 'Thứ tư'
+            day_name = 'Thứ 4'
             break
         case 4:
-            day_name = 'Thứ năm'
+            day_name = 'Thứ 5'
             break
         case 5:
-            day_name = 'Thứ sáu'
+            day_name = 'Thứ 6'
             break
         case 6:
-            day_name = 'Thứ bảy'
+            day_name = 'Thứ 7'
     }
     return day_name
 }
@@ -65,13 +65,7 @@ function nextDate(num, b) {
         '/' +
         moment(nextday).format('DD')
     if (b) {
-        return (
-            moment(nextday).format('DD') +
-            '/' +
-            moment(nextday).format('MM') +
-            '/' +
-            moment(nextday).format('YYYY')
-        )
+        return moment(nextday).format('DD') + '/' + moment(nextday).format('MM')
     }
     return stringday
 }
@@ -80,7 +74,7 @@ export default class calendarscreen extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            uid: '',
+            uid: firebase.auth().currentUser.uid,
             number: 0,
             arrS0: [],
             arrS1: [],
@@ -493,117 +487,110 @@ export default class calendarscreen extends Component {
     }
 
     componentDidMount() {
-        this.setState(
-            {
-                uid: firebase.auth().currentUser.uid,
-            },
-            () => {
-                this.getTaskS0(
-                    this.state.uid,
-                    nextDate(0 + this.state.number),
-                    nextDate(1 + this.state.number)
-                )
-                this.getTaskT0(
-                    this.state.uid,
-                    nextDate(0 + this.state.number),
-                    nextDate(1 + this.state.number)
-                )
-                this.getTaskC0(
-                    this.state.uid,
-                    nextDate(0 + this.state.number),
-                    nextDate(1 + this.state.number)
-                )
-                this.getTaskS1(
-                    this.state.uid,
-                    nextDate(1 + this.state.number),
-                    nextDate(2 + this.state.number)
-                )
-                this.getTaskT1(
-                    this.state.uid,
-                    nextDate(1 + this.state.number),
-                    nextDate(2 + this.state.number)
-                )
-                this.getTaskC1(
-                    this.state.uid,
-                    nextDate(1 + this.state.number),
-                    nextDate(2 + this.state.number)
-                )
-                this.getTaskS2(
-                    this.state.uid,
-                    nextDate(2 + this.state.number),
-                    nextDate(3 + this.state.number)
-                )
-                this.getTaskT2(
-                    this.state.uid,
-                    nextDate(2 + this.state.number),
-                    nextDate(3 + this.state.number)
-                )
-                this.getTaskC2(
-                    this.state.uid,
-                    nextDate(2 + this.state.number),
-                    nextDate(3 + this.state.number)
-                )
-                this.getTaskS3(
-                    this.state.uid,
-                    nextDate(3 + this.state.number),
-                    nextDate(4 + this.state.number)
-                )
-                this.getTaskT3(
-                    this.state.uid,
-                    nextDate(3 + this.state.number),
-                    nextDate(4 + this.state.number)
-                )
-                this.getTaskC3(
-                    this.state.uid,
-                    nextDate(3 + this.state.number),
-                    nextDate(4 + this.state.number)
-                )
-                this.getTaskS4(
-                    this.state.uid,
-                    nextDate(4 + this.state.number),
-                    nextDate(5 + this.state.number)
-                )
-                this.getTaskT4(
-                    this.state.uid,
-                    nextDate(4 + this.state.number),
-                    nextDate(5 + this.state.number)
-                )
-                this.getTaskC4(
-                    this.state.uid,
-                    nextDate(4 + this.state.number),
-                    nextDate(5 + this.state.number)
-                )
-                this.getTaskS5(
-                    this.state.uid,
-                    nextDate(5 + this.state.number),
-                    nextDate(6 + this.state.number)
-                )
-                this.getTaskT5(
-                    this.state.uid,
-                    nextDate(5 + this.state.number),
-                    nextDate(6 + this.state.number)
-                )
-                this.getTaskC5(
-                    this.state.uid,
-                    nextDate(5 + this.state.number),
-                    nextDate(6 + this.state.number)
-                )
-                this.getTaskS6(
-                    this.state.uid,
-                    nextDate(6 + this.state.number),
-                    nextDate(7 + this.state.number)
-                )
-                this.getTaskT6(
-                    this.state.uid,
-                    nextDate(6 + this.state.number),
-                    nextDate(7 + this.state.number)
-                )
-                this.getTaskC6(
-                    this.state.uid,
-                    nextDate(6 + this.state.number),
-                    nextDate(7 + this.state.number)
-                )
-            }
+        this.getTaskS0(
+            this.state.uid,
+            nextDate(0 + this.state.number),
+            nextDate(1 + this.state.number)
+        )
+        this.getTaskT0(
+            this.state.uid,
+            nextDate(0 + this.state.number),
+            nextDate(1 + this.state.number)
+        )
+        this.getTaskC0(
+            this.state.uid,
+            nextDate(0 + this.state.number),
+            nextDate(1 + this.state.number)
+        )
+        this.getTaskS1(
+            this.state.uid,
+            nextDate(1 + this.state.number),
+            nextDate(2 + this.state.number)
+        )
+        this.getTaskT1(
+            this.state.uid,
+            nextDate(1 + this.state.number),
+            nextDate(2 + this.state.number)
+        )
+        this.getTaskC1(
+            this.state.uid,
+            nextDate(1 + this.state.number),
+            nextDate(2 + this.state.number)
+        )
+        this.getTaskS2(
+            this.state.uid,
+            nextDate(2 + this.state.number),
+            nextDate(3 + this.state.number)
+        )
+        this.getTaskT2(
+            this.state.uid,
+            nextDate(2 + this.state.number),
+            nextDate(3 + this.state.number)
+        )
+        this.getTaskC2(
+            this.state.uid,
+            nextDate(2 + this.state.number),
+            nextDate(3 + this.state.number)
+        )
+        this.getTaskS3(
+            this.state.uid,
+            nextDate(3 + this.state.number),
+            nextDate(4 + this.state.number)
+        )
+        this.getTaskT3(
+            this.state.uid,
+            nextDate(3 + this.state.number),
+            nextDate(4 + this.state.number)
+        )
+        this.getTaskC3(
+            this.state.uid,
+            nextDate(3 + this.state.number),
+            nextDate(4 + this.state.number)
+        )
+        this.getTaskS4(
+            this.state.uid,
+            nextDate(4 + this.state.number),
+            nextDate(5 + this.state.number)
+        )
+        this.getTaskT4(
+            this.state.uid,
+            nextDate(4 + this.state.number),
+            nextDate(5 + this.state.number)
+        )
+        this.getTaskC4(
+            this.state.uid,
+            nextDate(4 + this.state.number),
+            nextDate(5 + this.state.number)
+        )
+        this.getTaskS5(
+            this.state.uid,
+            nextDate(5 + this.state.number),
+            nextDate(6 + this.state.number)
+        )
+        this.getTaskT5(
+            this.state.uid,
+            nextDate(5 + this.state.number),
+            nextDate(6 + this.state.number)
+        )
+        this.getTaskC5(
+            this.state.uid,
+            nextDate(5 + this.state.number),
+            nextDate(6 + this.state.number)
+        )
+        this.getTaskS6(
+            this.state.uid,
+            nextDate(6 + this.state.number),
+            nextDate(7 + this.state.number)
+        )
+        this.getTaskT6(
+            this.state.uid,
+            nextDate(6 + this.state.number),
+            nextDate(7 + this.state.number)
+        )
+        this.getTaskC6(
+            this.state.uid,
+            nextDate(6 + this.state.number),
+            nextDate(7 + this.state.number)
         )
     }
 
@@ -624,7 +611,7 @@ export default class calendarscreen extends Component {
                 />
                 <View
                     style={{
-                        height: 50,
+                        height: 35,
                         // backgroundColor: '#EFEFEF',
                         flexDirection: 'row',
                         alignItems: 'center',
@@ -1023,7 +1010,7 @@ export default class calendarscreen extends Component {
                     </View>
                 </View>
                 <View style={styles.container}>
-                    <View>
+                    {/* <View>
                         <View style={styles.colmday}>
                             <View style={[styles.headercolm, {}]}>
                                 <TouchableOpacity
@@ -1064,1305 +1051,1251 @@ export default class calendarscreen extends Component {
                                 <Text>Chiều</Text>
                             </View>
                         </View>
-                    </View>
+                    </View> */}
                     <View style={{ flex: 1 }}>
-                        <ScrollView horizontal={true}>
-                            <View style={styles.calendar}>
-                                <View style={styles.colmday}>
+                        {/* <ScrollView horizontal={true}> */}
+                        <View style={styles.calendar}>
+                            <View style={styles.colmday}>
+                                <View
+                                    style={{
+                                        height: 50,
+                                        backgroundColor: '#EFEFEF',
+                                    }}
+                                >
                                     <View
                                         style={{
-                                            height: 50,
-                                            backgroundColor: '#EFEFEF',
+                                            height: 5,
+                                            backgroundColor: '#0074DF',
                                         }}
-                                    >
-                                        <View
+                                    />
+                                    <View style={styles.stylecolunm}>
+                                        <Text
                                             style={{
-                                                height: 5,
-                                                backgroundColor: '#0074DF',
+                                                fontWeight: '600',
+                                                color: '#0074DF',
                                             }}
-                                        />
-                                        <View style={styles.stylecolunm}>
-                                            <Text
-                                                style={{
-                                                    fontSize: 20,
-                                                    fontWeight: '600',
-                                                    color: '#0074DF',
-                                                }}
-                                            >
-                                                {renderDateOnWeek(
-                                                    0 + this.state.number
+                                        >
+                                            {renderDateOnWeek(
+                                                0 + this.state.number
+                                            )}
+                                        </Text>
+                                        <Text
+                                            style={{
+                                                fontSize: 12,
+                                                fontWeight: '300',
+                                                color: '#0074DF',
+                                            }}
+                                        >
+                                            {nextDate(
+                                                0 + this.state.number,
+                                                true
+                                            )}
+                                        </Text>
+                                    </View>
+                                </View>
+                                <View style={styles.stylecolunm}>
+                                    {/* S0 */}
+                                    <ScrollView>
+                                        <View>
+                                            <FlatList
+                                                data={this.state.arrS0}
+                                                renderItem={({
+                                                    item,
+                                                    index,
+                                                }) => (
+                                                    <TouchableOpacity
+                                                        onPress={() => {
+                                                            this.props.navigation.navigate(
+                                                                'UpdateTask',
+                                                                {
+                                                                    taskid:
+                                                                        item.key,
+                                                                    data:
+                                                                        item.data,
+                                                                }
+                                                            )
+                                                        }}
+                                                        key={item.key}
+                                                    >
+                                                        <TaskItem
+                                                            title={item.title}
+                                                            time={item.time.toDate()}
+                                                            index={index}
+                                                            isCompleted={
+                                                                item.isCompleted
+                                                            }
+                                                            onRightPress={() => {
+                                                                // this.deleteGroup(item.key);
+                                                                this.setState({
+                                                                    keyTaskCurrent:
+                                                                        item.key,
+                                                                })
+                                                                this.ActionSheet.show()
+                                                            }}
+                                                            colorid={
+                                                                item.colorid
+                                                            }
+                                                        />
+                                                    </TouchableOpacity>
                                                 )}
-                                            </Text>
-                                            <Text
-                                                style={{
-                                                    fontSize: 12,
-                                                    fontWeight: '300',
-                                                    color: '#0074DF',
-                                                }}
-                                            >
-                                                {nextDate(
-                                                    0 + this.state.number,
-                                                    true
-                                                )}
-                                            </Text>
+                                                keyExtractor={(item) =>
+                                                    item.key
+                                                }
+                                            />
                                         </View>
-                                    </View>
-                                    <View style={styles.stylecolunm}>
-                                        {/* S0 */}
-                                        <ScrollView>
-                                            <View>
-                                                <FlatList
-                                                    data={this.state.arrS0}
-                                                    renderItem={({
-                                                        item,
-                                                        index,
-                                                    }) => (
-                                                        <TouchableOpacity
-                                                            onPress={() => {
-                                                                this.props.navigation.navigate(
-                                                                    'UpdateTask',
-                                                                    {
-                                                                        taskid:
-                                                                            item.key,
-                                                                        data:
-                                                                            item.data,
-                                                                    }
-                                                                )
-                                                            }}
-                                                            key={item.key}
-                                                        >
-                                                            <TaskItem
-                                                                title={
-                                                                    item.title
-                                                                }
-                                                                color={
-                                                                    item.color
-                                                                }
-                                                                time={item.time.toDate()}
-                                                                index={index}
-                                                                onRightPress={() => {
-                                                                    // this.deleteGroup(item.key);
-                                                                    this.setState(
-                                                                        {
-                                                                            keyTaskCurrent:
-                                                                                item.key,
-                                                                        }
-                                                                    )
-                                                                    this.ActionSheet.show()
-                                                                }}
-                                                            />
-                                                        </TouchableOpacity>
-                                                    )}
-                                                    keyExtractor={(item) =>
-                                                        item.key
-                                                    }
-                                                />
-                                            </View>
-                                        </ScrollView>
-                                    </View>
-                                    <View style={styles.dividercolunm} />
-                                    <View style={styles.stylecolunm}>
-                                        {/* T0 */}
-                                        <ScrollView>
-                                            <View>
-                                                <FlatList
-                                                    data={this.state.arrT0}
-                                                    renderItem={({
-                                                        item,
-                                                        index,
-                                                    }) => (
-                                                        <TouchableOpacity
-                                                            onPress={() => {
-                                                                this.props.navigation.navigate(
-                                                                    'UpdateTask',
-                                                                    {
-                                                                        taskid:
-                                                                            item.key,
-                                                                        data:
-                                                                            item.data,
-                                                                    }
-                                                                )
-                                                            }}
-                                                            key={item.key}
-                                                        >
-                                                            <TaskItem
-                                                                title={
-                                                                    item.title
-                                                                }
-                                                                color={
-                                                                    item.color
-                                                                }
-                                                                time={item.time.toDate()}
-                                                                index={index}
-                                                                onRightPress={() => {
-                                                                    // this.deleteGroup(item.key);
-                                                                    this.setState(
-                                                                        {
-                                                                            keyTaskCurrent:
-                                                                                item.key,
-                                                                        }
-                                                                    )
-                                                                    this.ActionSheet.show()
-                                                                }}
-                                                            />
-                                                        </TouchableOpacity>
-                                                    )}
-                                                    keyExtractor={(item) =>
-                                                        item.key
-                                                    }
-                                                />
-                                            </View>
-                                        </ScrollView>
-                                    </View>
-                                    <View style={styles.dividercolunm} />
-                                    <View style={styles.stylecolunm}>
-                                        {/* <Text>Chiều</Text> */}
-                                        <ScrollView>
-                                            <View>
-                                                <FlatList
-                                                    data={this.state.arrC0}
-                                                    renderItem={({
-                                                        item,
-                                                        index,
-                                                    }) => (
-                                                        <TouchableOpacity
-                                                            onPress={() => {
-                                                                this.props.navigation.navigate(
-                                                                    'UpdateTask',
-                                                                    {
-                                                                        taskid:
-                                                                            item.key,
-                                                                        data:
-                                                                            item.data,
-                                                                    }
-                                                                )
-                                                            }}
-                                                            key={item.key}
-                                                        >
-                                                            <TaskItem
-                                                                title={
-                                                                    item.title
-                                                                }
-                                                                color={
-                                                                    item.color
-                                                                }
-                                                                time={item.time.toDate()}
-                                                                index={index}
-                                                                onRightPress={() => {
-                                                                    // this.deleteGroup(item.key);
-                                                                    this.setState(
-                                                                        {
-                                                                            keyTaskCurrent:
-                                                                                item.key,
-                                                                        }
-                                                                    )
-                                                                    this.ActionSheet.show()
-                                                                }}
-                                                            />
-                                                        </TouchableOpacity>
-                                                    )}
-                                                    keyExtractor={(item) =>
-                                                        item.key
-                                                    }
-                                                />
-                                            </View>
-                                        </ScrollView>
-                                    </View>
+                                    </ScrollView>
                                 </View>
-                                <View style={styles.divider} />
-                                <View style={styles.colmday}>
-                                    <View
-                                        style={[
-                                            styles.headercolm,
-                                            { backgroundColor: '#B0D9F8' },
-                                        ]}
-                                    >
-                                        <Text style={styles.textHeaderColunm}>
-                                            {renderDateOnWeek(
-                                                1 + this.state.number
-                                            )}
-                                        </Text>
-                                        <Text
-                                            style={styles.textHeaderColunmDate}
-                                        >
-                                            {nextDate(
-                                                1 + this.state.number,
-                                                true
-                                            )}
-                                        </Text>
-                                    </View>
-                                    <View style={styles.stylecolunm}>
-                                        {/* <Text>Sáng</Text> */}
-                                        <ScrollView>
-                                            <View>
-                                                <FlatList
-                                                    data={this.state.arrS1}
-                                                    renderItem={({
-                                                        item,
-                                                        index,
-                                                    }) => (
-                                                        <TouchableOpacity
-                                                            onPress={() => {
-                                                                this.props.navigation.navigate(
-                                                                    'UpdateTask',
-                                                                    {
-                                                                        taskid:
-                                                                            item.key,
-                                                                        data:
-                                                                            item.data,
-                                                                    }
-                                                                )
+                                <View style={styles.dividercolunm} />
+                                <View style={styles.stylecolunm}>
+                                    {/* T0 */}
+                                    <ScrollView>
+                                        <View>
+                                            <FlatList
+                                                data={this.state.arrT0}
+                                                renderItem={({
+                                                    item,
+                                                    index,
+                                                }) => (
+                                                    <TouchableOpacity
+                                                        onPress={() => {
+                                                            this.props.navigation.navigate(
+                                                                'UpdateTask',
+                                                                {
+                                                                    taskid:
+                                                                        item.key,
+                                                                    data:
+                                                                        item.data,
+                                                                }
+                                                            )
+                                                        }}
+                                                        key={item.key}
+                                                    >
+                                                        <TaskItem
+                                                            title={item.title}
+                                                            colorid={
+                                                                item.colorid
+                                                            }
+                                                            time={item.time.toDate()}
+                                                            index={index}
+                                                            isCompleted={
+                                                                item.isCompleted
+                                                            }
+                                                            onRightPress={() => {
+                                                                // this.deleteGroup(item.key);
+                                                                this.setState({
+                                                                    keyTaskCurrent:
+                                                                        item.key,
+                                                                })
+                                                                this.ActionSheet.show()
                                                             }}
-                                                            key={item.key}
-                                                        >
-                                                            <TaskItem
-                                                                title={
-                                                                    item.title
-                                                                }
-                                                                color={
-                                                                    item.color
-                                                                }
-                                                                time={item.time.toDate()}
-                                                                index={index}
-                                                                onRightPress={() => {
-                                                                    // this.deleteGroup(item.key);
-                                                                    this.setState(
-                                                                        {
-                                                                            keyTaskCurrent:
-                                                                                item.key,
-                                                                        }
-                                                                    )
-                                                                    this.ActionSheet.show()
-                                                                }}
-                                                            />
-                                                        </TouchableOpacity>
-                                                    )}
-                                                    keyExtractor={(item) =>
-                                                        item.key
-                                                    }
-                                                />
-                                            </View>
-                                        </ScrollView>
-                                    </View>
-                                    <View style={styles.dividercolunm} />
-                                    <View style={styles.stylecolunm}>
-                                        {/* <Text>Trưa</Text> */}
-                                        <ScrollView>
-                                            <View>
-                                                <FlatList
-                                                    data={this.state.arrT1}
-                                                    renderItem={({
-                                                        item,
-                                                        index,
-                                                    }) => (
-                                                        <TouchableOpacity
-                                                            onPress={() => {
-                                                                this.props.navigation.navigate(
-                                                                    'UpdateTask',
-                                                                    {
-                                                                        taskid:
-                                                                            item.key,
-                                                                        data:
-                                                                            item.data,
-                                                                    }
-                                                                )
-                                                            }}
-                                                            key={item.key}
-                                                        >
-                                                            <TaskItem
-                                                                title={
-                                                                    item.title
-                                                                }
-                                                                color={
-                                                                    item.color
-                                                                }
-                                                                time={item.time.toDate()}
-                                                                index={index}
-                                                                onRightPress={() => {
-                                                                    this.setState(
-                                                                        {
-                                                                            keyTaskCurrent:
-                                                                                item.key,
-                                                                        }
-                                                                    )
-                                                                    this.ActionSheet.show()
-                                                                }}
-                                                            />
-                                                        </TouchableOpacity>
-                                                    )}
-                                                    keyExtractor={(item) =>
-                                                        item.key
-                                                    }
-                                                />
-                                            </View>
-                                        </ScrollView>
-                                    </View>
-                                    <View style={styles.dividercolunm} />
-                                    <View style={styles.stylecolunm}>
-                                        {/* <Text>Chiều</Text> */}
-                                        <ScrollView>
-                                            <View>
-                                                <FlatList
-                                                    data={this.state.arrC1}
-                                                    renderItem={({
-                                                        item,
-                                                        index,
-                                                    }) => (
-                                                        <TouchableOpacity
-                                                            onPress={() => {
-                                                                this.props.navigation.navigate(
-                                                                    'UpdateTask',
-                                                                    {
-                                                                        taskid:
-                                                                            item.key,
-                                                                        data:
-                                                                            item.data,
-                                                                    }
-                                                                )
-                                                            }}
-                                                            key={item.key}
-                                                        >
-                                                            <TaskItem
-                                                                title={
-                                                                    item.title
-                                                                }
-                                                                color={
-                                                                    item.color
-                                                                }
-                                                                time={item.time.toDate()}
-                                                                index={index}
-                                                                onRightPress={() => {
-                                                                    this.setState(
-                                                                        {
-                                                                            keyTaskCurrent:
-                                                                                item.key,
-                                                                        }
-                                                                    )
-                                                                    this.ActionSheet.show()
-                                                                }}
-                                                            />
-                                                        </TouchableOpacity>
-                                                    )}
-                                                    keyExtractor={(item) =>
-                                                        item.key
-                                                    }
-                                                />
-                                            </View>
-                                        </ScrollView>
-                                    </View>
+                                                        />
+                                                    </TouchableOpacity>
+                                                )}
+                                                keyExtractor={(item) =>
+                                                    item.key
+                                                }
+                                            />
+                                        </View>
+                                    </ScrollView>
                                 </View>
-                                <View style={styles.divider} />
-                                <View style={styles.colmday}>
-                                    <View style={styles.headercolm}>
-                                        <Text style={styles.textHeaderColunm}>
-                                            {renderDateOnWeek(
-                                                2 + this.state.number
-                                            )}
-                                        </Text>
-                                        <Text
-                                            style={styles.textHeaderColunmDate}
-                                        >
-                                            {nextDate(
-                                                2 + this.state.number,
-                                                true
-                                            )}
-                                        </Text>
-                                    </View>
-                                    <View style={styles.stylecolunm}>
-                                        {/* <Text>Sáng</Text> */}
-                                        <ScrollView>
-                                            <View>
-                                                <FlatList
-                                                    data={this.state.arrS2}
-                                                    renderItem={({
-                                                        item,
-                                                        index,
-                                                    }) => (
-                                                        <TouchableOpacity
-                                                            onPress={() => {
-                                                                this.props.navigation.navigate(
-                                                                    'UpdateTask',
-                                                                    {
-                                                                        taskid:
-                                                                            item.key,
-                                                                        data:
-                                                                            item.data,
-                                                                    }
-                                                                )
+                                <View style={styles.dividercolunm} />
+                                <View style={styles.stylecolunm}>
+                                    {/* <Text>Chiều</Text> */}
+                                    <ScrollView>
+                                        <View>
+                                            <FlatList
+                                                data={this.state.arrC0}
+                                                renderItem={({
+                                                    item,
+                                                    index,
+                                                }) => (
+                                                    <TouchableOpacity
+                                                        onPress={() => {
+                                                            this.props.navigation.navigate(
+                                                                'UpdateTask',
+                                                                {
+                                                                    taskid:
+                                                                        item.key,
+                                                                    data:
+                                                                        item.data,
+                                                                }
+                                                            )
+                                                        }}
+                                                        key={item.key}
+                                                    >
+                                                        <TaskItem
+                                                            title={item.title}
+                                                            colorid={
+                                                                item.colorid
+                                                            }
+                                                            time={item.time.toDate()}
+                                                            index={index}
+                                                            isCompleted={
+                                                                item.isCompleted
+                                                            }
+                                                            colorid={
+                                                                item.colorid
+                                                            }
+                                                            onRightPress={() => {
+                                                                // this.deleteGroup(item.key);
+                                                                this.setState({
+                                                                    keyTaskCurrent:
+                                                                        item.key,
+                                                                })
+                                                                this.ActionSheet.show()
                                                             }}
-                                                            key={item.key}
-                                                        >
-                                                            <TaskItem
-                                                                title={
-                                                                    item.title
-                                                                }
-                                                                color={
-                                                                    item.color
-                                                                }
-                                                                time={item.time.toDate()}
-                                                                index={index}
-                                                                onRightPress={() => {
-                                                                    // this.deleteGroup(item.key);
-                                                                    this.setState(
-                                                                        {
-                                                                            keyTaskCurrent:
-                                                                                item.key,
-                                                                        }
-                                                                    )
-                                                                    this.ActionSheet.show()
-                                                                }}
-                                                            />
-                                                        </TouchableOpacity>
-                                                    )}
-                                                    keyExtractor={(item) =>
-                                                        item.key
-                                                    }
-                                                />
-                                            </View>
-                                        </ScrollView>
-                                    </View>
-                                    <View style={styles.dividercolunm} />
-                                    <View style={styles.stylecolunm}>
-                                        {/* <Text>Trưa</Text> */}
-                                        <ScrollView>
-                                            <View>
-                                                <FlatList
-                                                    data={this.state.arrT2}
-                                                    renderItem={({
-                                                        item,
-                                                        index,
-                                                    }) => (
-                                                        <TouchableOpacity
-                                                            onPress={() => {
-                                                                this.props.navigation.navigate(
-                                                                    'UpdateTask',
-                                                                    {
-                                                                        taskid:
-                                                                            item.key,
-                                                                        data:
-                                                                            item.data,
-                                                                    }
-                                                                )
-                                                            }}
-                                                            key={item.key}
-                                                        >
-                                                            <TaskItem
-                                                                title={
-                                                                    item.title
-                                                                }
-                                                                color={
-                                                                    item.color
-                                                                }
-                                                                time={item.time.toDate()}
-                                                                index={index}
-                                                                onRightPress={() => {
-                                                                    // this.deleteGroup(item.key);
-                                                                    this.setState(
-                                                                        {
-                                                                            keyTaskCurrent:
-                                                                                item.key,
-                                                                        }
-                                                                    )
-                                                                    this.ActionSheet.show()
-                                                                }}
-                                                            />
-                                                        </TouchableOpacity>
-                                                    )}
-                                                    keyExtractor={(item) =>
-                                                        item.key
-                                                    }
-                                                />
-                                            </View>
-                                        </ScrollView>
-                                    </View>
-                                    <View style={styles.dividercolunm} />
-                                    <View style={styles.stylecolunm}>
-                                        {/* <Text>Chiều</Text> */}
-                                        <ScrollView>
-                                            <View>
-                                                <FlatList
-                                                    data={this.state.arrC2}
-                                                    renderItem={({
-                                                        item,
-                                                        index,
-                                                    }) => (
-                                                        <TouchableOpacity
-                                                            onPress={() => {
-                                                                this.props.navigation.navigate(
-                                                                    'UpdateTask',
-                                                                    {
-                                                                        taskid:
-                                                                            item.key,
-                                                                        data:
-                                                                            item.data,
-                                                                    }
-                                                                )
-                                                            }}
-                                                            key={item.key}
-                                                        >
-                                                            <TaskItem
-                                                                title={
-                                                                    item.title
-                                                                }
-                                                                color={
-                                                                    item.color
-                                                                }
-                                                                time={item.time.toDate()}
-                                                                index={index}
-                                                                onRightPress={() => {
-                                                                    // this.deleteGroup(item.key);
-                                                                    this.setState(
-                                                                        {
-                                                                            keyTaskCurrent:
-                                                                                item.key,
-                                                                        }
-                                                                    )
-                                                                    this.ActionSheet.show()
-                                                                }}
-                                                            />
-                                                        </TouchableOpacity>
-                                                    )}
-                                                    keyExtractor={(item) =>
-                                                        item.key
-                                                    }
-                                                />
-                                            </View>
-                                        </ScrollView>
-                                    </View>
-                                </View>
-                                <View style={styles.divider} />
-                                <View style={styles.colmday}>
-                                    <View
-                                        style={[
-                                            styles.headercolm,
-                                            { backgroundColor: '#B0D9F8' },
-                                        ]}
-                                    >
-                                        <Text
-                                            style={[
-                                                styles.textHeaderColunm,
-                                                {},
-                                            ]}
-                                        >
-                                            {renderDateOnWeek(
-                                                3 + this.state.number
-                                            )}
-                                        </Text>
-                                        <Text
-                                            style={styles.textHeaderColunmDate}
-                                        >
-                                            {nextDate(
-                                                3 + this.state.number,
-                                                true
-                                            )}
-                                        </Text>
-                                    </View>
-                                    <View style={styles.stylecolunm}>
-                                        {/* <Text>Sáng</Text> */}
-                                        <ScrollView>
-                                            <View>
-                                                <FlatList
-                                                    data={this.state.arrS3}
-                                                    renderItem={({
-                                                        item,
-                                                        index,
-                                                    }) => (
-                                                        <TouchableOpacity
-                                                            onPress={() => {
-                                                                this.props.navigation.navigate(
-                                                                    'UpdateTask',
-                                                                    {
-                                                                        taskid:
-                                                                            item.key,
-                                                                        data:
-                                                                            item.data,
-                                                                    }
-                                                                )
-                                                            }}
-                                                            key={item.key}
-                                                        >
-                                                            <TaskItem
-                                                                title={
-                                                                    item.title
-                                                                }
-                                                                color={
-                                                                    item.color
-                                                                }
-                                                                time={item.time.toDate()}
-                                                                index={index}
-                                                                onRightPress={() => {
-                                                                    // this.deleteGroup(item.key);
-                                                                    this.setState(
-                                                                        {
-                                                                            keyTaskCurrent:
-                                                                                item.key,
-                                                                        }
-                                                                    )
-                                                                    this.ActionSheet.show()
-                                                                }}
-                                                            />
-                                                        </TouchableOpacity>
-                                                    )}
-                                                    keyExtractor={(item) =>
-                                                        item.key
-                                                    }
-                                                />
-                                            </View>
-                                        </ScrollView>
-                                    </View>
-                                    <View style={styles.dividercolunm} />
-                                    <View style={styles.stylecolunm}>
-                                        {/* <Text>Trưa</Text> */}
-                                        <ScrollView>
-                                            <View>
-                                                <FlatList
-                                                    data={this.state.arrT3}
-                                                    renderItem={({
-                                                        item,
-                                                        index,
-                                                    }) => (
-                                                        <TouchableOpacity
-                                                            onPress={() => {
-                                                                this.props.navigation.navigate(
-                                                                    'UpdateTask',
-                                                                    {
-                                                                        taskid:
-                                                                            item.key,
-                                                                        data:
-                                                                            item.data,
-                                                                    }
-                                                                )
-                                                            }}
-                                                            key={item.key}
-                                                        >
-                                                            <TaskItem
-                                                                title={
-                                                                    item.title
-                                                                }
-                                                                color={
-                                                                    item.color
-                                                                }
-                                                                time={item.time.toDate()}
-                                                                index={index}
-                                                                onRightPress={() => {
-                                                                    // this.deleteGroup(item.key);
-                                                                    this.setState(
-                                                                        {
-                                                                            keyTaskCurrent:
-                                                                                item.key,
-                                                                        }
-                                                                    )
-                                                                    this.ActionSheet.show()
-                                                                }}
-                                                            />
-                                                        </TouchableOpacity>
-                                                    )}
-                                                    keyExtractor={(item) =>
-                                                        item.key
-                                                    }
-                                                />
-                                            </View>
-                                        </ScrollView>
-                                    </View>
-                                    <View style={styles.dividercolunm} />
-                                    <View style={styles.stylecolunm}>
-                                        {/* <Text>Chiều</Text> */}
-                                        <ScrollView>
-                                            <View>
-                                                <FlatList
-                                                    data={this.state.arrC3}
-                                                    renderItem={({
-                                                        item,
-                                                        index,
-                                                    }) => (
-                                                        <TouchableOpacity
-                                                            onPress={() => {
-                                                                this.props.navigation.navigate(
-                                                                    'UpdateTask',
-                                                                    {
-                                                                        taskid:
-                                                                            item.key,
-                                                                        data:
-                                                                            item.data,
-                                                                    }
-                                                                )
-                                                            }}
-                                                            key={item.key}
-                                                        >
-                                                            <TaskItem
-                                                                title={
-                                                                    item.title
-                                                                }
-                                                                color={
-                                                                    item.color
-                                                                }
-                                                                time={item.time.toDate()}
-                                                                index={index}
-                                                                onRightPress={() => {
-                                                                    // this.deleteGroup(item.key);
-                                                                    this.setState(
-                                                                        {
-                                                                            keyTaskCurrent:
-                                                                                item.key,
-                                                                        }
-                                                                    )
-                                                                    this.ActionSheet.show()
-                                                                }}
-                                                            />
-                                                        </TouchableOpacity>
-                                                    )}
-                                                    keyExtractor={(item) =>
-                                                        item.key
-                                                    }
-                                                />
-                                            </View>
-                                        </ScrollView>
-                                    </View>
-                                </View>
-                                <View style={styles.divider} />
-                                <View style={styles.colmday}>
-                                    <View style={styles.headercolm}>
-                                        <Text style={styles.textHeaderColunm}>
-                                            {renderDateOnWeek(
-                                                4 + this.state.number
-                                            )}
-                                        </Text>
-                                        <Text
-                                            style={styles.textHeaderColunmDate}
-                                        >
-                                            {nextDate(
-                                                4 + this.state.number,
-                                                true
-                                            )}
-                                        </Text>
-                                    </View>
-                                    <View style={styles.stylecolunm}>
-                                        {/* <Text>Sáng</Text> */}
-                                        <ScrollView>
-                                            <View>
-                                                <FlatList
-                                                    data={this.state.arrS4}
-                                                    renderItem={({
-                                                        item,
-                                                        index,
-                                                    }) => (
-                                                        <TouchableOpacity
-                                                            onPress={() => {
-                                                                this.props.navigation.navigate(
-                                                                    'UpdateTask',
-                                                                    {
-                                                                        taskid:
-                                                                            item.key,
-                                                                        data:
-                                                                            item.data,
-                                                                    }
-                                                                )
-                                                            }}
-                                                            key={item.key}
-                                                        >
-                                                            <TaskItem
-                                                                title={
-                                                                    item.title
-                                                                }
-                                                                color={
-                                                                    item.color
-                                                                }
-                                                                time={item.time.toDate()}
-                                                                index={index}
-                                                                onRightPress={() => {
-                                                                    // this.deleteGroup(item.key);
-                                                                    this.setState(
-                                                                        {
-                                                                            keyTaskCurrent:
-                                                                                item.key,
-                                                                        }
-                                                                    )
-                                                                    this.ActionSheet.show()
-                                                                }}
-                                                            />
-                                                        </TouchableOpacity>
-                                                    )}
-                                                    keyExtractor={(item) =>
-                                                        item.key
-                                                    }
-                                                />
-                                            </View>
-                                        </ScrollView>
-                                    </View>
-                                    <View style={styles.dividercolunm} />
-                                    <View style={styles.stylecolunm}>
-                                        {/* <Text>Trưa</Text> */}
-                                        <ScrollView>
-                                            <View>
-                                                <FlatList
-                                                    data={this.state.arrT4}
-                                                    renderItem={({
-                                                        item,
-                                                        index,
-                                                    }) => (
-                                                        <TouchableOpacity
-                                                            onPress={() => {
-                                                                this.props.navigation.navigate(
-                                                                    'UpdateTask',
-                                                                    {
-                                                                        taskid:
-                                                                            item.key,
-                                                                        data:
-                                                                            item.data,
-                                                                    }
-                                                                )
-                                                            }}
-                                                            key={item.key}
-                                                        >
-                                                            <TaskItem
-                                                                title={
-                                                                    item.title
-                                                                }
-                                                                color={
-                                                                    item.color
-                                                                }
-                                                                time={item.time.toDate()}
-                                                                index={index}
-                                                                onRightPress={() => {
-                                                                    // this.deleteGroup(item.key);
-                                                                    this.setState(
-                                                                        {
-                                                                            keyTaskCurrent:
-                                                                                item.key,
-                                                                        }
-                                                                    )
-                                                                    this.ActionSheet.show()
-                                                                }}
-                                                            />
-                                                        </TouchableOpacity>
-                                                    )}
-                                                    keyExtractor={(item) =>
-                                                        item.key
-                                                    }
-                                                />
-                                            </View>
-                                        </ScrollView>
-                                    </View>
-                                    <View style={styles.dividercolunm} />
-                                    <View style={styles.stylecolunm}>
-                                        {/* <Text>Chiều</Text> */}
-                                        <ScrollView>
-                                            <View>
-                                                <FlatList
-                                                    data={this.state.arrC4}
-                                                    renderItem={({
-                                                        item,
-                                                        index,
-                                                    }) => (
-                                                        <TouchableOpacity
-                                                            onPress={() => {
-                                                                this.props.navigation.navigate(
-                                                                    'UpdateTask',
-                                                                    {
-                                                                        taskid:
-                                                                            item.key,
-                                                                        data:
-                                                                            item.data,
-                                                                    }
-                                                                )
-                                                            }}
-                                                            key={item.key}
-                                                        >
-                                                            <TaskItem
-                                                                title={
-                                                                    item.title
-                                                                }
-                                                                color={
-                                                                    item.color
-                                                                }
-                                                                time={item.time.toDate()}
-                                                                index={index}
-                                                                onRightPress={() => {
-                                                                    // this.deleteGroup(item.key);
-                                                                    this.setState(
-                                                                        {
-                                                                            keyTaskCurrent:
-                                                                                item.key,
-                                                                        }
-                                                                    )
-                                                                    this.ActionSheet.show()
-                                                                }}
-                                                            />
-                                                        </TouchableOpacity>
-                                                    )}
-                                                    keyExtractor={(item) =>
-                                                        item.key
-                                                    }
-                                                />
-                                            </View>
-                                        </ScrollView>
-                                    </View>
-                                </View>
-                                <View style={styles.divider} />
-                                <View style={styles.colmday}>
-                                    <View
-                                        style={[
-                                            styles.headercolm,
-                                            { backgroundColor: '#B0D9F8' },
-                                        ]}
-                                    >
-                                        <Text style={styles.textHeaderColunm}>
-                                            {renderDateOnWeek(
-                                                5 + this.state.number
-                                            )}
-                                        </Text>
-                                        <Text
-                                            style={styles.textHeaderColunmDate}
-                                        >
-                                            {nextDate(
-                                                5 + this.state.number,
-                                                true
-                                            )}
-                                        </Text>
-                                    </View>
-                                    <View style={styles.stylecolunm}>
-                                        {/* <Text>Sáng</Text> */}
-                                        <ScrollView>
-                                            <View>
-                                                <FlatList
-                                                    data={this.state.arrS5}
-                                                    renderItem={({
-                                                        item,
-                                                        index,
-                                                    }) => (
-                                                        <TouchableOpacity
-                                                            onPress={() => {
-                                                                this.props.navigation.navigate(
-                                                                    'UpdateTask',
-                                                                    {
-                                                                        taskid:
-                                                                            item.key,
-                                                                        data:
-                                                                            item.data,
-                                                                    }
-                                                                )
-                                                            }}
-                                                            key={item.key}
-                                                        >
-                                                            <TaskItem
-                                                                title={
-                                                                    item.title
-                                                                }
-                                                                color={
-                                                                    item.color
-                                                                }
-                                                                time={item.time.toDate()}
-                                                                index={index}
-                                                                onRightPress={() => {
-                                                                    // this.deleteGroup(item.key);
-                                                                    this.setState(
-                                                                        {
-                                                                            keyTaskCurrent:
-                                                                                item.key,
-                                                                        }
-                                                                    )
-                                                                    this.ActionSheet.show()
-                                                                }}
-                                                            />
-                                                        </TouchableOpacity>
-                                                    )}
-                                                    keyExtractor={(item) =>
-                                                        item.key
-                                                    }
-                                                />
-                                            </View>
-                                        </ScrollView>
-                                    </View>
-                                    <View style={styles.dividercolunm} />
-                                    <View style={styles.stylecolunm}>
-                                        {/* <Text>Trưa</Text> */}
-                                        <ScrollView>
-                                            <View>
-                                                <FlatList
-                                                    data={this.state.arrT5}
-                                                    renderItem={({
-                                                        item,
-                                                        index,
-                                                    }) => (
-                                                        <TouchableOpacity
-                                                            onPress={() => {
-                                                                this.props.navigation.navigate(
-                                                                    'UpdateTask',
-                                                                    {
-                                                                        taskid:
-                                                                            item.key,
-                                                                        data:
-                                                                            item.data,
-                                                                    }
-                                                                )
-                                                            }}
-                                                            key={item.key}
-                                                        >
-                                                            <TaskItem
-                                                                title={
-                                                                    item.title
-                                                                }
-                                                                color={
-                                                                    item.color
-                                                                }
-                                                                time={item.time.toDate()}
-                                                                index={index}
-                                                                onRightPress={() => {
-                                                                    // this.deleteGroup(item.key);
-                                                                    this.setState(
-                                                                        {
-                                                                            keyTaskCurrent:
-                                                                                item.key,
-                                                                        }
-                                                                    )
-                                                                    this.ActionSheet.show()
-                                                                }}
-                                                            />
-                                                        </TouchableOpacity>
-                                                    )}
-                                                    keyExtractor={(item) =>
-                                                        item.key
-                                                    }
-                                                />
-                                            </View>
-                                        </ScrollView>
-                                    </View>
-                                    <View style={styles.dividercolunm} />
-                                    <View style={styles.stylecolunm}>
-                                        {/* <Text>Chiều</Text> */}
-                                        <ScrollView>
-                                            <View>
-                                                <FlatList
-                                                    data={this.state.arrC5}
-                                                    renderItem={({
-                                                        item,
-                                                        index,
-                                                    }) => (
-                                                        <TouchableOpacity
-                                                            onPress={() => {
-                                                                this.props.navigation.navigate(
-                                                                    'UpdateTask',
-                                                                    {
-                                                                        taskid:
-                                                                            item.key,
-                                                                        data:
-                                                                            item.data,
-                                                                    }
-                                                                )
-                                                            }}
-                                                            key={item.key}
-                                                        >
-                                                            <TaskItem
-                                                                title={
-                                                                    item.title
-                                                                }
-                                                                color={
-                                                                    item.color
-                                                                }
-                                                                time={item.time.toDate()}
-                                                                index={index}
-                                                                onRightPress={() => {
-                                                                    // this.deleteGroup(item.key);
-                                                                    this.setState(
-                                                                        {
-                                                                            keyTaskCurrent:
-                                                                                item.key,
-                                                                        }
-                                                                    )
-                                                                    this.ActionSheet.show()
-                                                                }}
-                                                            />
-                                                        </TouchableOpacity>
-                                                    )}
-                                                    keyExtractor={(item) =>
-                                                        item.key
-                                                    }
-                                                />
-                                            </View>
-                                        </ScrollView>
-                                    </View>
-                                </View>
-                                <View style={styles.divider} />
-                                <View style={styles.colmday}>
-                                    <View style={styles.headercolm}>
-                                        <Text style={styles.textHeaderColunm}>
-                                            {renderDateOnWeek(
-                                                6 + this.state.number
-                                            )}
-                                        </Text>
-                                        <Text
-                                            style={styles.textHeaderColunmDate}
-                                        >
-                                            {nextDate(
-                                                6 + this.state.number,
-                                                true
-                                            )}
-                                        </Text>
-                                    </View>
-                                    <View style={styles.stylecolunm}>
-                                        {/* <Text>Sáng</Text> */}
-                                        <ScrollView>
-                                            <View>
-                                                <FlatList
-                                                    data={this.state.arrS6}
-                                                    renderItem={({
-                                                        item,
-                                                        index,
-                                                    }) => (
-                                                        <TouchableOpacity
-                                                            onPress={() => {
-                                                                this.props.navigation.navigate(
-                                                                    'UpdateTask',
-                                                                    {
-                                                                        taskid:
-                                                                            item.key,
-                                                                        data:
-                                                                            item.data,
-                                                                    }
-                                                                )
-                                                            }}
-                                                            key={item.key}
-                                                        >
-                                                            <TaskItem
-                                                                title={
-                                                                    item.title
-                                                                }
-                                                                color={
-                                                                    item.color
-                                                                }
-                                                                time={item.time.toDate()}
-                                                                index={index}
-                                                                onRightPress={() => {
-                                                                    // this.deleteGroup(item.key);
-                                                                    this.setState(
-                                                                        {
-                                                                            keyTaskCurrent:
-                                                                                item.key,
-                                                                        }
-                                                                    )
-                                                                    this.ActionSheet.show()
-                                                                }}
-                                                            />
-                                                        </TouchableOpacity>
-                                                    )}
-                                                    keyExtractor={(item) =>
-                                                        item.key
-                                                    }
-                                                />
-                                            </View>
-                                        </ScrollView>
-                                    </View>
-                                    <View style={styles.dividercolunm} />
-                                    <View style={styles.stylecolunm}>
-                                        {/* <Text>Trưa</Text> */}
-                                        <ScrollView>
-                                            <View>
-                                                <FlatList
-                                                    data={this.state.arrT6}
-                                                    renderItem={({
-                                                        item,
-                                                        index,
-                                                    }) => (
-                                                        <TouchableOpacity
-                                                            onPress={() => {
-                                                                this.props.navigation.navigate(
-                                                                    'UpdateTask',
-                                                                    {
-                                                                        taskid:
-                                                                            item.key,
-                                                                        data:
-                                                                            item.data,
-                                                                    }
-                                                                )
-                                                            }}
-                                                            key={item.key}
-                                                        >
-                                                            <TaskItem
-                                                                title={
-                                                                    item.title
-                                                                }
-                                                                color={
-                                                                    item.color
-                                                                }
-                                                                time={item.time.toDate()}
-                                                                index={index}
-                                                                onRightPress={() => {
-                                                                    // this.deleteGroup(item.key);
-                                                                    this.setState(
-                                                                        {
-                                                                            keyTaskCurrent:
-                                                                                item.key,
-                                                                        }
-                                                                    )
-                                                                    this.ActionSheet.show()
-                                                                }}
-                                                            />
-                                                        </TouchableOpacity>
-                                                    )}
-                                                    keyExtractor={(item) =>
-                                                        item.key
-                                                    }
-                                                />
-                                            </View>
-                                        </ScrollView>
-                                    </View>
-                                    <View style={styles.dividercolunm} />
-                                    <View style={styles.stylecolunm}>
-                                        {/* <Text>Chiều</Text> */}
-                                        <ScrollView>
-                                            <View>
-                                                <FlatList
-                                                    data={this.state.arrC6}
-                                                    renderItem={({
-                                                        item,
-                                                        index,
-                                                    }) => (
-                                                        <TouchableOpacity
-                                                            onPress={() => {
-                                                                this.props.navigation.navigate(
-                                                                    'UpdateTask',
-                                                                    {
-                                                                        taskid:
-                                                                            item.key,
-                                                                        data:
-                                                                            item.data,
-                                                                    }
-                                                                )
-                                                            }}
-                                                            key={item.key}
-                                                        >
-                                                            <TaskItem
-                                                                title={
-                                                                    item.title
-                                                                }
-                                                                color={
-                                                                    item.color
-                                                                }
-                                                                time={item.time.toDate()}
-                                                                index={index}
-                                                                onRightPress={() => {
-                                                                    // this.deleteGroup(item.key);
-                                                                    this.setState(
-                                                                        {
-                                                                            keyTaskCurrent:
-                                                                                item.key,
-                                                                        }
-                                                                    )
-                                                                    this.ActionSheet.show()
-                                                                }}
-                                                            />
-                                                        </TouchableOpacity>
-                                                    )}
-                                                    keyExtractor={(item) =>
-                                                        item.key
-                                                    }
-                                                />
-                                            </View>
-                                        </ScrollView>
-                                    </View>
+                                                        />
+                                                    </TouchableOpacity>
+                                                )}
+                                                keyExtractor={(item) =>
+                                                    item.key
+                                                }
+                                            />
+                                        </View>
+                                    </ScrollView>
                                 </View>
                             </View>
-                        </ScrollView>
+                            <View style={styles.divider} />
+                            <View style={styles.colmday}>
+                                <View
+                                    style={[
+                                        styles.headercolm,
+                                        { backgroundColor: '#B0D9F8' },
+                                    ]}
+                                >
+                                    <Text style={styles.textHeaderColunm}>
+                                        {renderDateOnWeek(
+                                            1 + this.state.number
+                                        )}
+                                    </Text>
+                                    <Text style={styles.textHeaderColunmDate}>
+                                        {nextDate(1 + this.state.number, true)}
+                                    </Text>
+                                </View>
+                                <View style={styles.stylecolunm}>
+                                    {/* <Text>Sáng</Text> */}
+                                    <ScrollView>
+                                        <View>
+                                            <FlatList
+                                                data={this.state.arrS1}
+                                                renderItem={({
+                                                    item,
+                                                    index,
+                                                }) => (
+                                                    <TouchableOpacity
+                                                        onPress={() => {
+                                                            this.props.navigation.navigate(
+                                                                'UpdateTask',
+                                                                {
+                                                                    taskid:
+                                                                        item.key,
+                                                                    data:
+                                                                        item.data,
+                                                                }
+                                                            )
+                                                        }}
+                                                        key={item.key}
+                                                    >
+                                                        <TaskItem
+                                                            title={item.title}
+                                                            colorid={
+                                                                item.colorid
+                                                            }
+                                                            time={item.time.toDate()}
+                                                            index={index}
+                                                            isCompleted={
+                                                                item.isCompleted
+                                                            }
+                                                            onRightPress={() => {
+                                                                // this.deleteGroup(item.key);
+                                                                this.setState({
+                                                                    keyTaskCurrent:
+                                                                        item.key,
+                                                                })
+                                                                this.ActionSheet.show()
+                                                            }}
+                                                        />
+                                                    </TouchableOpacity>
+                                                )}
+                                                keyExtractor={(item) =>
+                                                    item.key
+                                                }
+                                            />
+                                        </View>
+                                    </ScrollView>
+                                </View>
+                                <View style={styles.dividercolunm} />
+                                <View style={styles.stylecolunm}>
+                                    {/* <Text>Trưa</Text> */}
+                                    <ScrollView>
+                                        <View>
+                                            <FlatList
+                                                data={this.state.arrT1}
+                                                renderItem={({
+                                                    item,
+                                                    index,
+                                                }) => (
+                                                    <TouchableOpacity
+                                                        onPress={() => {
+                                                            this.props.navigation.navigate(
+                                                                'UpdateTask',
+                                                                {
+                                                                    taskid:
+                                                                        item.key,
+                                                                    data:
+                                                                        item.data,
+                                                                }
+                                                            )
+                                                        }}
+                                                        key={item.key}
+                                                    >
+                                                        <TaskItem
+                                                            title={item.title}
+                                                            colorid={
+                                                                item.colorid
+                                                            }
+                                                            time={item.time.toDate()}
+                                                            index={index}
+                                                            isCompleted={
+                                                                item.isCompleted
+                                                            }
+                                                            onRightPress={() => {
+                                                                this.setState({
+                                                                    keyTaskCurrent:
+                                                                        item.key,
+                                                                })
+                                                                this.ActionSheet.show()
+                                                            }}
+                                                        />
+                                                    </TouchableOpacity>
+                                                )}
+                                                keyExtractor={(item) =>
+                                                    item.key
+                                                }
+                                            />
+                                        </View>
+                                    </ScrollView>
+                                </View>
+                                <View style={styles.dividercolunm} />
+                                <View style={styles.stylecolunm}>
+                                    {/* <Text>Chiều</Text> */}
+                                    <ScrollView>
+                                        <View>
+                                            <FlatList
+                                                data={this.state.arrC1}
+                                                renderItem={({
+                                                    item,
+                                                    index,
+                                                }) => (
+                                                    <TouchableOpacity
+                                                        onPress={() => {
+                                                            this.props.navigation.navigate(
+                                                                'UpdateTask',
+                                                                {
+                                                                    taskid:
+                                                                        item.key,
+                                                                    data:
+                                                                        item.data,
+                                                                }
+                                                            )
+                                                        }}
+                                                        key={item.key}
+                                                    >
+                                                        <TaskItem
+                                                            title={item.title}
+                                                            colorid={
+                                                                item.colorid
+                                                            }
+                                                            time={item.time.toDate()}
+                                                            index={index}
+                                                            isCompleted={
+                                                                item.isCompleted
+                                                            }
+                                                            onRightPress={() => {
+                                                                this.setState({
+                                                                    keyTaskCurrent:
+                                                                        item.key,
+                                                                })
+                                                                this.ActionSheet.show()
+                                                            }}
+                                                        />
+                                                    </TouchableOpacity>
+                                                )}
+                                                keyExtractor={(item) =>
+                                                    item.key
+                                                }
+                                            />
+                                        </View>
+                                    </ScrollView>
+                                </View>
+                            </View>
+                            <View style={styles.divider} />
+                            <View style={styles.colmday}>
+                                <View style={styles.headercolm}>
+                                    <Text style={styles.textHeaderColunm}>
+                                        {renderDateOnWeek(
+                                            2 + this.state.number
+                                        )}
+                                    </Text>
+                                    <Text style={styles.textHeaderColunmDate}>
+                                        {nextDate(2 + this.state.number, true)}
+                                    </Text>
+                                </View>
+                                <View style={styles.stylecolunm}>
+                                    {/* <Text>Sáng</Text> */}
+                                    <ScrollView>
+                                        <View>
+                                            <FlatList
+                                                data={this.state.arrS2}
+                                                renderItem={({
+                                                    item,
+                                                    index,
+                                                }) => (
+                                                    <TouchableOpacity
+                                                        onPress={() => {
+                                                            this.props.navigation.navigate(
+                                                                'UpdateTask',
+                                                                {
+                                                                    taskid:
+                                                                        item.key,
+                                                                    data:
+                                                                        item.data,
+                                                                }
+                                                            )
+                                                        }}
+                                                        key={item.key}
+                                                    >
+                                                        <TaskItem
+                                                            title={item.title}
+                                                            colorid={
+                                                                item.colorid
+                                                            }
+                                                            time={item.time.toDate()}
+                                                            index={index}
+                                                            isCompleted={
+                                                                item.isCompleted
+                                                            }
+                                                            onRightPress={() => {
+                                                                // this.deleteGroup(item.key);
+                                                                this.setState({
+                                                                    keyTaskCurrent:
+                                                                        item.key,
+                                                                })
+                                                                this.ActionSheet.show()
+                                                            }}
+                                                        />
+                                                    </TouchableOpacity>
+                                                )}
+                                                keyExtractor={(item) =>
+                                                    item.key
+                                                }
+                                            />
+                                        </View>
+                                    </ScrollView>
+                                </View>
+                                <View style={styles.dividercolunm} />
+                                <View style={styles.stylecolunm}>
+                                    {/* <Text>Trưa</Text> */}
+                                    <ScrollView>
+                                        <View>
+                                            <FlatList
+                                                data={this.state.arrT2}
+                                                renderItem={({
+                                                    item,
+                                                    index,
+                                                }) => (
+                                                    <TouchableOpacity
+                                                        onPress={() => {
+                                                            this.props.navigation.navigate(
+                                                                'UpdateTask',
+                                                                {
+                                                                    taskid:
+                                                                        item.key,
+                                                                    data:
+                                                                        item.data,
+                                                                }
+                                                            )
+                                                        }}
+                                                        key={item.key}
+                                                    >
+                                                        <TaskItem
+                                                            title={item.title}
+                                                            colorid={
+                                                                item.colorid
+                                                            }
+                                                            time={item.time.toDate()}
+                                                            index={index}
+                                                            isCompleted={
+                                                                item.isCompleted
+                                                            }
+                                                            onRightPress={() => {
+                                                                // this.deleteGroup(item.key);
+                                                                this.setState({
+                                                                    keyTaskCurrent:
+                                                                        item.key,
+                                                                })
+                                                                this.ActionSheet.show()
+                                                            }}
+                                                        />
+                                                    </TouchableOpacity>
+                                                )}
+                                                keyExtractor={(item) =>
+                                                    item.key
+                                                }
+                                            />
+                                        </View>
+                                    </ScrollView>
+                                </View>
+                                <View style={styles.dividercolunm} />
+                                <View style={styles.stylecolunm}>
+                                    {/* <Text>Chiều</Text> */}
+                                    <ScrollView>
+                                        <View>
+                                            <FlatList
+                                                data={this.state.arrC2}
+                                                renderItem={({
+                                                    item,
+                                                    index,
+                                                }) => (
+                                                    <TouchableOpacity
+                                                        onPress={() => {
+                                                            this.props.navigation.navigate(
+                                                                'UpdateTask',
+                                                                {
+                                                                    taskid:
+                                                                        item.key,
+                                                                    data:
+                                                                        item.data,
+                                                                }
+                                                            )
+                                                        }}
+                                                        key={item.key}
+                                                    >
+                                                        <TaskItem
+                                                            title={item.title}
+                                                            colorid={
+                                                                item.colorid
+                                                            }
+                                                            time={item.time.toDate()}
+                                                            index={index}
+                                                            isCompleted={
+                                                                item.isCompleted
+                                                            }
+                                                            onRightPress={() => {
+                                                                // this.deleteGroup(item.key);
+                                                                this.setState({
+                                                                    keyTaskCurrent:
+                                                                        item.key,
+                                                                })
+                                                                this.ActionSheet.show()
+                                                            }}
+                                                        />
+                                                    </TouchableOpacity>
+                                                )}
+                                                keyExtractor={(item) =>
+                                                    item.key
+                                                }
+                                            />
+                                        </View>
+                                    </ScrollView>
+                                </View>
+                            </View>
+                            <View style={styles.divider} />
+                            <View style={styles.colmday}>
+                                <View
+                                    style={[
+                                        styles.headercolm,
+                                        { backgroundColor: '#B0D9F8' },
+                                    ]}
+                                >
+                                    <Text style={[styles.textHeaderColunm, {}]}>
+                                        {renderDateOnWeek(
+                                            3 + this.state.number
+                                        )}
+                                    </Text>
+                                    <Text style={styles.textHeaderColunmDate}>
+                                        {nextDate(3 + this.state.number, true)}
+                                    </Text>
+                                </View>
+                                <View style={styles.stylecolunm}>
+                                    {/* <Text>Sáng</Text> */}
+                                    <ScrollView>
+                                        <View>
+                                            <FlatList
+                                                data={this.state.arrS3}
+                                                renderItem={({
+                                                    item,
+                                                    index,
+                                                }) => (
+                                                    <TouchableOpacity
+                                                        onPress={() => {
+                                                            this.props.navigation.navigate(
+                                                                'UpdateTask',
+                                                                {
+                                                                    taskid:
+                                                                        item.key,
+                                                                    data:
+                                                                        item.data,
+                                                                }
+                                                            )
+                                                        }}
+                                                        key={item.key}
+                                                    >
+                                                        <TaskItem
+                                                            title={item.title}
+                                                            colorid={
+                                                                item.colorid
+                                                            }
+                                                            time={item.time.toDate()}
+                                                            index={index}
+                                                            isCompleted={
+                                                                item.isCompleted
+                                                            }
+                                                            onRightPress={() => {
+                                                                // this.deleteGroup(item.key);
+                                                                this.setState({
+                                                                    keyTaskCurrent:
+                                                                        item.key,
+                                                                })
+                                                                this.ActionSheet.show()
+                                                            }}
+                                                        />
+                                                    </TouchableOpacity>
+                                                )}
+                                                keyExtractor={(item) =>
+                                                    item.key
+                                                }
+                                            />
+                                        </View>
+                                    </ScrollView>
+                                </View>
+                                <View style={styles.dividercolunm} />
+                                <View style={styles.stylecolunm}>
+                                    {/* <Text>Trưa</Text> */}
+                                    <ScrollView>
+                                        <View>
+                                            <FlatList
+                                                data={this.state.arrT3}
+                                                renderItem={({
+                                                    item,
+                                                    index,
+                                                }) => (
+                                                    <TouchableOpacity
+                                                        onPress={() => {
+                                                            this.props.navigation.navigate(
+                                                                'UpdateTask',
+                                                                {
+                                                                    taskid:
+                                                                        item.key,
+                                                                    data:
+                                                                        item.data,
+                                                                }
+                                                            )
+                                                        }}
+                                                        key={item.key}
+                                                    >
+                                                        <TaskItem
+                                                            title={item.title}
+                                                            colorid={
+                                                                item.colorid
+                                                            }
+                                                            time={item.time.toDate()}
+                                                            index={index}
+                                                            isCompleted={
+                                                                item.isCompleted
+                                                            }
+                                                            onRightPress={() => {
+                                                                // this.deleteGroup(item.key);
+                                                                this.setState({
+                                                                    keyTaskCurrent:
+                                                                        item.key,
+                                                                })
+                                                                this.ActionSheet.show()
+                                                            }}
+                                                        />
+                                                    </TouchableOpacity>
+                                                )}
+                                                keyExtractor={(item) =>
+                                                    item.key
+                                                }
+                                            />
+                                        </View>
+                                    </ScrollView>
+                                </View>
+                                <View style={styles.dividercolunm} />
+                                <View style={styles.stylecolunm}>
+                                    {/* <Text>Chiều</Text> */}
+                                    <ScrollView>
+                                        <View>
+                                            <FlatList
+                                                data={this.state.arrC3}
+                                                renderItem={({
+                                                    item,
+                                                    index,
+                                                }) => (
+                                                    <TouchableOpacity
+                                                        onPress={() => {
+                                                            this.props.navigation.navigate(
+                                                                'UpdateTask',
+                                                                {
+                                                                    taskid:
+                                                                        item.key,
+                                                                    data:
+                                                                        item.data,
+                                                                }
+                                                            )
+                                                        }}
+                                                        key={item.key}
+                                                    >
+                                                        <TaskItem
+                                                            title={item.title}
+                                                            colorid={
+                                                                item.colorid
+                                                            }
+                                                            time={item.time.toDate()}
+                                                            index={index}
+                                                            isCompleted={
+                                                                item.isCompleted
+                                                            }
+                                                            onRightPress={() => {
+                                                                // this.deleteGroup(item.key);
+                                                                this.setState({
+                                                                    keyTaskCurrent:
+                                                                        item.key,
+                                                                })
+                                                                this.ActionSheet.show()
+                                                            }}
+                                                        />
+                                                    </TouchableOpacity>
+                                                )}
+                                                keyExtractor={(item) =>
+                                                    item.key
+                                                }
+                                            />
+                                        </View>
+                                    </ScrollView>
+                                </View>
+                            </View>
+                            <View style={styles.divider} />
+                            <View style={styles.colmday}>
+                                <View style={styles.headercolm}>
+                                    <Text style={styles.textHeaderColunm}>
+                                        {renderDateOnWeek(
+                                            4 + this.state.number
+                                        )}
+                                    </Text>
+                                    <Text style={styles.textHeaderColunmDate}>
+                                        {nextDate(4 + this.state.number, true)}
+                                    </Text>
+                                </View>
+                                <View style={styles.stylecolunm}>
+                                    {/* <Text>Sáng</Text> */}
+                                    <ScrollView>
+                                        <View>
+                                            <FlatList
+                                                data={this.state.arrS4}
+                                                renderItem={({
+                                                    item,
+                                                    index,
+                                                }) => (
+                                                    <TouchableOpacity
+                                                        onPress={() => {
+                                                            this.props.navigation.navigate(
+                                                                'UpdateTask',
+                                                                {
+                                                                    taskid:
+                                                                        item.key,
+                                                                    data:
+                                                                        item.data,
+                                                                }
+                                                            )
+                                                        }}
+                                                        key={item.key}
+                                                    >
+                                                        <TaskItem
+                                                            title={item.title}
+                                                            colorid={
+                                                                item.colorid
+                                                            }
+                                                            time={item.time.toDate()}
+                                                            index={index}
+                                                            isCompleted={
+                                                                item.isCompleted
+                                                            }
+                                                            onRightPress={() => {
+                                                                // this.deleteGroup(item.key);
+                                                                this.setState({
+                                                                    keyTaskCurrent:
+                                                                        item.key,
+                                                                })
+                                                                this.ActionSheet.show()
+                                                            }}
+                                                        />
+                                                    </TouchableOpacity>
+                                                )}
+                                                keyExtractor={(item) =>
+                                                    item.key
+                                                }
+                                            />
+                                        </View>
+                                    </ScrollView>
+                                </View>
+                                <View style={styles.dividercolunm} />
+                                <View style={styles.stylecolunm}>
+                                    {/* <Text>Trưa</Text> */}
+                                    <ScrollView>
+                                        <View>
+                                            <FlatList
+                                                data={this.state.arrT4}
+                                                renderItem={({
+                                                    item,
+                                                    index,
+                                                }) => (
+                                                    <TouchableOpacity
+                                                        onPress={() => {
+                                                            this.props.navigation.navigate(
+                                                                'UpdateTask',
+                                                                {
+                                                                    taskid:
+                                                                        item.key,
+                                                                    data:
+                                                                        item.data,
+                                                                }
+                                                            )
+                                                        }}
+                                                        key={item.key}
+                                                    >
+                                                        <TaskItem
+                                                            title={item.title}
+                                                            colorid={
+                                                                item.colorid
+                                                            }
+                                                            time={item.time.toDate()}
+                                                            index={index}
+                                                            isCompleted={
+                                                                item.isCompleted
+                                                            }
+                                                            onRightPress={() => {
+                                                                // this.deleteGroup(item.key);
+                                                                this.setState({
+                                                                    keyTaskCurrent:
+                                                                        item.key,
+                                                                })
+                                                                this.ActionSheet.show()
+                                                            }}
+                                                        />
+                                                    </TouchableOpacity>
+                                                )}
+                                                keyExtractor={(item) =>
+                                                    item.key
+                                                }
+                                            />
+                                        </View>
+                                    </ScrollView>
+                                </View>
+                                <View style={styles.dividercolunm} />
+                                <View style={styles.stylecolunm}>
+                                    {/* <Text>Chiều</Text> */}
+                                    <ScrollView>
+                                        <View>
+                                            <FlatList
+                                                data={this.state.arrC4}
+                                                renderItem={({
+                                                    item,
+                                                    index,
+                                                }) => (
+                                                    <TouchableOpacity
+                                                        onPress={() => {
+                                                            this.props.navigation.navigate(
+                                                                'UpdateTask',
+                                                                {
+                                                                    taskid:
+                                                                        item.key,
+                                                                    data:
+                                                                        item.data,
+                                                                }
+                                                            )
+                                                        }}
+                                                        key={item.key}
+                                                    >
+                                                        <TaskItem
+                                                            title={item.title}
+                                                            colorid={
+                                                                item.colorid
+                                                            }
+                                                            time={item.time.toDate()}
+                                                            index={index}
+                                                            isCompleted={
+                                                                item.isCompleted
+                                                            }
+                                                            onRightPress={() => {
+                                                                // this.deleteGroup(item.key);
+                                                                this.setState({
+                                                                    keyTaskCurrent:
+                                                                        item.key,
+                                                                })
+                                                                this.ActionSheet.show()
+                                                            }}
+                                                        />
+                                                    </TouchableOpacity>
+                                                )}
+                                                keyExtractor={(item) =>
+                                                    item.key
+                                                }
+                                            />
+                                        </View>
+                                    </ScrollView>
+                                </View>
+                            </View>
+                            <View style={styles.divider} />
+                            <View style={styles.colmday}>
+                                <View
+                                    style={[
+                                        styles.headercolm,
+                                        { backgroundColor: '#B0D9F8' },
+                                    ]}
+                                >
+                                    <Text style={styles.textHeaderColunm}>
+                                        {renderDateOnWeek(
+                                            5 + this.state.number
+                                        )}
+                                    </Text>
+                                    <Text style={styles.textHeaderColunmDate}>
+                                        {nextDate(5 + this.state.number, true)}
+                                    </Text>
+                                </View>
+                                <View style={styles.stylecolunm}>
+                                    {/* <Text>Sáng</Text> */}
+                                    <ScrollView>
+                                        <View>
+                                            <FlatList
+                                                data={this.state.arrS5}
+                                                renderItem={({
+                                                    item,
+                                                    index,
+                                                }) => (
+                                                    <TouchableOpacity
+                                                        onPress={() => {
+                                                            this.props.navigation.navigate(
+                                                                'UpdateTask',
+                                                                {
+                                                                    taskid:
+                                                                        item.key,
+                                                                    data:
+                                                                        item.data,
+                                                                }
+                                                            )
+                                                        }}
+                                                        key={item.key}
+                                                    >
+                                                        <TaskItem
+                                                            title={item.title}
+                                                            colorid={
+                                                                item.colorid
+                                                            }
+                                                            time={item.time.toDate()}
+                                                            index={index}
+                                                            isCompleted={
+                                                                item.isCompleted
+                                                            }
+                                                            onRightPress={() => {
+                                                                // this.deleteGroup(item.key);
+                                                                this.setState({
+                                                                    keyTaskCurrent:
+                                                                        item.key,
+                                                                })
+                                                                this.ActionSheet.show()
+                                                            }}
+                                                        />
+                                                    </TouchableOpacity>
+                                                )}
+                                                keyExtractor={(item) =>
+                                                    item.key
+                                                }
+                                            />
+                                        </View>
+                                    </ScrollView>
+                                </View>
+                                <View style={styles.dividercolunm} />
+                                <View style={styles.stylecolunm}>
+                                    {/* <Text>Trưa</Text> */}
+                                    <ScrollView>
+                                        <View>
+                                            <FlatList
+                                                data={this.state.arrT5}
+                                                renderItem={({
+                                                    item,
+                                                    index,
+                                                }) => (
+                                                    <TouchableOpacity
+                                                        onPress={() => {
+                                                            this.props.navigation.navigate(
+                                                                'UpdateTask',
+                                                                {
+                                                                    taskid:
+                                                                        item.key,
+                                                                    data:
+                                                                        item.data,
+                                                                }
+                                                            )
+                                                        }}
+                                                        key={item.key}
+                                                    >
+                                                        <TaskItem
+                                                            title={item.title}
+                                                            colorid={
+                                                                item.colorid
+                                                            }
+                                                            time={item.time.toDate()}
+                                                            index={index}
+                                                            isCompleted={
+                                                                item.isCompleted
+                                                            }
+                                                            onRightPress={() => {
+                                                                // this.deleteGroup(item.key);
+                                                                this.setState({
+                                                                    keyTaskCurrent:
+                                                                        item.key,
+                                                                })
+                                                                this.ActionSheet.show()
+                                                            }}
+                                                        />
+                                                    </TouchableOpacity>
+                                                )}
+                                                keyExtractor={(item) =>
+                                                    item.key
+                                                }
+                                            />
+                                        </View>
+                                    </ScrollView>
+                                </View>
+                                <View style={styles.dividercolunm} />
+                                <View style={styles.stylecolunm}>
+                                    {/* <Text>Chiều</Text> */}
+                                    <ScrollView>
+                                        <View>
+                                            <FlatList
+                                                data={this.state.arrC5}
+                                                renderItem={({
+                                                    item,
+                                                    index,
+                                                }) => (
+                                                    <TouchableOpacity
+                                                        onPress={() => {
+                                                            this.props.navigation.navigate(
+                                                                'UpdateTask',
+                                                                {
+                                                                    taskid:
+                                                                        item.key,
+                                                                    data:
+                                                                        item.data,
+                                                                }
+                                                            )
+                                                        }}
+                                                        key={item.key}
+                                                    >
+                                                        <TaskItem
+                                                            title={item.title}
+                                                            colorid={
+                                                                item.colorid
+                                                            }
+                                                            time={item.time.toDate()}
+                                                            index={index}
+                                                            isCompleted={
+                                                                item.isCompleted
+                                                            }
+                                                            onRightPress={() => {
+                                                                // this.deleteGroup(item.key);
+                                                                this.setState({
+                                                                    keyTaskCurrent:
+                                                                        item.key,
+                                                                })
+                                                                this.ActionSheet.show()
+                                                            }}
+                                                        />
+                                                    </TouchableOpacity>
+                                                )}
+                                                keyExtractor={(item) =>
+                                                    item.key
+                                                }
+                                            />
+                                        </View>
+                                    </ScrollView>
+                                </View>
+                            </View>
+                            <View style={styles.divider} />
+                            <View style={styles.colmday}>
+                                <View style={styles.headercolm}>
+                                    <Text style={styles.textHeaderColunm}>
+                                        {renderDateOnWeek(
+                                            6 + this.state.number
+                                        )}
+                                    </Text>
+                                    <Text style={styles.textHeaderColunmDate}>
+                                        {nextDate(6 + this.state.number, true)}
+                                    </Text>
+                                </View>
+                                <View style={styles.stylecolunm}>
+                                    {/* <Text>Sáng</Text> */}
+                                    <ScrollView>
+                                        <View>
+                                            <FlatList
+                                                data={this.state.arrS6}
+                                                renderItem={({
+                                                    item,
+                                                    index,
+                                                }) => (
+                                                    <TouchableOpacity
+                                                        onPress={() => {
+                                                            this.props.navigation.navigate(
+                                                                'UpdateTask',
+                                                                {
+                                                                    taskid:
+                                                                        item.key,
+                                                                    data:
+                                                                        item.data,
+                                                                }
+                                                            )
+                                                        }}
+                                                        key={item.key}
+                                                    >
+                                                        <TaskItem
+                                                            title={item.title}
+                                                            colorid={
+                                                                item.colorid
+                                                            }
+                                                            time={item.time.toDate()}
+                                                            index={index}
+                                                            isCompleted={
+                                                                item.isCompleted
+                                                            }
+                                                            onRightPress={() => {
+                                                                // this.deleteGroup(item.key);
+                                                                this.setState({
+                                                                    keyTaskCurrent:
+                                                                        item.key,
+                                                                })
+                                                                this.ActionSheet.show()
+                                                            }}
+                                                        />
+                                                    </TouchableOpacity>
+                                                )}
+                                                keyExtractor={(item) =>
+                                                    item.key
+                                                }
+                                            />
+                                        </View>
+                                    </ScrollView>
+                                </View>
+                                <View style={styles.dividercolunm} />
+                                <View style={styles.stylecolunm}>
+                                    {/* <Text>Trưa</Text> */}
+                                    <ScrollView>
+                                        <View>
+                                            <FlatList
+                                                data={this.state.arrT6}
+                                                renderItem={({
+                                                    item,
+                                                    index,
+                                                }) => (
+                                                    <TouchableOpacity
+                                                        onPress={() => {
+                                                            this.props.navigation.navigate(
+                                                                'UpdateTask',
+                                                                {
+                                                                    taskid:
+                                                                        item.key,
+                                                                    data:
+                                                                        item.data,
+                                                                }
+                                                            )
+                                                        }}
+                                                        key={item.key}
+                                                    >
+                                                        <TaskItem
+                                                            title={item.title}
+                                                            colorid={
+                                                                item.colorid
+                                                            }
+                                                            time={item.time.toDate()}
+                                                            index={index}
+                                                            isCompleted={
+                                                                item.isCompleted
+                                                            }
+                                                            onRightPress={() => {
+                                                                // this.deleteGroup(item.key);
+                                                                this.setState({
+                                                                    keyTaskCurrent:
+                                                                        item.key,
+                                                                })
+                                                                this.ActionSheet.show()
+                                                            }}
+                                                        />
+                                                    </TouchableOpacity>
+                                                )}
+                                                keyExtractor={(item) =>
+                                                    item.key
+                                                }
+                                            />
+                                        </View>
+                                    </ScrollView>
+                                </View>
+                                <View style={styles.dividercolunm} />
+                                <View style={styles.stylecolunm}>
+                                    {/* <Text>Chiều</Text> */}
+                                    <ScrollView>
+                                        <View>
+                                            <FlatList
+                                                data={this.state.arrC6}
+                                                renderItem={({
+                                                    item,
+                                                    index,
+                                                }) => (
+                                                    <TouchableOpacity
+                                                        onPress={() => {
+                                                            this.props.navigation.navigate(
+                                                                'UpdateTask',
+                                                                {
+                                                                    taskid:
+                                                                        item.key,
+                                                                    data:
+                                                                        item.data,
+                                                                }
+                                                            )
+                                                        }}
+                                                        key={item.key}
+                                                    >
+                                                        <TaskItem
+                                                            title={item.title}
+                                                            colorid={
+                                                                item.colorid
+                                                            }
+                                                            time={item.time.toDate()}
+                                                            index={index}
+                                                            isCompleted={
+                                                                item.isCompleted
+                                                            }
+                                                            onRightPress={() => {
+                                                                // this.deleteGroup(item.key);
+                                                                this.setState({
+                                                                    keyTaskCurrent:
+                                                                        item.key,
+                                                                })
+                                                                this.ActionSheet.show()
+                                                            }}
+                                                        />
+                                                    </TouchableOpacity>
+                                                )}
+                                                keyExtractor={(item) =>
+                                                    item.key
+                                                }
+                                            />
+                                        </View>
+                                    </ScrollView>
+                                </View>
+                            </View>
+                        </View>
+                        {/* </ScrollView> */}
                     </View>
                 </View>
             </SafeAreaView>
@@ -2379,8 +2312,9 @@ const styles = StyleSheet.create({
     },
     calendar: {
         flex: 1,
-        width: 770,
-        height: 768,
+        // width: 770,
+        // width: 420,
+        // height: 768,
         flexDirection: 'row',
         backgroundColor: '#B0D9F8',
     },
@@ -2408,7 +2342,8 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     textHeaderColunm: {
-        fontSize: 20,
+        // fontSize: 20,
+        fontSize: 12,
         fontWeight: '600',
     },
     textHeaderColunmDate: {
@@ -2418,7 +2353,7 @@ const styles = StyleSheet.create({
     buttonSlide: {
         backgroundColor: '#0074D6',
         padding: 5,
-        borderRadius: 10,
+        borderRadius: 15,
         flex: 1,
         margin: 5,
         alignItems: 'center',
