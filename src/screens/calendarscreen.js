@@ -1233,6 +1233,7 @@ export default class calendarscreen extends Component {
                                                             isCompleted={
                                                                 item.isCompleted
                                                             }
+                                                            // eslint-disable-next-line react/jsx-no-duplicate-props
                                                             colorid={
                                                                 item.colorid
                                                             }

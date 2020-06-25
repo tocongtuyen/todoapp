@@ -12,6 +12,7 @@ import {
     StyleSheet,
     Alert,
     SafeAreaView,
+    FlatList,
 } from 'react-native'
 import moment from 'moment'
 import { CalendarList } from 'react-native-calendars'
@@ -22,6 +23,8 @@ import DateTimePicker from 'react-native-modal-datetime-picker'
 import FontAwesome from 'react-native-vector-icons/FontAwesome'
 import firebase from '../database/firebase'
 import ActionSheet from 'react-native-actionsheet'
+import AntDesign from 'react-native-vector-icons/AntDesign'
+import Feather from 'react-native-vector-icons/Feather'
 
 class UpdateTask extends Component {
     constructor(props) {
@@ -51,6 +54,8 @@ class UpdateTask extends Component {
             isCompleted: false,
             selectedTask: this.props.route.params.data,
             id: this.props.route.params.taskid,
+            colorCurrent: { color: '#FFF' },
+            colorid: this.props.route.params.data.colorid,
         }
     }
 
@@ -77,6 +82,7 @@ class UpdateTask extends Component {
                 time: firebase.firestore.Timestamp.fromDate(
                     new Date(item.time.toDate())
                 ),
+                colorid: this.state.colorid,
                 session: this.checkHour(item.time.toDate()),
             })
             .then((docRef) => {
@@ -139,6 +145,59 @@ class UpdateTask extends Component {
         })
     }
 
+    getTaskByColorId = (id) => {
+        return firebase
+            .firestore()
+            .collection('tasks')
+            .where('colorid', '==', id + '')
+            .get()
+            .then((querySnapshot) => {
+                return querySnapshot.docs.map((i) => ({
+                    key: i.id,
+                    ...i.data(),
+                }))
+            })
+            .catch((error) => {
+                console.log(error)
+                return []
+            })
+    }
+
+    getColorById = (id) => {
+        return firebase
+            .firestore()
+            .collection('colors')
+            .doc(id + '')
+            .get()
+            .then((docRef) => {
+                // console.log(docRef.data())
+                return docRef.data()
+            })
+            .catch((error) => {})
+    }
+
+    getAllColor = (id) => {
+        firebase
+            .firestore()
+            .collection('colors')
+            .where('userid', '==', id + '')
+            .onSnapshot((querySnapshot) => {
+                let arr = []
+                querySnapshot.forEach(function (doc) {
+                    arr.push({ key: doc.id, data: doc.data(), ...doc.data() })
+                })
+                // console.log(querySnapshot)
+                this.setState({ arrColor: arr })
+            })
+    }
+
+    deleteColor = (key) => {
+        const dbRef = firebase.firestore().collection('colors').doc(key)
+        dbRef.delete().then((res) => {
+            // this.props.navigation.goBack()
+        })
+    }
+
     componentDidMount() {
         // const taskid = this.props.route.params.taskid
         // this.getTaskById('QbdXFnnICWgJrjxGEGSL').then((tasks) => {
@@ -146,7 +205,11 @@ class UpdateTask extends Component {
         //         console.log(this.state.selectedTask)
         //     })
         // })
-        console.log(this.state.currentDay)
+        this.getAllColor(firebase.auth().currentUser.uid)
+        this.getColorById(this.state.selectedTask.colorid).then((color) => {
+            console.log(color)
+            this.setState({ colorCurrent: color })
+        })
     }
 
     render() {
@@ -241,7 +304,7 @@ class UpdateTask extends Component {
                             </View>
                             <ScrollView
                                 contentContainerStyle={{
-                                    paddingBottom: 30,
+                                    paddingBottom: 75,
                                 }}
                             >
                                 <View style={styles.calenderContainer}>
@@ -331,99 +394,151 @@ class UpdateTask extends Component {
                                         Chọn màu
                                     </Text>
                                     <View
-                                        style={{
-                                            flexDirection: 'row',
-                                            justifyContent: 'space-between',
-                                        }}
+                                        style={
+                                            {
+                                                // flexDirection: 'row',
+                                                // justifyContent: 'space-between',
+                                            }
+                                        }
                                     >
-                                        <TouchableOpacity
-                                            style={styles.mauvang}
-                                            onPress={() =>
-                                                this.setState({
-                                                    color: {
-                                                        colorLeft: '#E7B94B',
-                                                        colorRight: '#FFEFCB',
-                                                    },
-                                                })
-                                            }
+                                        <FlatList
+                                            data={this.state.arrColor}
+                                            renderItem={({ item, index }) => (
+                                                <View
+                                                    style={{
+                                                        marginBottom: 10,
+                                                        flexDirection: 'row',
+                                                        alignItems: 'center',
+                                                    }}
+                                                >
+                                                    <TouchableOpacity
+                                                        style={[
+                                                            styles.mauvang,
+                                                            {
+                                                                backgroundColor:
+                                                                    item.color,
+                                                            },
+                                                        ]}
+                                                        onPress={() =>
+                                                            this.setState(
+                                                                {
+                                                                    colorid:
+                                                                        item.key,
+                                                                    colorCurrent: {
+                                                                        color:
+                                                                            item.color,
+                                                                    },
+                                                                },
+                                                                () => {
+                                                                    console.log(
+                                                                        this
+                                                                            .state
+                                                                            .colorid
+                                                                    )
+                                                                }
+                                                            )
+                                                        }
+                                                    ></TouchableOpacity>
+                                                    <TouchableOpacity
+                                                        style={{
+                                                            flex: 1,
+                                                            backgroundColor:
+                                                                item.color,
+                                                            padding: 5,
+                                                            marginRight: 5,
+                                                            marginLeft: 5,
+                                                        }}
+                                                        onPress={() => {
+                                                            this.props.navigation.navigate(
+                                                                'UpdateColor',
+                                                                {
+                                                                    id:
+                                                                        item.key,
+                                                                    data:
+                                                                        item.data,
+                                                                }
+                                                            )
+                                                        }}
+                                                    >
+                                                        <Text>
+                                                            {item.label}
+                                                        </Text>
+                                                    </TouchableOpacity>
+                                                    {/* <TouchableOpacity
+                                                        onPress={() => {
+                                                            this.setState({
+                                                                keyColorCurrent:
+                                                                    item.key,
+                                                            })
+                                                            this.ActionSheet.show()
+                                                        }}
+                                                    >
+                                                        <Feather
+                                                            name="delete"
+                                                            size={26}
+                                                            color="red"
+                                                        />
+                                                    </TouchableOpacity> */}
+                                                </View>
+                                            )}
+                                            keyExtractor={(item) => item.key}
                                         />
-                                        <TouchableOpacity
-                                            style={styles.mauxanh}
-                                            onPress={() =>
-                                                this.setState({
-                                                    color: {
-                                                        colorLeft: '#55B053',
-                                                        colorRight: '#CFEECC',
+                                        <View
+                                            style={{
+                                                marginBottom: 10,
+                                                flexDirection: 'row',
+                                                alignItems: 'center',
+                                            }}
+                                        >
+                                            <TouchableOpacity
+                                                style={[
+                                                    styles.maudo,
+                                                    {
+                                                        backgroundColor: '#FFF',
                                                     },
-                                                })
-                                            }
-                                        />
-                                        <TouchableOpacity
-                                            style={styles.maulam}
-                                            onPress={() =>
-                                                this.setState({
-                                                    color: {
-                                                        colorLeft: '#2EBEBD',
-                                                        colorRight: '#C0F2F6',
+                                                ]}
+                                                onPress={() => {
+                                                    this.props.navigation.navigate(
+                                                        'AddColor'
+                                                    )
+                                                }}
+                                            >
+                                                <AntDesign
+                                                    name={'pluscircleo'}
+                                                    size={30}
+                                                    color={'gray'}
+                                                    style={{
+                                                        width: 32,
+                                                        alignSelf: 'center',
+                                                    }}
+                                                />
+                                            </TouchableOpacity>
+                                            <Text
+                                                style={{
+                                                    paddingLeft: 10,
+                                                }}
+                                            >
+                                                Thêm màu mới
+                                            </Text>
+                                        </View>
+                                        <View
+                                            style={{
+                                                // marginBottom: 10,
+                                                flexDirection: 'row',
+                                                alignItems: 'center',
+                                            }}
+                                        >
+                                            <Text>Màu đã chọn</Text>
+                                            <View
+                                                style={[
+                                                    styles.mauvang,
+                                                    {
+                                                        backgroundColor: `${this.state.colorCurrent.color}`,
+                                                        marginLeft: 10,
                                                     },
-                                                })
-                                            }
-                                        />
-                                        <TouchableOpacity
-                                            style={styles.maucham}
-                                            onPress={() =>
-                                                this.setState({
-                                                    color: {
-                                                        colorLeft: '#5C8AD0',
-                                                        colorRight: '#D2E2FC',
-                                                    },
-                                                })
-                                            }
-                                        />
-                                        <TouchableOpacity
-                                            style={styles.mautim}
-                                            onPress={() =>
-                                                this.setState({
-                                                    color: {
-                                                        colorLeft: '#8273D1',
-                                                        colorRight: '#E0DAFE',
-                                                    },
-                                                })
-                                            }
-                                        />
-                                        <TouchableOpacity
-                                            style={styles.mauhong}
-                                            onPress={() =>
-                                                this.setState({
-                                                    color: {
-                                                        colorLeft: '#B684DE',
-                                                        colorRight: '#F1DDFF',
-                                                    },
-                                                })
-                                            }
-                                        />
-                                        <TouchableOpacity
-                                            style={styles.maudo}
-                                            onPress={() =>
-                                                this.setState({
-                                                    color: {
-                                                        colorLeft: '#B23435',
-                                                        colorRight: '#F2C4C1',
-                                                    },
-                                                })
-                                            }
-                                        />
-                                        <TouchableOpacity
-                                            style={styles.mauxam}
-                                            onPress={() =>
-                                                this.setState({
-                                                    color: {
-                                                        colorLeft: '#979CA2',
-                                                        colorRight: '#E7E7EA',
-                                                    },
-                                                })
-                                            }
-                                        />
+                                                ]}
+                                            ></View>
+                                        </View>
                                     </View>
                                     <View style={styles.notesContent} />
                                     <View>

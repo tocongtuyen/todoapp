@@ -19,31 +19,37 @@ class Rowtaskitem extends Component {
     constructor(props) {
         super(props)
         this.state = { color: { label: 'di lam', color: '#FFF' } }
+        console.log('constructor')
     }
 
-    getColorById = (id) => {
+    getColorBy_Id = (id) => {
         return firebase
             .firestore()
             .collection('colors')
             .doc(id + '')
-            .get()
-            .then((docRef) => {
-                console.log(docRef.data())
-                return docRef.data()
+            .onSnapshot((doc) => {
+                // console.log(doc.data())
+                this.setState({ color: doc.data() })
             })
-            .catch((error) => {})
     }
 
     componentDidMount() {
-        this.getColorById(this.props.rowData.colorid).then((color) => {
-            this.setState({ color: color }, () => {
-                console.log(this.state.color)
-            })
-        })
+        // console.log('----data')
+        // console.log(this.props.rowData)
+        console.log('did_mount')
+        this.getColorBy_Id(this.props.rowData.colorid)
+    }
+
+    componentDidUpdate(prevProps, prevState) {
+        console.log(prevProps)
+        if (prevProps.rowData.colorid !== this.props.rowData.colorid) {
+            this.getColorBy_Id(this.props.rowData.colorid)
+        }
     }
 
     render() {
         const { rowData, onPress } = this.props
+        console.log(rowData.colorid)
         let title = (
             <Text
                 style={[
@@ -60,7 +66,6 @@ class Rowtaskitem extends Component {
             </Text>
         )
         var desc = null
-        console.log(rowData)
         if (rowData.description)
             desc = (
                 <View style={styles.descriptionContainer}>

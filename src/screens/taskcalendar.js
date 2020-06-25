@@ -82,22 +82,20 @@ export default class TaskCalendar extends Component {
                         title,
                         notes,
                         isCompleted,
-                        color,
+                        // color,
                         colorid,
                     } = doc.data()
                     todo.push({
                         key: doc.id,
                         description: notes,
                         title,
-                        // lineColor: color.colorLeft,
-                        // circleColor: color.colorLeft,
                         isCompleted,
                         time: convertDateString(time),
                         data: doc.data(),
                         colorid,
                     })
                 })
-                console.log(todo)
+                // console.log(todo)
                 this.setState({ todoList: todo })
             })
     }
@@ -106,6 +104,7 @@ export default class TaskCalendar extends Component {
         return (
             <Rowtaskitem
                 rowData={rowData}
+                rowID={rowID}
                 onPress={() => {
                     this.props.navigation.navigate('UpdateTask', {
                         taskid: rowData.key,
@@ -266,7 +265,7 @@ export default class TaskCalendar extends Component {
                                 moment(nextday).format('MM') +
                                 '/' +
                                 moment(nextday).format('DD')
-                            console.log(stringday)
+                            // console.log(stringday)
                             this.getTask(
                                 this.state.userid,
                                 selectedDate,

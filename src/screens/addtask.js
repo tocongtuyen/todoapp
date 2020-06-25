@@ -24,6 +24,7 @@ import DateTimePicker from 'react-native-modal-datetime-picker'
 import firebase from '../database/firebase'
 import AntDesign from 'react-native-vector-icons/AntDesign'
 import Feather from 'react-native-vector-icons/Feather'
+import ActionSheet from 'react-native-actionsheet'
 
 class detailtask extends Component {
     constructor(props) {
@@ -54,6 +55,7 @@ class detailtask extends Component {
             arrColor: [],
             colors: { label: '', color: '#FFF' },
             colorid: '',
+            keyColorCurrent: '',
         }
     }
 
@@ -71,7 +73,7 @@ class detailtask extends Component {
 
     addTask() {
         if (this.state.colorid === '') {
-            alert('hãy chon một màu!')
+            Alert.alert('Thông báo', 'Hãy chọn một màu')
         } else {
             this.setState({
                 isLoading: true,
@@ -122,11 +124,36 @@ class detailtask extends Component {
             })
     }
 
+    deleteColor = (key) => {
+        const dbRef = firebase.firestore().collection('colors').doc(key)
+        dbRef.delete().then((res) => {
+            // this.props.navigation.goBack()
+        })
+    }
+
     getTaskByGroupId = (id) => {
         return firebase
             .firestore()
             .collection('tasks')
             .where('userid', '==', id + '')
+            .get()
+            .then((querySnapshot) => {
+                return querySnapshot.docs.map((i) => ({
+                    key: i.id,
+                    ...i.data(),
+                }))
+            })
+            .catch((error) => {
+                console.log(error)
+                return []
+            })
+    }
+
+    getTaskByColorId = (id) => {
+        return firebase
+            .firestore()
+            .collection('tasks')
+            .where('colorid', '==', id + '')
             .get()
             .then((querySnapshot) => {
                 return querySnapshot.docs.map((i) => ({
@@ -239,6 +266,41 @@ class detailtask extends Component {
         return (
             <SafeAreaView>
                 <View style={styles.screenContainer}>
+                    <ActionSheet
+                        ref={(o) => (this.ActionSheet = o)}
+                        title={'Dữ liệu sẽ bị xoá vĩnh viễn!'}
+                        options={['Xoá công việc', 'Huỷ bỏ']}
+                        cancelButtonIndex={1}
+                        destructiveButtonIndex={0}
+                        onPress={(index) => {
+                            if (index == 0) {
+                                this.getTaskByColorId(
+                                    this.state.keyColorCurrent
+                                ).then((task) => {
+                                    if (task.length == 0) {
+                                        this.deleteColor(
+                                            this.state.keyColorCurrent
+                                        )
+                                    } else {
+                                        Alert.alert(
+                                            'Thông báo',
+                                            'Màu này không thể xoá được',
+                                            [
+                                                {
+                                                    text: 'OK',
+                                                    onPress: () =>
+                                                        console.log(
+                                                            'OK Pressed'
+                                                        ),
+                                                },
+                                            ],
+                                            { cancelable: false }
+                                        )
+                                    }
+                                })
+                            }
+                        }}
+                    />
                     {/* <Header
           title="Danh sách"
           iconLeft="arrow-left"
@@ -422,16 +484,37 @@ class detailtask extends Component {
                                                             padding: 5,
                                                             marginRight: 5,
                                                         }}
+                                                        onPress={() => {
+                                                            this.props.navigation.navigate(
+                                                                'UpdateColor',
+                                                                {
+                                                                    id:
+                                                                        item.key,
+                                                                    data:
+                                                                        item.data,
+                                                                }
+                                                            )
+                                                        }}
                                                     >
                                                         <Text>
                                                             {item.label}
                                                         </Text>
                                                     </TouchableOpacity>
-                                                    <Feather
-                                                        name="delete"
-                                                        size={26}
-                                                        color="red"
-                                                    />
+                                                    {/* <TouchableOpacity
+                                                        onPress={() => {
+                                                            this.setState({
+                                                                keyColorCurrent:
+                                                                    item.key,
+                                                            })
+                                                            this.ActionSheet.show()
+                                                        }}
+                                                    >
+                                                        <Feather
+                                                            name="delete"
+                                                            size={26}
+                                                            color="red"
+                                                        />
+                                                    </TouchableOpacity> */}
                                                 </View>
                                             )}
                                             keyExtractor={(item) => item.key}

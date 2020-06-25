@@ -60,14 +60,30 @@ class taskitem extends React.Component {
             })
             .catch((error) => {})
     }
+    getColorBy_Id = (id) => {
+        return firebase
+            .firestore()
+            .collection('colors')
+            .doc(id + '')
+            .onSnapshot((doc) => {
+                // console.log(doc.data())
+                this.setState({ color: doc.data() })
+            })
+    }
 
     componentDidMount() {
-        this.getColorById(this.props.colorid).then((color) => {
-            this.setState({ color: color }, () => {
-                console.log(this.state.color)
-            })
-        })
+        this.getColorBy_Id(this.props.colorid)
         console.log(this.state.currentDay)
+    }
+
+    componentDidUpdate(prevProps, prevState) {
+        if (prevProps.colorid !== this.props.colorid) {
+            //Perform some operation here
+            // this.getColorById(this.props.colorid).then((color) => {
+            //     this.setState({ color: color })
+            // })
+            this.getColorBy_Id(this.props.colorid)
+        }
     }
 
     render() {
