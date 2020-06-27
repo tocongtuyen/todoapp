@@ -2,6 +2,7 @@ import React from 'react'
 import { StyleSheet, View, Text, TouchableOpacity } from 'react-native'
 import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons'
 import AntDesign from 'react-native-vector-icons/AntDesign'
+import Feather from 'react-native-vector-icons/Feather'
 
 const Header = (props) => {
     const { title, iconLeft, iconRight, onLeftPress, onRightPress } = {
@@ -28,11 +29,7 @@ const Header = (props) => {
                 style={styles.cartContainer}
                 onRightPress={onRightPress}
             >
-                <AntDesign
-                    name={iconRight}
-                    size={HEADER_ICON_SIZE}
-                    color="#fff"
-                />
+                <Feather name="settings" color="#fff" size={26} />
             </TouchableOpacity>
         </View>
     )

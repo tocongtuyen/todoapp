@@ -637,7 +637,7 @@ class UpdateTask extends Component {
                                             }}
                                         />
                                     </View>
-                                    <View style={styles.seperator} />
+                                    {/* <View style={styles.seperator} />
                                     <View
                                         style={{
                                             flexDirection: 'row',
@@ -690,7 +690,7 @@ class UpdateTask extends Component {
                                                 }}
                                             />
                                         </View>
-                                    </View>
+                                    </View> */}
                                     <View style={styles.seperator} />
                                     <View
                                         style={{

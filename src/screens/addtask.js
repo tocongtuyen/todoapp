@@ -25,6 +25,7 @@ import firebase from '../database/firebase'
 import AntDesign from 'react-native-vector-icons/AntDesign'
 import Feather from 'react-native-vector-icons/Feather'
 import ActionSheet from 'react-native-actionsheet'
+import RNPickerSelect from 'react-native-picker-select'
 
 class detailtask extends Component {
     constructor(props) {
@@ -47,8 +48,10 @@ class detailtask extends Component {
             isAlarmSet: false,
             time: moment().format(),
             alarmTime: moment().format(),
+            endTime: moment().format(),
             isDateTimePickerVisible: false,
             isDateTimePickerAlarmTimeVisible: false,
+            isDateTimePickerVisibleEndDay: false,
             timeType: '',
             creatTodo: {},
             createEventAsyncRes: '',
@@ -56,6 +59,7 @@ class detailtask extends Component {
             colors: { label: '', color: '#FFF' },
             colorid: '',
             keyColorCurrent: '',
+            valuePickerSelect: 'Không lặp',
         }
     }
 
@@ -69,6 +73,17 @@ class detailtask extends Component {
         } else {
             return 3
         }
+    }
+
+    countDay(startTime, endTime) {
+        let tamp = new Date(moment(startTime).add(0, 'days')).getTime()
+        let end = new Date(moment(endTime)).getTime()
+        let count = 0
+        for (let i = 1; tamp <= end; i++) {
+            tamp = new Date(moment(startTime).add(i, 'days')).getTime()
+            count++
+        }
+        return count
     }
 
     addTask() {
@@ -95,7 +110,6 @@ class detailtask extends Component {
                     isAlarmSet: this.state.isAlarmSet,
                     session: this.checkHour(),
                     colorid: this.state.colorid,
-                    colorCurrent: '#FFF',
                 })
                 .then((res) => {
                     this.props.navigation.goBack()
@@ -106,6 +120,82 @@ class detailtask extends Component {
                 .catch((err) => {
                     console.error('Error found: ', err)
                 })
+        }
+    }
+
+    addTasks = (tangngay) => {
+        firebase
+            .firestore()
+            .collection('tasks')
+            .add({
+                userid: this.state.userid,
+                isCompleted: false,
+                title: this.state.taskText,
+                notes: this.state.notesText,
+                time: firebase.firestore.Timestamp.fromDate(
+                    new Date(moment(this.state.time).add(tangngay, 'days'))
+                ),
+                alarmTime: firebase.firestore.Timestamp.fromDate(
+                    new Date(moment(this.state.alarmTime).add(tangngay, 'days'))
+                ),
+                isAlarmSet: this.state.isAlarmSet,
+                session: this.checkHour(),
+                colorid: this.state.colorid,
+            })
+            .then((res) => {
+                // this.props.navigation.goBack()
+                // this.getTaskByGroupId(this.state.userid).then(tasks => {
+                //   this.props.route.params.onSelect({todoList: tasks});
+                // });
+            })
+            .catch((err) => {
+                console.error('Error found: ', err)
+            })
+    }
+
+    addTaskRepeat(stateRepeat) {
+        if (this.state.colorid === '') {
+            Alert.alert('Thông báo', 'Hãy chọn một màu')
+        } else {
+            if (stateRepeat === 'Hằng ngày') {
+                let count = this.countDay(this.state.time, this.state.endTime)
+                for (let i = 0; i <= count; i++) {
+                    this.addTasks(i)
+                }
+            } else if (stateRepeat === 'Cách một ngày') {
+                let count = this.countDay(this.state.time, this.state.endTime)
+                for (let i = 0; i <= count / 2; i++) {
+                    this.addTasks(i * 2)
+                }
+            } else if (stateRepeat === 'Cách hai ngày') {
+                let count = this.countDay(this.state.time, this.state.endTime)
+                for (let i = 0; i <= count / 3; i++) {
+                    this.addTasks(i * 3)
+                }
+            } else if (stateRepeat === 'Cách ba ngày') {
+                let count = this.countDay(this.state.time, this.state.endTime)
+                for (let i = 0; i <= count / 4; i++) {
+                    this.addTasks(i * 4)
+                }
+            } else if (stateRepeat === 'Hằng tuần') {
+                let count = this.countDay(this.state.time, this.state.endTime)
+                for (let i = 0; i <= count / 7; i++) {
+                    this.addTasks(i * 7)
+                }
+            } else if (stateRepeat === 'Cách một tuần') {
+                let count = this.countDay(this.state.time, this.state.endTime)
+                for (let i = 0; i <= count / 14; i++) {
+                    this.addTasks(i * 14)
+                }
+            } else if (stateRepeat === 'Cách hai tuần') {
+                let count = this.countDay(this.state.time, this.state.endTime)
+                for (let i = 0; i <= count / 21; i++) {
+                    this.addTasks(i * 21)
+                }
+            } else {
+                this.addTasks(0)
+            }
+            this.props.navigation.goBack()
         }
     }
 
@@ -192,6 +282,10 @@ class detailtask extends Component {
         console.log(currentTime - selectime)
 
         if (selectime < currentTime) {
+            Alert.alert(
+                'Thông báo',
+                'Giờ bắt đầu không được trước giờ hiện tại'
+            )
             this.setState({
                 time: moment().format(),
                 alarmTime: moment().format(),
@@ -224,6 +318,10 @@ class detailtask extends Component {
         let alarmTime = new Date(date).getTime()
 
         if (doTime < alarmTime) {
+            Alert.alert(
+                'Thông báo',
+                'Thời gian nhắc nhở không được sau giờ bắt đầu'
+            )
             this.setState({
                 alarmTime: this.state.time,
                 isAlarmSet: true,
@@ -238,6 +336,41 @@ class detailtask extends Component {
         console.log(date)
 
         this._hideDateTimePicker1()
+    }
+
+    _showDateTimePicker2 = () =>
+        this.setState({ isDateTimePickerVisibleEndDay: true })
+    _hideDateTimePicker2 = () =>
+        this.setState({ isDateTimePickerVisibleEndDay: false })
+    _handleDatePicked2 = (date) => {
+        const { currentDay } = this.state
+        const selectedDatePicked = currentDay
+        // const hour = moment(date).hour()
+        // const minute = moment(date).minute()
+        // const newModifiedDay = moment(selectedDatePicked)
+        //     .hour(hour)
+        //     .minute(minute)
+
+        let startTime = new Date(this.state.time).getTime()
+        let endTime = new Date(date).getTime()
+
+        if (startTime > endTime) {
+            Alert.alert(
+                'Thông báo',
+                'Ngày kết thúc không được nhỏ hơn ngày bắt đầu'
+            )
+            this.setState({
+                endTime: this.state.time,
+            })
+        } else {
+            this.setState({
+                endTime: date,
+            })
+        }
+
+        // console.log(date)
+
+        this._hideDateTimePicker2()
     }
 
     componentDidMount() {
@@ -257,8 +390,11 @@ class detailtask extends Component {
                 isAlarmSet,
                 time,
                 alarmTime,
+                endTime,
                 isDateTimePickerVisible,
                 isDateTimePickerAlarmTimeVisible,
+                isDateTimePickerVisibleEndDay,
+                valuePickerSelect,
             },
             props: { navigation },
         } = this
@@ -323,6 +459,15 @@ class detailtask extends Component {
                         }
                         mode="time"
                     />
+                    <DateTimePicker
+                        isVisible={isDateTimePickerVisibleEndDay}
+                        onConfirm={this._handleDatePicked2}
+                        onCancel={this._hideDateTimePicker2}
+                        date={
+                            new Date(moment(this.state.endTime).add(0, 'days'))
+                        }
+                        mode="date"
+                    />
                     <View style={styles.container}>
                         <View
                             style={{
@@ -381,6 +526,7 @@ class detailtask extends Component {
                                                     currentDay: day.dateString,
                                                     time: day.dateString,
                                                     alarmTime: day.dateString,
+                                                    endTime: day.dateString,
                                                 },
                                                 () => {
                                                     console.log(currentDay)
@@ -685,27 +831,99 @@ class detailtask extends Component {
                                                     height: 25,
                                                     marginTop: 3,
                                                 }}
+                                                disabled={
+                                                    valuePickerSelect ===
+                                                    'Không lặp'
+                                                }
                                                 onPress={
-                                                    this._showDateTimePicker1
+                                                    this._showDateTimePicker2
                                                 }
                                             >
-                                                <Text style={{ fontSize: 19 }}>
-                                                    {moment(alarmTime).format(
+                                                <Text
+                                                    style={{
+                                                        fontSize: 19,
+                                                        color:
+                                                            valuePickerSelect ===
+                                                            'Không lặp'
+                                                                ? 'gray'
+                                                                : 'black',
+                                                    }}
+                                                >
+                                                    {moment(endTime).format(
                                                         'DD/MM/YYYY'
                                                     )}
                                                 </Text>
                                             </TouchableOpacity>
                                         </View>
-                                        <View
+
+                                        <TouchableOpacity
                                             style={{
                                                 // height: 50,
-                                                // backgroundColor: '#EFEFEF',
+                                                // backgroundColor: 'black',
                                                 flexDirection: 'row',
                                                 alignItems: 'center',
-                                                justifyContent: 'space-between',
+                                                justifyContent: 'center',
                                             }}
                                         >
-                                            <Text>Không lặp</Text>
+                                            <RNPickerSelect
+                                                onValueChange={(value) => {
+                                                    this.setState({
+                                                        valuePickerSelect: value,
+                                                        endTime: this.state
+                                                            .time,
+                                                    })
+                                                }}
+                                                items={[
+                                                    {
+                                                        label: 'Không lặp',
+                                                        value: 'Không lặp',
+                                                    },
+                                                    {
+                                                        label: 'Hằng ngày',
+                                                        value: 'Hằng ngày',
+                                                    },
+                                                    {
+                                                        label: 'Cách một ngày',
+                                                        value: 'Cách một ngày',
+                                                    },
+                                                    {
+                                                        label: 'Cách hai ngày',
+                                                        value: 'Cách hai ngày',
+                                                    },
+                                                    {
+                                                        label: 'Cách ba ngày',
+                                                        value: 'Cách ba ngày',
+                                                    },
+                                                    {
+                                                        label: 'Hằng tuần',
+                                                        value: 'Hằng tuần',
+                                                    },
+                                                    {
+                                                        label: 'Cách một tuần',
+                                                        value: 'Cách một tuần',
+                                                    },
+                                                    {
+                                                        label: 'Cách hai tuần',
+                                                        value: 'Cách hai tuần',
+                                                    },
+                                                ]}
+                                            >
+                                                <TextInput
+                                                    style={{
+                                                        alignSelf: 'center',
+                                                        // borderWidth: 1,
+                                                        marginTop: 8,
+                                                    }}
+                                                    value={
+                                                        this.state
+                                                            .valuePickerSelect ==
+                                                        null
+                                                            ? 'Không lặp'
+                                                            : this.state
+                                                                  .valuePickerSelect
+                                                    }
+                                                ></TextInput>
+                                            </RNPickerSelect>
                                             <FontAwesome
                                                 name={'angle-right'}
                                                 size={30}
@@ -714,7 +932,7 @@ class detailtask extends Component {
                                                     marginLeft: 10,
                                                 }}
                                             />
-                                        </View>
+                                        </TouchableOpacity>
                                     </View>
                                 </View>
                                 <TouchableOpacity
@@ -729,7 +947,10 @@ class detailtask extends Component {
                                         },
                                     ]}
                                     onPress={async () => {
-                                        this.addTask()
+                                        // this.addTask()
+                                        this.addTaskRepeat(
+                                            this.state.valuePickerSelect
+                                        )
                                     }}
                                 >
                                     <Text
