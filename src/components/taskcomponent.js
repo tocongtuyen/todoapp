@@ -9,11 +9,27 @@ import {
     TouchableOpacity,
     Animated,
 } from 'react-native'
-import { Icon } from 'native-base'
-import FontAwesome from 'react-native-vector-icons/FontAwesome'
-import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
+import moment from 'moment'
 import AntDesign from 'react-native-vector-icons/AntDesign'
 import Swipeable from 'react-native-gesture-handler/Swipeable'
+import firebase from '../database/firebase'
+
+const LeftActions = (progress, dragX) => {
+    const scale = dragX.interpolate({
+        inputRange: [0, 100],
+        outputRange: [0, 1],
+        extrapolate: 'clamp',
+    })
+    return (
+        <View style={styles.leftAction}>
+            <Animated.Text
+                style={[styles.actionText, { transform: [{ scale }] }]}
+            >
+                <AntDesign name="checkcircleo" size={26} color="#fff" />
+            </Animated.Text>
+        </View>
+    )
+}
 
 const RightActions = ({ progress, dragX, onPress }) => {
     const scale = dragX.interpolate({
@@ -34,135 +50,180 @@ const RightActions = ({ progress, dragX, onPress }) => {
     )
 }
 
-const TaskComponent = ({
-    name,
-    iscompleted,
-    time,
-    onRightPress,
-    onClick,
-    onCheckStatus,
-    color,
-}) => {
-    return (
-        <Swipeable
-            renderRightActions={(progress, dragX) => (
-                <RightActions
-                    progress={progress}
-                    dragX={dragX}
-                    onPress={onRightPress}
-                />
-            )}
-        >
-            <View style={[styles.row, { backgroundColor: `${color}` }]}>
-                {/* <Icon
-        name={isCompleted ? 'checkmark-circle' : 'radio-button-off'}
-        style={{paddingLeft: 10, color: '#1e88e5'}}
-      /> */}
-                <TouchableOpacity onPress={onCheckStatus}>
-                    <MaterialIcons
-                        name={
-                            iscompleted
-                                ? 'check-circle'
-                                : 'radio-button-unchecked'
-                        }
-                        size={30}
-                        color={'black'}
-                        style={{ width: 32, marginLeft: 10 }}
-                    />
-                </TouchableOpacity>
+class TaskComponent extends React.Component {
+    constructor(props) {
+        super(props)
+        this.state = { color: { label: 'di lam', color: '#FFF' } }
+    }
 
-                <TouchableOpacity
-                    style={styles.row_cell_timeplace}
-                    onPress={onClick}
+    getColorById = (id) => {
+        return firebase
+            .firestore()
+            .collection('colors')
+            .doc(id + '')
+            .get()
+            .then((docRef) => {
+                console.log(docRef.data())
+                return docRef.data()
+            })
+            .catch((error) => {})
+    }
+    getColorBy_Id = (id) => {
+        return firebase
+            .firestore()
+            .collection('colors')
+            .doc(id + '')
+            .onSnapshot((doc) => {
+                // console.log(doc.data())
+                this.setState({ color: doc.data() })
+            })
+    }
+
+    componentDidMount() {
+        this.getColorBy_Id(this.props.colorid)
+        console.log(this.state.currentDay)
+    }
+
+    componentDidUpdate(prevProps, prevState) {
+        if (prevProps.colorid !== this.props.colorid) {
+            //Perform some operation here
+            // this.getColorById(this.props.colorid).then((color) => {
+            //     this.setState({ color: color })
+            // })
+            this.getColorBy_Id(this.props.colorid)
+        }
+    }
+
+    render() {
+        const {
+            onSwipeFromLeft,
+            onRightPress,
+            index,
+            title,
+            time,
+            isCompleted,
+            notes,
+        } = this.props
+        return (
+            <Swipeable
+                renderLeftActions={LeftActions}
+                onSwipeableLeftOpen={onSwipeFromLeft}
+            >
+                <View
+                    style={[
+                        styles.taskListContent,
+                        { backgroundColor: `${this.state.color.color}` },
+                    ]}
                 >
-                    <Text
-                        style={[
-                            styles.row_place,
-                            ,
-                            {
-                                textDecorationLine: !iscompleted
-                                    ? 'none'
-                                    : 'line-through',
-                                color: !iscompleted ? 'black' : 'gray',
-                            },
-                        ]}
+                    <View
+                        style={{
+                            flexDirection: 'row',
+                            alignItems: 'center',
+                        }}
                     >
-                        {name}
-                    </Text>
-                    <Text
-                        style={[
-                            styles.row_time,
-                            { color: !iscompleted ? 'black' : 'gray' },
-                        ]}
-                    >
-                        {time.toDate().toLocaleString()}
-                    </Text>
-                </TouchableOpacity>
-
-                <TouchableOpacity>
-                    {/* <FontAwesome
-            name={isimportant ? 'star' : 'star-o'}
-            size={30}
-            color={'#1e88e5'}
-            style={{width: 32, marginLeft: 10}}
-          /> */}
-                </TouchableOpacity>
-            </View>
-        </Swipeable>
-    )
+                        <View
+                            style={{
+                                height: 70,
+                                width: 10,
+                                // borderRadius: 8,
+                                // backgroundColor: this.state.color.color,
+                                marginRight: 2,
+                            }}
+                        />
+                        <View style={{ marginRight: 0, flex: 1 }}>
+                            <Text
+                                style={[
+                                    {
+                                        marginRight: 5,
+                                        color: '#554A4C',
+                                        // fontSize: 15,
+                                        fontSize: 18,
+                                        fontWeight: '600',
+                                    },
+                                    {
+                                        textDecorationLine: !isCompleted
+                                            ? 'none'
+                                            : 'line-through',
+                                        color: !isCompleted ? 'black' : 'gray',
+                                    },
+                                ]}
+                            >
+                                {title}
+                            </Text>
+                            <Text
+                                style={{
+                                    color: 'gray',
+                                    // fontSize: 14,
+                                    fontSize: 14,
+                                    marginLeft: 25,
+                                }}
+                            >
+                                {notes}
+                            </Text>
+                        </View>
+                        <Text
+                            style={{
+                                color: 'black',
+                                // fontSize: 14,
+                                fontSize: 16,
+                                marginRight: 10,
+                            }}
+                        >
+                            {`${moment(time).format('HH:mm')}`}
+                        </Text>
+                    </View>
+                </View>
+            </Swipeable>
+        )
+    }
 }
 
 const styles = StyleSheet.create({
-    row: {
-        elevation: 1,
-        borderRadius: 5,
-        backgroundColor: '#fff',
-        // flex: 1,
-        flexDirection: 'row', // main axis
-        justifyContent: 'flex-start', // main axis
-        alignItems: 'center', // cross axis
-        paddingTop: 10,
-        paddingBottom: 10,
-        paddingLeft: 8,
-        paddingRight: 18,
-        marginLeft: 14,
-        marginRight: 14,
-        marginTop: 0,
-        marginBottom: 6,
+    taskListContent: {
+        height: 70,
+        width: 275,
+        alignSelf: 'center',
+        borderRadius: 10,
+        shadowColor: '#2E66E7',
+        backgroundColor: '#ffffff',
+        marginTop: 10,
+        marginBottom: 5,
+        shadowOffset: {
+            width: 3,
+            height: 3,
+        },
+        shadowRadius: 5,
+        shadowOpacity: 0.2,
+        elevation: 3,
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
     },
-    row_cell_timeplace: {
+    leftAction: {
+        borderRadius: 10,
+        backgroundColor: '#388e3c',
+        justifyContent: 'center',
         flex: 1,
-        flexDirection: 'column',
-        paddingLeft: 12,
-    },
-    row_time: {
-        color: '#464646',
-        textAlignVertical: 'bottom',
-        includeFontPadding: false,
-        flex: 0,
-        fontSize: 15,
-    },
-    row_place: {
-        color: '#464646',
-        textAlignVertical: 'top',
-        includeFontPadding: false,
-        flex: 0,
-        fontSize: 25,
+        marginTop: 10,
+        marginBottom: 5,
     },
     rightAction: {
         backgroundColor: '#dd2c00',
         justifyContent: 'center',
         flex: 1,
-        alignItems: 'center',
-        marginBottom: 6,
-        marginRight: 14,
-        borderRadius: 5,
+        // alignItems: 'center',
+        marginTop: 1,
+        marginBottom: 1,
+        // marginRight: 30,
+        // borderRadius: 10,
     },
     actionText: {
         color: '#fff',
         fontWeight: '600',
-        paddingLeft: 30,
-        paddingRight: 30,
+        // paddingLeft: 25,
+        // paddingRight: 25,
+        paddingLeft: 14,
+        paddingRight: 14,
     },
 })
 

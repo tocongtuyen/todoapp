@@ -66,12 +66,14 @@ class detailtask extends Component {
     checkHour() {
         let tamp = new Date(this.state.time).getHours()
         console.log(tamp)
-        if (tamp < 11) {
+        if (tamp >= 6 && tamp < 13) {
             return 1
-        } else if (tamp >= 11 && tamp < 16) {
+        } else if (tamp >= 13 && tamp < 19) {
             return 2
-        } else {
+        } else if (tamp >= 19 && tamp < 24) {
             return 3
+        } else {
+            return 0
         }
     }
 
@@ -156,6 +158,12 @@ class detailtask extends Component {
     addTaskRepeat(stateRepeat) {
         if (this.state.colorid === '') {
             Alert.alert('Thông báo', 'Hãy chọn một màu')
+            console.log(this.state.time)
+        } else if (
+            this.checkHour() == 0 ||
+            moment(this.state.time).format('H') == 0
+        ) {
+            Alert.alert('Thông báo', 'Thời gian bắt đầu làm phải từ 6-23h59')
         } else {
             if (stateRepeat === 'Hằng ngày') {
                 let count = this.countDay(this.state.time, this.state.endTime)
@@ -282,14 +290,20 @@ class detailtask extends Component {
         console.log(currentTime - selectime)
 
         if (selectime < currentTime) {
-            Alert.alert(
-                'Thông báo',
-                'Giờ bắt đầu không được trước giờ hiện tại'
+            this.setState(
+                {
+                    time: moment().format(),
+                    alarmTime: moment().format(),
+                },
+                () => {
+                    setTimeout(() => {
+                        Alert.alert(
+                            'Thông báo',
+                            'Giờ bắt đầu không được trước giờ hiện tại'
+                        )
+                    }, 500)
+                }
             )
-            this.setState({
-                time: moment().format(),
-                alarmTime: moment().format(),
-            })
         } else {
             this.setState({
                 time: newModifiedDay,
@@ -318,14 +332,20 @@ class detailtask extends Component {
         let alarmTime = new Date(date).getTime()
 
         if (doTime < alarmTime) {
-            Alert.alert(
-                'Thông báo',
-                'Thời gian nhắc nhở không được sau giờ bắt đầu'
+            this.setState(
+                {
+                    alarmTime: this.state.time,
+                    isAlarmSet: true,
+                },
+                () => {
+                    setTimeout(() => {
+                        Alert.alert(
+                            'Thông báo',
+                            'Thời gian nhắc nhở không được sau giờ bắt đầu'
+                        )
+                    }, 500)
+                }
             )
-            this.setState({
-                alarmTime: this.state.time,
-                isAlarmSet: true,
-            })
         } else {
             this.setState({
                 alarmTime: newModifiedDay,
@@ -355,13 +375,19 @@ class detailtask extends Component {
         let endTime = new Date(date).getTime()
 
         if (startTime > endTime) {
-            Alert.alert(
-                'Thông báo',
-                'Ngày kết thúc không được nhỏ hơn ngày bắt đầu'
+            this.setState(
+                {
+                    endTime: this.state.time,
+                },
+                () => {
+                    setTimeout(() => {
+                        Alert.alert(
+                            'Thông báo',
+                            'Ngày kết thúc không được nhỏ hơn ngày bắt đầu'
+                        )
+                    }, 500)
+                }
             )
-            this.setState({
-                endTime: this.state.time,
-            })
         } else {
             this.setState({
                 endTime: date,

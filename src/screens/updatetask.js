@@ -59,41 +59,62 @@ class UpdateTask extends Component {
         }
     }
 
-    checkHour(time) {
-        let tamp = new Date(time).getHours()
+    checkHour() {
+        let tamp = new Date(this.state.selectedTask.time.toDate()).getHours()
         console.log(tamp)
-        if (tamp < 11) {
+        if (tamp >= 6 && tamp < 13) {
             return 1
-        } else if (tamp >= 11 && tamp < 16) {
+        } else if (tamp >= 13 && tamp < 19) {
             return 2
-        } else {
+        } else if (tamp >= 19 && tamp < 24) {
             return 3
+        } else {
+            return 0
         }
     }
 
     updateTask = (item) => {
-        const updateDBRef = firebase
-            .firestore()
-            .collection('tasks')
-            .doc(this.state.id)
-        updateDBRef
-            .set({
-                ...item,
-                time: firebase.firestore.Timestamp.fromDate(
-                    new Date(item.time.toDate())
-                ),
-                colorid: this.state.colorid,
-                session: this.checkHour(item.time.toDate()),
-            })
-            .then((docRef) => {
-                this.props.navigation.goBack()
-            })
-            .catch((error) => {
-                console.error('Error: ', error)
-                // this.setState({
-                //     isLoading: false,
-                // })
-            })
+        let todoTime = new Date(item.time.toDate()).getTime()
+        let currentTime = new Date(
+            new Date(moment(Date.now()).add(-12, 'hours'))
+        ).getTime()
+        if (todoTime < currentTime) {
+            Alert.alert(
+                'Thông báo',
+                'Thời gian bắt đầu công việc này đang ở quá khứ không thể cập nhật'
+            )
+        } else if (
+            this.checkHour() == 0 ||
+            moment(item.time.toDate()).format('H') == 0
+        ) {
+            console.log(this.checkHour())
+
+            console.log(moment(item.time.toDate()).format('H'))
+            Alert.alert('Thông báo', 'Thời gian bắt đầu làm phải từ 6-23h59')
+        } else {
+            const updateDBRef = firebase
+                .firestore()
+                .collection('tasks')
+                .doc(this.state.id)
+            updateDBRef
+                .set({
+                    ...item,
+                    time: firebase.firestore.Timestamp.fromDate(
+                        new Date(item.time.toDate())
+                    ),
+                    colorid: this.state.colorid,
+                    session: this.checkHour(item.time.toDate()),
+                })
+                .then((docRef) => {
+                    this.props.navigation.goBack()
+                })
+                .catch((error) => {
+                    console.error('Error: ', error)
+                    // this.setState({
+                    //     isLoading: false,
+                    // })
+                })
+        }
     }
 
     handleAlarmSet = () => {
@@ -117,12 +138,29 @@ class UpdateTask extends Component {
             .hour(hour)
             .minute(minute)
 
-        prevSelectedTask.time = newModifiedDay
-        this.setState({
-            selectedTask: prevSelectedTask,
-        })
+        const timeCurrent = new Date(Date.now()).getTime()
+        const timeSelected = new Date(newModifiedDay).getTime()
+        console.log(timeCurrent > timeSelected)
 
+        prevSelectedTask.time = newModifiedDay
+        if (timeCurrent > timeSelected) {
+            setTimeout(() => {
+                Alert.alert('Thông báo', 'Không được chọn giờ đã qua')
+            }, 500)
+        } else {
+            this.setState({
+                selectedTask: prevSelectedTask,
+            })
+        }
         this._hideDateTimePicker()
+    }
+
+    isNowOver = () => {
+        const timeCurrent = new Date(Date.now()).getTime()
+        const timeTodo = new Date(
+            this.state.selectedTask.time.toDate()
+        ).getTime()
+        return timeCurrent > timeTodo
     }
 
     getTaskById = (id) => {
@@ -578,6 +616,7 @@ class UpdateTask extends Component {
                                             Bắt đầu làm
                                         </Text>
                                         <TouchableOpacity
+                                            disabled={this.isNowOver()}
                                             onPress={() =>
                                                 this._showDateTimePicker()
                                             }
@@ -586,7 +625,14 @@ class UpdateTask extends Component {
                                                 marginTop: 3,
                                             }}
                                         >
-                                            <Text style={{ fontSize: 19 }}>
+                                            <Text
+                                                style={{
+                                                    fontSize: 19,
+                                                    color: this.isNowOver()
+                                                        ? 'gray'
+                                                        : 'black',
+                                                }}
+                                            >
                                                 {moment(
                                                     selectedTask.time.toDate()
                                                 ).format('HH:mm')}
@@ -617,13 +663,21 @@ class UpdateTask extends Component {
                                                     marginTop: 3,
                                                 }}
                                             >
-                                                <Text style={{ fontSize: 19 }}>
+                                                <Text
+                                                    style={{
+                                                        fontSize: 19,
+                                                        color: this.isNowOver()
+                                                            ? 'gray'
+                                                            : 'black',
+                                                    }}
+                                                >
                                                     {moment(
                                                         selectedTask.alarmTime.toDate()
                                                     ).format('HH:mm')}
                                                 </Text>
                                             </View>
                                         </View>
+
                                         <Switch
                                             value={selectedTask.isAlarmSet}
                                             onValueChange={() => {
@@ -728,10 +782,20 @@ class UpdateTask extends Component {
                                                 const prevSelectedTask = {
                                                     ...selectedTask,
                                                 }
-                                                prevSelectedTask.isCompleted = !selectedTask.isCompleted
-                                                this.setState({
-                                                    selectedTask: prevSelectedTask,
-                                                })
+
+                                                if (this.isNowOver() == false) {
+                                                    setTimeout(() => {
+                                                        Alert.alert(
+                                                            'Thông báo',
+                                                            'Thời gian bắt đầu công việc chưa đến không thể cập nhật trạng thái'
+                                                        )
+                                                    }, 500)
+                                                } else {
+                                                    prevSelectedTask.isCompleted = !selectedTask.isCompleted
+                                                    this.setState({
+                                                        selectedTask: prevSelectedTask,
+                                                    })
+                                                }
                                             }}
                                         />
                                     </View>

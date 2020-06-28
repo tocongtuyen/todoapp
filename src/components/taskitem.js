@@ -14,6 +14,23 @@ import firebase from '../database/firebase'
 
 const windowWidth = Dimensions.get('window').width / 7
 
+const LeftActions = (progress, dragX) => {
+    const scale = dragX.interpolate({
+        inputRange: [0, 100],
+        outputRange: [0, 1],
+        extrapolate: 'clamp',
+    })
+    return (
+        <View style={styles.leftAction}>
+            <Animated.Text
+                style={[styles.actionText, { transform: [{ scale }] }]}
+            >
+                <AntDesign name="checkcircleo" size={26} color="#fff" />
+            </Animated.Text>
+        </View>
+    )
+}
+
 const RightActions = ({ progress, dragX, onPress }) => {
     const scale = dragX.interpolate({
         inputRange: [-100, 0],
@@ -87,10 +104,19 @@ class taskitem extends React.Component {
     }
 
     render() {
-        const { onRightPress, index, title, time, isCompleted } = this.props
+        const {
+            onSwipeFromLeft,
+            onRightPress,
+            index,
+            title,
+            time,
+            isCompleted,
+        } = this.props
         return (
             <Swipeable
                 ref={(ref) => (row[index] = ref)}
+                renderLeftActions={LeftActions}
+                onSwipeableLeftOpen={onSwipeFromLeft}
                 renderRightActions={(progress, dragX) => (
                     <RightActions
                         progress={progress}
@@ -186,11 +212,18 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
         alignItems: 'center',
     },
+    leftAction: {
+        backgroundColor: '#388e3c',
+        justifyContent: 'center',
+        flex: 1,
+        marginTop: 1,
+        marginBottom: 1,
+    },
     rightAction: {
         backgroundColor: '#dd2c00',
         justifyContent: 'center',
         flex: 1,
-        alignItems: 'center',
+        // alignItems: 'center',
         marginTop: 1,
         marginBottom: 1,
         // marginRight: 30,
@@ -201,7 +234,7 @@ const styles = StyleSheet.create({
         fontWeight: '600',
         // paddingLeft: 25,
         // paddingRight: 25,
-        paddingLeft: 10,
-        paddingRight: 10,
+        paddingLeft: 14,
+        paddingRight: 14,
     },
 })

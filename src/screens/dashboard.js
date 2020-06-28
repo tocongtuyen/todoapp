@@ -11,7 +11,10 @@ import {
     Animated,
     TouchableOpacity,
     FlatList,
+    Modal,
+    Alert,
 } from 'react-native'
+import moment from 'moment'
 import firebase from '../database/firebase'
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
 import Entypo from 'react-native-vector-icons/Entypo'
@@ -21,6 +24,7 @@ import ActionSheet from 'react-native-actionsheet'
 
 import Header from '../components/headercomponent.js'
 import GroupTask from '../components/grouptaskcomponent.js'
+import TaskComponent from '../components/taskcomponent'
 
 const ProfileItem = ({ icon, name, onPress }) => (
     <TouchableOpacity style={styles.itemContainer} onPress={onPress}>
@@ -32,17 +36,32 @@ const ProfileItem = ({ icon, name, onPress }) => (
     </TouchableOpacity>
 )
 
+function nextDate(num) {
+    let today = moment()
+    let nextday = moment(today).add(num, 'days')
+    let stringday =
+        moment(nextday).format('YYYY') +
+        '/' +
+        moment(nextday).format('MM') +
+        '/' +
+        moment(nextday).format('DD')
+
+    return stringday
+}
+
 export default class Dashboard extends Component {
     constructor(props) {
         super(props)
         this.dbRef = firebase.firestore().collection('groups')
         this.state = {
-            uid: '',
-            displayName: '',
+            displayName: firebase.auth().currentUser.displayName,
+            uid: firebase.auth().currentUser.uid,
             dialogVisible: false,
             groupname: '',
             groupArr: [],
             keyGroupCurrent: '',
+            isModalVisible: true,
+            todoList: [],
         }
     }
 
@@ -71,6 +90,29 @@ export default class Dashboard extends Component {
         }
     }
 
+    getTask = (id, datebegin, dateend) => {
+        firebase
+            .firestore()
+            .collection('tasks')
+            .where('userid', '==', id + '')
+            .where('isCompleted', '==', false)
+            .where('time', '>=', new Date(datebegin))
+            .where('time', '<', new Date(dateend))
+            .orderBy('time')
+            .onSnapshot((querySnapshot) => {
+                let todo = []
+                querySnapshot.forEach(function (doc) {
+                    todo.push({
+                        key: doc.id,
+                        data: doc.data(),
+                        ...doc.data(),
+                    })
+                })
+                console.log(todo)
+                this.setState({ todoList: todo })
+            })
+    }
+
     signOut = () => {
         firebase
             .auth()
@@ -95,10 +137,7 @@ export default class Dashboard extends Component {
     }
 
     componentDidMount() {
-        this.setState({
-            displayName: firebase.auth().currentUser.displayName,
-            uid: firebase.auth().currentUser.uid,
-        })
+        this.getTask(this.state.uid, nextDate(0), nextDate(1))
         // this.unsubscribe = this.dbRef.onSnapshot(this.getCollection);
     }
     componentWillUnmount() {
@@ -174,9 +213,100 @@ export default class Dashboard extends Component {
         })
     }
 
+    updateTask = (id, item) => {
+        const { isCompleted } = item
+        let todoTime = new Date(item.time.toDate()).getTime()
+        let currentTime = new Date(
+            new Date(moment(Date.now()).add(-12, 'hours'))
+        ).getTime()
+        if (
+            todoTime < currentTime ||
+            todoTime > new Date(Date.now()).getTime()
+        ) {
+            Alert.alert(
+                'Thông báo',
+                'Công việc này đã qua 12 giờ hoặc chưa tới, không thể cập nhật trạng thái'
+            )
+        } else {
+            const updateDBRef = firebase.firestore().collection('tasks').doc(id)
+            updateDBRef
+                .set({
+                    ...item,
+                    isCompleted: !isCompleted,
+                })
+                .then((docRef) => {
+                    // this.props.navigation.goBack()
+                })
+                .catch((error) => {
+                    console.error('Error: ', error)
+                    // this.setState({
+                    //     isLoading: false,
+                    // })
+                })
+        }
+    }
+
     render() {
         return (
             <SafeAreaView style={{ flex: 1, backgroundColor: '#424F61' }}>
+                <Modal
+                    animationType="fade"
+                    transparent={true}
+                    visible={this.state.isModalVisible}
+                    onRequestClose={() => null}
+                >
+                    <View style={styles.centeredView}>
+                        <View style={styles.cardMain}>
+                            <View style={{ margin: 15 }}>
+                                <Text
+                                    style={{ fontSize: 22, fontWeight: '600' }}
+                                >
+                                    Công việc chưa hoàn thành hôm nay
+                                </Text>
+                            </View>
+                            <View
+                                style={[styles.seperator, { marginBottom: 10 }]}
+                            ></View>
+                            <FlatList
+                                data={this.state.todoList}
+                                renderItem={({ item }) => (
+                                    <TaskComponent
+                                        title={item.title}
+                                        time={item.time.toDate()}
+                                        isCompleted={item.isCompleted}
+                                        onSwipeFromLeft={() =>
+                                            this.updateTask(item.key, item.data)
+                                        }
+                                        notes={item.notes}
+                                        colorid={item.colorid}
+                                    />
+                                )}
+                                keyExtractor={(item) => item.key}
+                            />
+                            <TouchableOpacity
+                                style={[
+                                    styles.createTaskButton,
+                                    {
+                                        backgroundColor: 'green',
+                                    },
+                                ]}
+                                onPress={() => {
+                                    this.setState({ isModalVisible: false })
+                                }}
+                            >
+                                <Text
+                                    style={{
+                                        fontSize: 24,
+                                        textAlign: 'center',
+                                        color: '#fff',
+                                    }}
+                                >
+                                    Bắt đầu ngay
+                                </Text>
+                            </TouchableOpacity>
+                        </View>
+                    </View>
+                </Modal>
                 <View style={styles.screenContainer}>
                     {/* <Text style={styles.textStyle}>Hello, {this.state.displayName}</Text>
         <Button color="#3740FE" title="Logout" onPress={() => this.signOut()} /> */}
@@ -311,7 +441,10 @@ export default class Dashboard extends Component {
                         <Text
                             style={[
                                 styles.itemText,
-                                { marginLeft: 20, color: 'gray' },
+                                {
+                                    marginLeft: 20,
+                                    color: 'gray',
+                                },
                             ]}
                         >
                             Thêm mới công việc{' '}
@@ -324,7 +457,9 @@ export default class Dashboard extends Component {
                             placeholder="Nhập tên danh sách"
                             onChangeText={(text) => {
                                 console.log(text)
-                                this.setState({ groupname: text })
+                                this.setState({
+                                    groupname: text,
+                                })
                             }}
                         />
                         <Dialog.Button
@@ -398,5 +533,43 @@ const styles = StyleSheet.create({
         backgroundColor: '#979797',
         alignSelf: 'center',
         // marginVertical: 5,
+    },
+    centeredView: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        // marginTop: 22,
+    },
+    cardMain: {
+        position: 'absolute',
+        // top: 100,
+        height: 600,
+        width: 327,
+        // justifyContent: 'center',
+        // alignItems: 'center',
+        // borderRadius: 20,
+        // backgroundColor: '#ffffff',
+        // alignSelf: 'center',
+        margin: 20,
+        backgroundColor: 'white',
+        borderRadius: 20,
+        // padding: 15,
+        alignItems: 'center',
+        shadowColor: 'green',
+        shadowOffset: {
+            width: 0,
+            height: 2,
+        },
+        shadowOpacity: 0.5,
+        shadowRadius: 3.84,
+        elevation: 5,
+    },
+    createTaskButton: {
+        width: 300,
+        height: 58,
+        alignSelf: 'center',
+        marginBottom: 15,
+        borderRadius: 10,
+        justifyContent: 'center',
     },
 })
