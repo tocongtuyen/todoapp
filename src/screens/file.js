@@ -192,18 +192,39 @@ export default class calendarscreen extends Component {
         this.state = {
             uid: firebase.auth().currentUser.uid,
             number: 0,
-            todo: [],
+            arrS0: [],
+            arrS1: [],
+            arrS2: [],
+            arrS3: [],
+            arrS4: [],
+            arrS5: [],
+            arrS6: [],
+            arrT0: [],
+            arrT1: [],
+            arrT2: [],
+            arrT3: [],
+            arrT4: [],
+            arrT5: [],
+            arrT6: [],
+            arrC0: [],
+            arrC1: [],
+            arrC2: [],
+            arrC3: [],
+            arrC4: [],
+            arrC5: [],
+            arrC6: [],
             keyTaskCurrent: '',
         }
     }
 
-    getTaskWeek = (id, datebegin, dateend) => {
+    getTaskS0 = (id, datebegin, dateend) => {
         firebase
             .firestore()
             .collection('tasks')
             .where('userid', '==', id + '')
             .where('time', '>=', new Date(datebegin))
             .where('time', '<', new Date(dateend))
+            .where('session', '==', 1)
             .onSnapshot((querySnapshot) => {
                 let todo = []
                 querySnapshot.forEach(function (doc) {
@@ -214,7 +235,447 @@ export default class calendarscreen extends Component {
                     })
                 })
                 console.log(todo)
-                this.setState({ todo: todo })
+                this.setState({ arrS0: todo })
+            })
+    }
+
+    getTaskS1 = (id, datebegin, dateend) => {
+        firebase
+            .firestore()
+            .collection('tasks')
+            .where('userid', '==', id + '')
+            .where('time', '>=', new Date(datebegin))
+            .where('time', '<', new Date(dateend))
+            .where('session', '==', 1)
+            .onSnapshot((querySnapshot) => {
+                let todo = []
+                querySnapshot.forEach(function (doc) {
+                    todo.push({
+                        key: doc.id,
+                        data: doc.data(),
+                        ...doc.data(),
+                    })
+                })
+                console.log(todo)
+                this.setState({ arrS1: todo })
+            })
+    }
+
+    getTaskS2 = (id, datebegin, dateend) => {
+        firebase
+            .firestore()
+            .collection('tasks')
+            .where('userid', '==', id + '')
+            .where('time', '>=', new Date(datebegin))
+            .where('time', '<', new Date(dateend))
+            .where('session', '==', 1)
+            .onSnapshot((querySnapshot) => {
+                let todo = []
+                querySnapshot.forEach(function (doc) {
+                    todo.push({
+                        key: doc.id,
+                        data: doc.data(),
+                        ...doc.data(),
+                    })
+                })
+                console.log(todo)
+                this.setState({ arrS2: todo })
+            })
+    }
+
+    getTaskS3 = (id, datebegin, dateend) => {
+        firebase
+            .firestore()
+            .collection('tasks')
+            .where('userid', '==', id + '')
+            .where('time', '>=', new Date(datebegin))
+            .where('time', '<', new Date(dateend))
+            .where('session', '==', 1)
+            .onSnapshot((querySnapshot) => {
+                let todo = []
+                querySnapshot.forEach(function (doc) {
+                    todo.push({
+                        key: doc.id,
+                        data: doc.data(),
+                        ...doc.data(),
+                    })
+                })
+                console.log(todo)
+                this.setState({ arrS3: todo })
+            })
+    }
+
+    getTaskS4 = (id, datebegin, dateend) => {
+        firebase
+            .firestore()
+            .collection('tasks')
+            .where('userid', '==', id + '')
+            .where('time', '>=', new Date(datebegin))
+            .where('time', '<', new Date(dateend))
+            .where('session', '==', 1)
+            .onSnapshot((querySnapshot) => {
+                let todo = []
+                querySnapshot.forEach(function (doc) {
+                    todo.push({
+                        key: doc.id,
+                        data: doc.data(),
+                        ...doc.data(),
+                    })
+                })
+                console.log(todo)
+                this.setState({ arrS4: todo })
+            })
+    }
+
+    getTaskS5 = (id, datebegin, dateend) => {
+        firebase
+            .firestore()
+            .collection('tasks')
+            .where('userid', '==', id + '')
+            .where('time', '>=', new Date(datebegin))
+            .where('time', '<', new Date(dateend))
+            .where('session', '==', 1)
+            .onSnapshot((querySnapshot) => {
+                let todo = []
+                querySnapshot.forEach(function (doc) {
+                    todo.push({
+                        key: doc.id,
+                        data: doc.data(),
+                        ...doc.data(),
+                    })
+                })
+                console.log(todo)
+                this.setState({ arrS5: todo })
+            })
+    }
+
+    getTaskS6 = (id, datebegin, dateend) => {
+        firebase
+            .firestore()
+            .collection('tasks')
+            .where('userid', '==', id + '')
+            .where('time', '>=', new Date(datebegin))
+            .where('time', '<', new Date(dateend))
+            .where('session', '==', 1)
+            .onSnapshot((querySnapshot) => {
+                let todo = []
+                querySnapshot.forEach(function (doc) {
+                    todo.push({
+                        key: doc.id,
+                        data: doc.data(),
+                        ...doc.data(),
+                    })
+                })
+                console.log(todo)
+                this.setState({ arrS6: todo })
+            })
+    }
+
+    getTaskT0 = (id, datebegin, dateend) => {
+        firebase
+            .firestore()
+            .collection('tasks')
+            .where('userid', '==', id + '')
+            .where('time', '>=', new Date(datebegin))
+            .where('time', '<', new Date(dateend))
+            .where('session', '==', 2)
+            .onSnapshot((querySnapshot) => {
+                let todo = []
+                querySnapshot.forEach(function (doc) {
+                    todo.push({
+                        key: doc.id,
+                        data: doc.data(),
+                        ...doc.data(),
+                    })
+                })
+                console.log(todo)
+                this.setState({ arrT0: todo })
+            })
+    }
+
+    getTaskT1 = (id, datebegin, dateend) => {
+        firebase
+            .firestore()
+            .collection('tasks')
+            .where('userid', '==', id + '')
+            .where('time', '>=', new Date(datebegin))
+            .where('time', '<', new Date(dateend))
+            .where('session', '==', 2)
+            .onSnapshot((querySnapshot) => {
+                let todo = []
+                querySnapshot.forEach(function (doc) {
+                    todo.push({
+                        key: doc.id,
+                        data: doc.data(),
+                        ...doc.data(),
+                    })
+                })
+                console.log(todo)
+                this.setState({ arrT1: todo })
+            })
+    }
+
+    getTaskT2 = (id, datebegin, dateend) => {
+        firebase
+            .firestore()
+            .collection('tasks')
+            .where('userid', '==', id + '')
+            .where('time', '>=', new Date(datebegin))
+            .where('time', '<', new Date(dateend))
+            .where('session', '==', 2)
+            .onSnapshot((querySnapshot) => {
+                let todo = []
+                querySnapshot.forEach(function (doc) {
+                    todo.push({
+                        key: doc.id,
+                        data: doc.data(),
+                        ...doc.data(),
+                    })
+                })
+                console.log(todo)
+                this.setState({ arrT2: todo })
+            })
+    }
+
+    getTaskT3 = (id, datebegin, dateend) => {
+        firebase
+            .firestore()
+            .collection('tasks')
+            .where('userid', '==', id + '')
+            .where('time', '>=', new Date(datebegin))
+            .where('time', '<', new Date(dateend))
+            .where('session', '==', 2)
+            .onSnapshot((querySnapshot) => {
+                let todo = []
+                querySnapshot.forEach(function (doc) {
+                    todo.push({
+                        key: doc.id,
+                        data: doc.data(),
+                        ...doc.data(),
+                    })
+                })
+                console.log(todo)
+                this.setState({ arrT3: todo })
+            })
+    }
+
+    getTaskT4 = (id, datebegin, dateend) => {
+        firebase
+            .firestore()
+            .collection('tasks')
+            .where('userid', '==', id + '')
+            .where('time', '>=', new Date(datebegin))
+            .where('time', '<', new Date(dateend))
+            .where('session', '==', 2)
+            .onSnapshot((querySnapshot) => {
+                let todo = []
+                querySnapshot.forEach(function (doc) {
+                    todo.push({
+                        key: doc.id,
+                        data: doc.data(),
+                        ...doc.data(),
+                    })
+                })
+                console.log(todo)
+                this.setState({ arrT4: todo })
+            })
+    }
+
+    getTaskT5 = (id, datebegin, dateend) => {
+        firebase
+            .firestore()
+            .collection('tasks')
+            .where('userid', '==', id + '')
+            .where('time', '>=', new Date(datebegin))
+            .where('time', '<', new Date(dateend))
+            .where('session', '==', 2)
+            .onSnapshot((querySnapshot) => {
+                let todo = []
+                querySnapshot.forEach(function (doc) {
+                    todo.push({
+                        key: doc.id,
+                        data: doc.data(),
+                        ...doc.data(),
+                    })
+                })
+                console.log(todo)
+                this.setState({ arrT5: todo })
+            })
+    }
+
+    getTaskT6 = (id, datebegin, dateend) => {
+        firebase
+            .firestore()
+            .collection('tasks')
+            .where('userid', '==', id + '')
+            .where('time', '>=', new Date(datebegin))
+            .where('time', '<', new Date(dateend))
+            .where('session', '==', 2)
+            .onSnapshot((querySnapshot) => {
+                let todo = []
+                querySnapshot.forEach(function (doc) {
+                    todo.push({
+                        key: doc.id,
+                        data: doc.data(),
+                        ...doc.data(),
+                    })
+                })
+                console.log(todo)
+                this.setState({ arrT6: todo })
+            })
+    }
+
+    getTaskC0 = (id, datebegin, dateend) => {
+        firebase
+            .firestore()
+            .collection('tasks')
+            .where('userid', '==', id + '')
+            .where('time', '>=', new Date(datebegin))
+            .where('time', '<', new Date(dateend))
+            .where('session', '==', 3)
+            .onSnapshot((querySnapshot) => {
+                let todo = []
+                querySnapshot.forEach(function (doc) {
+                    todo.push({
+                        key: doc.id,
+                        data: doc.data(),
+                        ...doc.data(),
+                    })
+                })
+                console.log(todo)
+                this.setState({ arrC0: todo })
+            })
+    }
+
+    getTaskC1 = (id, datebegin, dateend) => {
+        firebase
+            .firestore()
+            .collection('tasks')
+            .where('userid', '==', id + '')
+            .where('time', '>=', new Date(datebegin))
+            .where('time', '<', new Date(dateend))
+            .where('session', '==', 3)
+            .onSnapshot((querySnapshot) => {
+                let todo = []
+                querySnapshot.forEach(function (doc) {
+                    todo.push({
+                        key: doc.id,
+                        data: doc.data(),
+                        ...doc.data(),
+                    })
+                })
+                console.log(todo)
+                this.setState({ arrC1: todo })
+            })
+    }
+
+    getTaskC2 = (id, datebegin, dateend) => {
+        firebase
+            .firestore()
+            .collection('tasks')
+            .where('userid', '==', id + '')
+            .where('time', '>=', new Date(datebegin))
+            .where('time', '<', new Date(dateend))
+            .where('session', '==', 3)
+            .onSnapshot((querySnapshot) => {
+                let todo = []
+                querySnapshot.forEach(function (doc) {
+                    todo.push({
+                        key: doc.id,
+                        data: doc.data(),
+                        ...doc.data(),
+                    })
+                })
+                console.log(todo)
+                this.setState({ arrC2: todo })
+            })
+    }
+
+    getTaskC3 = (id, datebegin, dateend) => {
+        firebase
+            .firestore()
+            .collection('tasks')
+            .where('userid', '==', id + '')
+            .where('time', '>=', new Date(datebegin))
+            .where('time', '<', new Date(dateend))
+            .where('session', '==', 3)
+            .onSnapshot((querySnapshot) => {
+                let todo = []
+                querySnapshot.forEach(function (doc) {
+                    todo.push({
+                        key: doc.id,
+                        data: doc.data(),
+                        ...doc.data(),
+                    })
+                })
+                console.log(todo)
+                this.setState({ arrC3: todo })
+            })
+    }
+
+    getTaskC4 = (id, datebegin, dateend) => {
+        firebase
+            .firestore()
+            .collection('tasks')
+            .where('userid', '==', id + '')
+            .where('time', '>=', new Date(datebegin))
+            .where('time', '<', new Date(dateend))
+            .where('session', '==', 3)
+            .onSnapshot((querySnapshot) => {
+                let todo = []
+                querySnapshot.forEach(function (doc) {
+                    todo.push({
+                        key: doc.id,
+                        data: doc.data(),
+                        ...doc.data(),
+                    })
+                })
+                console.log(todo)
+                this.setState({ arrC4: todo })
+            })
+    }
+
+    getTaskC5 = (id, datebegin, dateend) => {
+        firebase
+            .firestore()
+            .collection('tasks')
+            .where('userid', '==', id + '')
+            .where('time', '>=', new Date(datebegin))
+            .where('time', '<', new Date(dateend))
+            .where('session', '==', 3)
+            .onSnapshot((querySnapshot) => {
+                let todo = []
+                querySnapshot.forEach(function (doc) {
+                    todo.push({
+                        key: doc.id,
+                        data: doc.data(),
+                        ...doc.data(),
+                    })
+                })
+                console.log(todo)
+                this.setState({ arrC5: todo })
+            })
+    }
+
+    getTaskC6 = (id, datebegin, dateend) => {
+        firebase
+            .firestore()
+            .collection('tasks')
+            .where('userid', '==', id + '')
+            .where('time', '>=', new Date(datebegin))
+            .where('time', '<', new Date(dateend))
+            .where('session', '==', 3)
+            .onSnapshot((querySnapshot) => {
+                let todo = []
+                querySnapshot.forEach(function (doc) {
+                    todo.push({
+                        key: doc.id,
+                        data: doc.data(),
+                        ...doc.data(),
+                    })
+                })
+                console.log(todo)
+                this.setState({ arrC6: todo })
             })
     }
 
@@ -226,17 +687,111 @@ export default class calendarscreen extends Component {
     }
 
     renderData = () => {
-        this.getTaskWeek(
+        this.getTaskS0(
             this.state.uid,
             nextDate(checkThu2() + this.state.number),
+            nextDate(checkThu3() + this.state.number)
+        )
+        this.getTaskT0(
+            this.state.uid,
+            nextDate(checkThu2() + this.state.number),
+            nextDate(checkThu3() + this.state.number)
+        )
+        this.getTaskC0(
+            this.state.uid,
+            nextDate(checkThu2() + this.state.number),
+            nextDate(checkThu3() + this.state.number)
+        )
+        this.getTaskS1(
+            this.state.uid,
+            nextDate(checkThu3() + this.state.number),
+            nextDate(checkThu4() + this.state.number)
+        )
+        this.getTaskT1(
+            this.state.uid,
+            nextDate(checkThu3() + this.state.number),
+            nextDate(checkThu4() + this.state.number)
+        )
+        this.getTaskC1(
+            this.state.uid,
+            nextDate(checkThu3() + this.state.number),
+            nextDate(checkThu4() + this.state.number)
+        )
+        this.getTaskS2(
+            this.state.uid,
+            nextDate(checkThu4() + this.state.number),
+            nextDate(checkThu5() + this.state.number)
+        )
+        this.getTaskT2(
+            this.state.uid,
+            nextDate(checkThu4() + this.state.number),
+            nextDate(checkThu5() + this.state.number)
+        )
+        this.getTaskC2(
+            this.state.uid,
+            nextDate(checkThu4() + this.state.number),
+            nextDate(checkThu5() + this.state.number)
+        )
+        this.getTaskS3(
+            this.state.uid,
+            nextDate(checkThu5() + this.state.number),
+            nextDate(checkThu6() + this.state.number)
+        )
+        this.getTaskT3(
+            this.state.uid,
+            nextDate(checkThu5() + this.state.number),
+            nextDate(checkThu6() + this.state.number)
+        )
+        this.getTaskC3(
+            this.state.uid,
+            nextDate(checkThu5() + this.state.number),
+            nextDate(checkThu6() + this.state.number)
+        )
+        this.getTaskS4(
+            this.state.uid,
+            nextDate(checkThu6() + this.state.number),
+            nextDate(checkThu7() + this.state.number)
+        )
+        this.getTaskT4(
+            this.state.uid,
+            nextDate(checkThu6() + this.state.number),
+            nextDate(checkThu7() + this.state.number)
+        )
+        this.getTaskC4(
+            this.state.uid,
+            nextDate(checkThu6() + this.state.number),
+            nextDate(checkThu7() + this.state.number)
+        )
+        this.getTaskS5(
+            this.state.uid,
+            nextDate(checkThu7() + this.state.number),
+            nextDate(checkCN() + this.state.number)
+        )
+        this.getTaskT5(
+            this.state.uid,
+            nextDate(checkThu7() + this.state.number),
+            nextDate(checkCN() + this.state.number)
+        )
+        this.getTaskC5(
+            this.state.uid,
+            nextDate(checkThu7() + this.state.number),
+            nextDate(checkCN() + this.state.number)
+        )
+        this.getTaskS6(
+            this.state.uid,
+            nextDate(checkCN() + this.state.number),
             nextDate(checkCN() + 1 + this.state.number)
         )
-    }
-
-    filterData = (arr, session, number) => {
-        return arr.filter((item) => {
-            return item.session === session && item.number === number
-        })
+        this.getTaskT6(
+            this.state.uid,
+            nextDate(checkCN() + this.state.number),
+            nextDate(checkCN() + 1 + this.state.number)
+        )
+        this.getTaskC6(
+            this.state.uid,
+            nextDate(checkCN() + this.state.number),
+            nextDate(checkCN() + 1 + this.state.number)
+        )
     }
 
     componentDidMount() {
@@ -246,6 +801,18 @@ export default class calendarscreen extends Component {
     render() {
         return (
             <SafeAreaView style={{ flex: 1, backgroundColor: '#424F61' }}>
+                <ActionSheet
+                    ref={(o) => (this.ActionSheet = o)}
+                    title={'Dữ liệu sẽ bị xoá vĩnh viễn!'}
+                    options={['Xoá công việc', 'Huỷ bỏ']}
+                    cancelButtonIndex={1}
+                    destructiveButtonIndex={0}
+                    onPress={(index) => {
+                        if (index == 0) {
+                            this.deleteTask(this.state.keyTaskCurrent)
+                        }
+                    }}
+                />
                 <View
                     style={{
                         height: 35,
@@ -401,25 +968,17 @@ export default class calendarscreen extends Component {
                                     number={this.state.number}
                                 />
                                 <View style={styles.stylecolunm}>
-                                    {/* <Text>Sáng</Text> */}
+                                    {/* S0 */}
                                     <ListTaskItem
-                                        data={this.filterData(
-                                            this.state.todo,
-                                            1,
-                                            1
-                                        )}
+                                        data={this.state.arrS0}
                                         navigation={this.props.navigation}
                                     />
                                 </View>
                                 <View style={styles.dividercolunm} />
                                 <View style={styles.stylecolunm}>
-                                    {/* <Text>Trưa</Text> */}
+                                    {/* T0 */}
                                     <ListTaskItem
-                                        data={this.filterData(
-                                            this.state.todo,
-                                            2,
-                                            1
-                                        )}
+                                        data={this.state.arrT0}
                                         navigation={this.props.navigation}
                                     />
                                 </View>
@@ -427,11 +986,7 @@ export default class calendarscreen extends Component {
                                 <View style={styles.stylecolunm}>
                                     {/* <Text>Chiều</Text> */}
                                     <ListTaskItem
-                                        data={this.filterData(
-                                            this.state.todo,
-                                            3,
-                                            1
-                                        )}
+                                        data={this.state.arrC0}
                                         navigation={this.props.navigation}
                                     />
                                 </View>
@@ -445,11 +1000,7 @@ export default class calendarscreen extends Component {
                                 <View style={styles.stylecolunm}>
                                     {/* <Text>Sáng</Text> */}
                                     <ListTaskItem
-                                        data={this.filterData(
-                                            this.state.todo,
-                                            1,
-                                            2
-                                        )}
+                                        data={this.state.arrS1}
                                         navigation={this.props.navigation}
                                     />
                                 </View>
@@ -457,11 +1008,7 @@ export default class calendarscreen extends Component {
                                 <View style={styles.stylecolunm}>
                                     {/* <Text>Trưa</Text> */}
                                     <ListTaskItem
-                                        data={this.filterData(
-                                            this.state.todo,
-                                            2,
-                                            2
-                                        )}
+                                        data={this.state.arrT1}
                                         navigation={this.props.navigation}
                                     />
                                 </View>
@@ -469,11 +1016,7 @@ export default class calendarscreen extends Component {
                                 <View style={styles.stylecolunm}>
                                     {/* <Text>Chiều</Text> */}
                                     <ListTaskItem
-                                        data={this.filterData(
-                                            this.state.todo,
-                                            3,
-                                            2
-                                        )}
+                                        data={this.state.arrC1}
                                         navigation={this.props.navigation}
                                     />
                                 </View>
@@ -487,11 +1030,7 @@ export default class calendarscreen extends Component {
                                 <View style={styles.stylecolunm}>
                                     {/* <Text>Sáng</Text> */}
                                     <ListTaskItem
-                                        data={this.filterData(
-                                            this.state.todo,
-                                            1,
-                                            3
-                                        )}
+                                        data={this.state.arrS2}
                                         navigation={this.props.navigation}
                                     />
                                 </View>
@@ -499,11 +1038,7 @@ export default class calendarscreen extends Component {
                                 <View style={styles.stylecolunm}>
                                     {/* <Text>Trưa</Text> */}
                                     <ListTaskItem
-                                        data={this.filterData(
-                                            this.state.todo,
-                                            2,
-                                            3
-                                        )}
+                                        data={this.state.arrT2}
                                         navigation={this.props.navigation}
                                     />
                                 </View>
@@ -511,11 +1046,7 @@ export default class calendarscreen extends Component {
                                 <View style={styles.stylecolunm}>
                                     {/* <Text>Chiều</Text> */}
                                     <ListTaskItem
-                                        data={this.filterData(
-                                            this.state.todo,
-                                            3,
-                                            3
-                                        )}
+                                        data={this.state.arrC2}
                                         navigation={this.props.navigation}
                                     />
                                 </View>
@@ -529,11 +1060,7 @@ export default class calendarscreen extends Component {
                                 <View style={styles.stylecolunm}>
                                     {/* <Text>Sáng</Text> */}
                                     <ListTaskItem
-                                        data={this.filterData(
-                                            this.state.todo,
-                                            1,
-                                            4
-                                        )}
+                                        data={this.state.arrS3}
                                         navigation={this.props.navigation}
                                     />
                                 </View>
@@ -541,11 +1068,7 @@ export default class calendarscreen extends Component {
                                 <View style={styles.stylecolunm}>
                                     {/* <Text>Trưa</Text> */}
                                     <ListTaskItem
-                                        data={this.filterData(
-                                            this.state.todo,
-                                            2,
-                                            4
-                                        )}
+                                        data={this.state.arrT3}
                                         navigation={this.props.navigation}
                                     />
                                 </View>
@@ -553,11 +1076,7 @@ export default class calendarscreen extends Component {
                                 <View style={styles.stylecolunm}>
                                     {/* <Text>Chiều</Text> */}
                                     <ListTaskItem
-                                        data={this.filterData(
-                                            this.state.todo,
-                                            3,
-                                            4
-                                        )}
+                                        data={this.state.arrC3}
                                         navigation={this.props.navigation}
                                     />
                                 </View>
@@ -571,11 +1090,7 @@ export default class calendarscreen extends Component {
                                 <View style={styles.stylecolunm}>
                                     {/* <Text>Sáng</Text> */}
                                     <ListTaskItem
-                                        data={this.filterData(
-                                            this.state.todo,
-                                            1,
-                                            5
-                                        )}
+                                        data={this.state.arrS4}
                                         navigation={this.props.navigation}
                                     />
                                 </View>
@@ -583,11 +1098,7 @@ export default class calendarscreen extends Component {
                                 <View style={styles.stylecolunm}>
                                     {/* <Text>Trưa</Text> */}
                                     <ListTaskItem
-                                        data={this.filterData(
-                                            this.state.todo,
-                                            2,
-                                            5
-                                        )}
+                                        data={this.state.arrT4}
                                         navigation={this.props.navigation}
                                     />
                                 </View>
@@ -595,11 +1106,7 @@ export default class calendarscreen extends Component {
                                 <View style={styles.stylecolunm}>
                                     {/* <Text>Chiều</Text> */}
                                     <ListTaskItem
-                                        data={this.filterData(
-                                            this.state.todo,
-                                            3,
-                                            5
-                                        )}
+                                        data={this.state.arrC4}
                                         navigation={this.props.navigation}
                                     />
                                 </View>
@@ -613,11 +1120,7 @@ export default class calendarscreen extends Component {
                                 <View style={styles.stylecolunm}>
                                     {/* <Text>Sáng</Text> */}
                                     <ListTaskItem
-                                        data={this.filterData(
-                                            this.state.todo,
-                                            1,
-                                            6
-                                        )}
+                                        data={this.state.arrS5}
                                         navigation={this.props.navigation}
                                     />
                                 </View>
@@ -625,11 +1128,7 @@ export default class calendarscreen extends Component {
                                 <View style={styles.stylecolunm}>
                                     {/* <Text>Trưa</Text> */}
                                     <ListTaskItem
-                                        data={this.filterData(
-                                            this.state.todo,
-                                            2,
-                                            6
-                                        )}
+                                        data={this.state.arrT5}
                                         navigation={this.props.navigation}
                                     />
                                 </View>
@@ -637,11 +1136,7 @@ export default class calendarscreen extends Component {
                                 <View style={styles.stylecolunm}>
                                     {/* <Text>Chiều</Text> */}
                                     <ListTaskItem
-                                        data={this.filterData(
-                                            this.state.todo,
-                                            3,
-                                            6
-                                        )}
+                                        data={this.state.arrC5}
                                         navigation={this.props.navigation}
                                     />
                                 </View>
@@ -655,11 +1150,7 @@ export default class calendarscreen extends Component {
                                 <View style={styles.stylecolunm}>
                                     {/* <Text>Sáng</Text> */}
                                     <ListTaskItem
-                                        data={this.filterData(
-                                            this.state.todo,
-                                            1,
-                                            0
-                                        )}
+                                        data={this.state.arrS6}
                                         navigation={this.props.navigation}
                                     />
                                 </View>
@@ -667,11 +1158,7 @@ export default class calendarscreen extends Component {
                                 <View style={styles.stylecolunm}>
                                     {/* <Text>Trưa</Text> */}
                                     <ListTaskItem
-                                        data={this.filterData(
-                                            this.state.todo,
-                                            2,
-                                            0
-                                        )}
+                                        data={this.state.arrT6}
                                         navigation={this.props.navigation}
                                     />
                                 </View>
@@ -679,11 +1166,7 @@ export default class calendarscreen extends Component {
                                 <View style={styles.stylecolunm}>
                                     {/* <Text>Chiều</Text> */}
                                     <ListTaskItem
-                                        data={this.filterData(
-                                            this.state.todo,
-                                            3,
-                                            0
-                                        )}
+                                        data={this.state.arrC6}
                                         navigation={this.props.navigation}
                                     />
                                 </View>

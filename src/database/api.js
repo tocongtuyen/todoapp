@@ -18,19 +18,40 @@ import firebase from '../database/firebase'
 //         })
 // }
 
-export const getTask = (id, datebegin, dateend, session) => {
+// export const getTask = (id, datebegin, dateend, session) => {
+//     firebase
+//         .firestore()
+//         .collection('tasks')
+//         .where('userid', '==', id + '')
+//         .where('time', '>=', new Date(datebegin))
+//         .where('time', '<', new Date(dateend))
+//         .where('session', '==', session)
+//         .onSnapshot((querySnapshot) => {
+//             let todoList = []
+//             querySnapshot.forEach(function (doc) {
+//                 todoList.push({ key: doc.id, ...doc.data() })
+//             })
+//             console.log(todoList)
+//         })
+// }
+
+export const getTask = (id, datebegin, dateend, time) => {
     firebase
         .firestore()
         .collection('tasks')
         .where('userid', '==', id + '')
         .where('time', '>=', new Date(datebegin))
         .where('time', '<', new Date(dateend))
-        .where('session', '==', session)
+        .where('session', '==', time)
         .onSnapshot((querySnapshot) => {
-            let todoList = []
+            let todo = []
             querySnapshot.forEach(function (doc) {
-                todoList.push({ key: doc.id, ...doc.data() })
+                todo.push({
+                    key: doc.id,
+                    data: doc.data(),
+                    ...doc.data(),
+                })
             })
-            console.log(todoList)
+            return todo
         })
 }

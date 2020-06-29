@@ -111,6 +111,7 @@ class detailtask extends Component {
                     ),
                     isAlarmSet: this.state.isAlarmSet,
                     session: this.checkHour(),
+                    number: new Date(this.state.time).getDay(),
                     colorid: this.state.colorid,
                 })
                 .then((res) => {
@@ -142,6 +143,7 @@ class detailtask extends Component {
                 ),
                 isAlarmSet: this.state.isAlarmSet,
                 session: this.checkHour(),
+                number: new Date(this.state.time).getDay(),
                 colorid: this.state.colorid,
             })
             .then((res) => {
