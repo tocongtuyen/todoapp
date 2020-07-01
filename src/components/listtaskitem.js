@@ -49,60 +49,57 @@ const deleteTask = (key) => {
 }
 
 const ListTaskItem = ({ data, navigation }) => (
-    <ScrollView>
-        <View>
-            <FlatList
-                data={data}
-                renderItem={({ item, index }) => (
-                    <TouchableOpacity
-                        onPress={() => {
-                            navigation.navigate('UpdateTask', {
-                                taskid: item.key,
-                                data: item.data,
-                            })
+    <View>
+        <FlatList
+            data={data}
+            renderItem={({ item, index }) => (
+                <TouchableOpacity
+                    onPress={() => {
+                        navigation.navigate('UpdateTask', {
+                            taskid: item.key,
+                            data: item.data,
+                        })
+                    }}
+                    key={item.key}
+                >
+                    <TaskItem
+                        title={item.title}
+                        time={item.time.toDate()}
+                        index={index}
+                        length={data.length}
+                        isCompleted={item.isCompleted}
+                        onSwipeFromLeft={() => updateTask(item.key, item.data)}
+                        onRightPress={() => {
+                            // this.deleteGroup(item.key);
+                            // this.setState({
+                            //     keyTaskCurrent: item.key,
+                            // })
+                            // this.ActionSheet.show()
+                            Alert.alert(
+                                'Cảnh báo',
+                                'Dữ liệu sẽ bị xoá vĩnh viễn',
+                                [
+                                    {
+                                        text: 'Huỷ bỏ',
+                                        onPress: () =>
+                                            console.log('Cancel Pressed'),
+                                        style: 'cancel',
+                                    },
+                                    {
+                                        text: 'Đồng ý',
+                                        onPress: () => deleteTask(item.key),
+                                    },
+                                ],
+                                { cancelable: false }
+                            )
                         }}
-                        key={item.key}
-                    >
-                        <TaskItem
-                            title={item.title}
-                            time={item.time.toDate()}
-                            index={index}
-                            isCompleted={item.isCompleted}
-                            onSwipeFromLeft={() =>
-                                updateTask(item.key, item.data)
-                            }
-                            onRightPress={() => {
-                                // this.deleteGroup(item.key);
-                                // this.setState({
-                                //     keyTaskCurrent: item.key,
-                                // })
-                                // this.ActionSheet.show()
-                                Alert.alert(
-                                    'Cảnh báo',
-                                    'Dữ liệu sẽ bị xoá vĩnh viễn',
-                                    [
-                                        {
-                                            text: 'Huỷ bỏ',
-                                            onPress: () =>
-                                                console.log('Cancel Pressed'),
-                                            style: 'cancel',
-                                        },
-                                        {
-                                            text: 'Đồng ý',
-                                            onPress: () => deleteTask(item.key),
-                                        },
-                                    ],
-                                    { cancelable: false }
-                                )
-                            }}
-                            colorid={item.colorid}
-                        />
-                    </TouchableOpacity>
-                )}
-                keyExtractor={(item) => item.key}
-            />
-        </View>
-    </ScrollView>
+                        colorid={item.colorid}
+                    />
+                </TouchableOpacity>
+            )}
+            keyExtractor={(item) => item.key}
+        />
+    </View>
 )
 
 export default ListTaskItem

@@ -13,6 +13,7 @@ import {
     Alert,
     SafeAreaView,
     FlatList,
+    StatusBar,
 } from 'react-native'
 import moment from 'moment'
 import { CalendarList } from 'react-native-calendars'
@@ -66,12 +67,42 @@ class detailtask extends Component {
     checkHour() {
         let tamp = new Date(this.state.time).getHours()
         console.log(tamp)
-        if (tamp >= 6 && tamp < 13) {
-            return 1
-        } else if (tamp >= 13 && tamp < 19) {
-            return 2
-        } else if (tamp >= 19 && tamp < 24) {
-            return 3
+        if (tamp >= 6 && tamp < 7) {
+            return 6
+        } else if (tamp >= 7 && tamp < 8) {
+            return 7
+        } else if (tamp >= 8 && tamp < 9) {
+            return 8
+        } else if (tamp >= 9 && tamp < 10) {
+            return 9
+        } else if (tamp >= 10 && tamp < 11) {
+            return 10
+        } else if (tamp >= 11 && tamp < 12) {
+            return 11
+        } else if (tamp >= 12 && tamp < 13) {
+            return 12
+        } else if (tamp >= 13 && tamp < 14) {
+            return 13
+        } else if (tamp >= 14 && tamp < 15) {
+            return 14
+        } else if (tamp >= 15 && tamp < 16) {
+            return 15
+        } else if (tamp >= 16 && tamp < 17) {
+            return 16
+        } else if (tamp >= 17 && tamp < 18) {
+            return 17
+        } else if (tamp >= 18 && tamp < 19) {
+            return 18
+        } else if (tamp >= 19 && tamp < 20) {
+            return 19
+        } else if (tamp >= 20 && tamp < 21) {
+            return 20
+        } else if (tamp >= 21 && tamp < 22) {
+            return 21
+        } else if (tamp >= 22 && tamp < 23) {
+            return 22
+        } else if (tamp >= 23 && tamp < 24) {
+            return 23
         } else {
             return 0
         }
@@ -126,7 +157,58 @@ class detailtask extends Component {
         }
     }
 
-    addTasks = (tangngay) => {
+    getValueIndexLoop(index, buocnhay, lap) {
+        let i = 0
+        let count = 0
+        const a = [1, 2, 3, 4, 5, 6, 0]
+        let b = []
+        while (true) {
+            if (index + i == 7) {
+                i = -index
+            }
+            if (count == buocnhay) {
+                break
+            }
+            if (count % lap == 0) {
+                b.push(a[index + i])
+            }
+            count++
+            i++
+        }
+        return b
+    }
+
+    // ham lay index cua thu hien tai
+    getIndexTimeCurrent() {
+        const time = new Date(this.state.time).getDay()
+        let result = 0
+        switch (time) {
+            case 1:
+                result = 0
+                break
+            case 2:
+                result = 1
+                break
+            case 3:
+                result = 2
+                break
+            case 4:
+                result = 3
+                break
+            case 5:
+                result = 4
+                break
+            case 6:
+                result = 5
+                break
+            case 0:
+                result = 6
+                break
+        }
+        return result
+    }
+
+    addTasks = (index, tangngay) => {
         firebase
             .firestore()
             .collection('tasks')
@@ -143,8 +225,8 @@ class detailtask extends Component {
                 ),
                 isAlarmSet: this.state.isAlarmSet,
                 session: this.checkHour(),
-                number: new Date(this.state.time).getDay(),
                 colorid: this.state.colorid,
+                number: index,
             })
             .then((res) => {
                 // this.props.navigation.goBack()
@@ -157,10 +239,9 @@ class detailtask extends Component {
             })
     }
 
-    addTaskRepeat(stateRepeat) {
+    addTaskRepeat = (stateRepeat) => {
         if (this.state.colorid === '') {
             Alert.alert('Thông báo', 'Hãy chọn một màu')
-            console.log(this.state.time)
         } else if (
             this.checkHour() == 0 ||
             moment(this.state.time).format('H') == 0
@@ -169,41 +250,55 @@ class detailtask extends Component {
         } else {
             if (stateRepeat === 'Hằng ngày') {
                 let count = this.countDay(this.state.time, this.state.endTime)
-                for (let i = 0; i <= count; i++) {
-                    this.addTasks(i)
+                let index = this.getIndexTimeCurrent()
+                let arr = this.getValueIndexLoop(index, count, 1)
+                for (let i = 0; i < arr.length; i++) {
+                    this.addTasks(arr[i], i)
                 }
             } else if (stateRepeat === 'Cách một ngày') {
                 let count = this.countDay(this.state.time, this.state.endTime)
-                for (let i = 0; i <= count / 2; i++) {
-                    this.addTasks(i * 2)
+                let index = this.getIndexTimeCurrent()
+                let arr = this.getValueIndexLoop(index, count, 2)
+                for (let i = 0; i < arr.length; i++) {
+                    this.addTasks(arr[i], i * 2)
                 }
             } else if (stateRepeat === 'Cách hai ngày') {
                 let count = this.countDay(this.state.time, this.state.endTime)
-                for (let i = 0; i <= count / 3; i++) {
-                    this.addTasks(i * 3)
+                let index = this.getIndexTimeCurrent()
+                let arr = this.getValueIndexLoop(index, count, 3)
+                for (let i = 0; i < arr.length; i++) {
+                    this.addTasks(arr[i], i * 3)
                 }
             } else if (stateRepeat === 'Cách ba ngày') {
                 let count = this.countDay(this.state.time, this.state.endTime)
-                for (let i = 0; i <= count / 4; i++) {
-                    this.addTasks(i * 4)
+                let index = this.getIndexTimeCurrent()
+                let arr = this.getValueIndexLoop(index, count, 4)
+                for (let i = 0; i < arr.length; i++) {
+                    this.addTasks(arr[i], i * 4)
                 }
             } else if (stateRepeat === 'Hằng tuần') {
                 let count = this.countDay(this.state.time, this.state.endTime)
-                for (let i = 0; i <= count / 7; i++) {
-                    this.addTasks(i * 7)
+                let index = this.getIndexTimeCurrent()
+                let arr = this.getValueIndexLoop(index, count, 7)
+                for (let i = 0; i < arr.length; i++) {
+                    this.addTasks(arr[i], i * 7)
                 }
             } else if (stateRepeat === 'Cách một tuần') {
                 let count = this.countDay(this.state.time, this.state.endTime)
-                for (let i = 0; i <= count / 14; i++) {
-                    this.addTasks(i * 14)
+                let index = this.getIndexTimeCurrent()
+                let arr = this.getValueIndexLoop(index, count, 14)
+                for (let i = 0; i < arr.length; i++) {
+                    this.addTasks(arr[i], i * 14)
                 }
             } else if (stateRepeat === 'Cách hai tuần') {
                 let count = this.countDay(this.state.time, this.state.endTime)
-                for (let i = 0; i <= count / 21; i++) {
-                    this.addTasks(i * 21)
+                let index = this.getIndexTimeCurrent()
+                let arr = this.getValueIndexLoop(index, count, 21)
+                for (let i = 0; i < arr.length; i++) {
+                    this.addTasks(arr[i], i * 21)
                 }
             } else {
-                this.addTasks(0)
+                this.addTasks(new Date(this.state.time).getDay(), 0)
             }
             this.props.navigation.goBack()
         }
@@ -219,7 +314,6 @@ class detailtask extends Component {
                 querySnapshot.forEach(function (doc) {
                     arr.push({ key: doc.id, data: doc.data(), ...doc.data() })
                 })
-                console.log(arr)
                 this.setState({ arrColor: arr })
             })
     }
@@ -429,6 +523,7 @@ class detailtask extends Component {
 
         return (
             <SafeAreaView>
+                <StatusBar barStyle={'dark-content'} />
                 <View style={styles.screenContainer}>
                     <ActionSheet
                         ref={(o) => (this.ActionSheet = o)}
@@ -522,11 +617,11 @@ class detailtask extends Component {
                                 <Text style={styles.newTask}>
                                     Thêm công việc
                                 </Text>
-                                <View></View>
+                                <View />
                             </View>
                             <ScrollView
                                 contentContainerStyle={{
-                                    paddingBottom: 70,
+                                    paddingBottom: 50,
                                 }}
                             >
                                 <View style={styles.calenderContainer}>
@@ -599,8 +694,9 @@ class detailtask extends Component {
                                     <View style={styles.seperator} />
                                     <Text
                                         style={{
-                                            fontSize: 14,
-                                            color: '#BDC6D8',
+                                            color: '#9CAAC4',
+                                            fontSize: 16,
+                                            fontWeight: '600',
                                             marginVertical: 5,
                                         }}
                                     >
@@ -649,7 +745,7 @@ class detailtask extends Component {
                                                                 }
                                                             )
                                                         }
-                                                    ></TouchableOpacity>
+                                                    />
                                                     <TouchableOpacity
                                                         style={{
                                                             flex: 1,
@@ -747,7 +843,7 @@ class detailtask extends Component {
                                                         marginLeft: 10,
                                                     },
                                                 ]}
-                                            ></View>
+                                            />
                                         </View>
                                     </View>
                                     <View style={styles.notesContent} />
@@ -940,6 +1036,7 @@ class detailtask extends Component {
                                                     style={{
                                                         alignSelf: 'center',
                                                         // borderWidth: 1,
+                                                        // color: 'gray',
                                                         marginTop: 8,
                                                     }}
                                                     value={
@@ -950,14 +1047,15 @@ class detailtask extends Component {
                                                             : this.state
                                                                   .valuePickerSelect
                                                     }
-                                                ></TextInput>
+                                                />
                                             </RNPickerSelect>
+
                                             <FontAwesome
-                                                name={'angle-right'}
+                                                name={'angle-down'}
                                                 size={30}
                                                 color={'gray'}
                                                 style={{
-                                                    marginLeft: 10,
+                                                    marginLeft: 5,
                                                 }}
                                             />
                                         </TouchableOpacity>

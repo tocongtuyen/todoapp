@@ -12,6 +12,7 @@ import {
     TextInput,
     Switch,
     SafeAreaView,
+    StatusBar,
 } from 'react-native'
 import moment from 'moment'
 import TaskItem from '../components/taskitem.js'
@@ -135,6 +136,7 @@ export default class TaskCalendar extends Component {
         } = this
         return (
             <SafeAreaView style={{ flex: 1, backgroundColor: '#FFF' }}>
+                <StatusBar barStyle={'dark-content'} />
                 <View
                     style={{
                         flex: 1,
@@ -166,23 +168,6 @@ export default class TaskCalendar extends Component {
                             />
                         </TouchableOpacity>
                         {/* <TouchableOpacity
-                            style={{
-                                borderRadius: 15,
-                                backgroundColor: '#0074D6',
-                            }}
-                            onPress={() => {
-                                this.getTask(
-                                    this.state.userid,
-                                    nextDate(0),
-                                    nextDate(1)
-                                )
-                            }}
-                        >
-                            <Text style={styles.buttonSlide}>
-                                Tuần hiện tại
-                            </Text>
-                        </TouchableOpacity> */}
-                        <TouchableOpacity
                             onPress={() => {
                                 this.props.navigation.navigate('Addtask', {
                                     userid: this.state.userid,
@@ -195,7 +180,7 @@ export default class TaskCalendar extends Component {
                                 color={'#0074D6'}
                                 style={{ width: 32, marginRight: 10 }}
                             />
-                        </TouchableOpacity>
+                        </TouchableOpacity> */}
                     </View>
                     <CalendarStrip
                         ref={(ref) => {

@@ -8,6 +8,7 @@ import {
     Image,
     ScrollView,
     SafeAreaView,
+    StatusBar,
 } from 'react-native'
 import { TriangleColorPicker, toHsv } from 'react-native-color-picker'
 import firebase from '../database/firebase'
@@ -59,6 +60,7 @@ export default class App extends Component {
     render() {
         return (
             <SafeAreaView>
+                <StatusBar barStyle={'dark-content'} />
                 <View style={styles.container}>
                     <View
                         style={
@@ -91,94 +93,105 @@ export default class App extends Component {
                             paddingBottom: 70,
                         }}
                     > */}
-                    <View style={{ flex: 1 }}></View>
-                    <View style={styles.taskContainer}>
-                        <View
-                            style={{
-                                height: 400,
-                                paddingBottom: 25,
-                                backgroundColor: '#FFF',
-                            }}
-                        >
-                            <Text style={styles.title}>Chọn màu</Text>
-                            <TriangleColorPicker
-                                oldColor="purple"
-                                color={this.state.color}
-                                onColorChange={this.onColorChange}
-                                onColorSelected={(color) => {
-                                    // alert(`Color selected: ${color}`)
-                                    this.setState({
-                                        selectedColor: color,
-                                    })
-                                }}
-                                onOldColorSelected={(color) => {
-                                    // alert(`Color selected: ${color}`)
-                                    this.setState({
-                                        selectedColor: color,
-                                    })
-                                }}
-                                style={{ flex: 1 }}
-                            />
-                        </View>
-                        <View>
-                            <Text style={styles.title}>Tên nhãn</Text>
-                            <TextInput
-                                style={styles.newTask}
-                                onChangeText={(text) =>
-                                    this.setState({
-                                        label: text,
-                                    })
-                                }
-                                placeholder="Nhập tên nhãn"
-                                autoFocus={true}
-                            />
-                            <View style={styles.seperator}></View>
-                            <View
-                                style={{
-                                    flexDirection: 'row',
-                                    alignItems: 'center',
-                                    marginTop: 10,
-                                }}
-                            >
-                                <Text style={styles.title}>Màu đã chọn</Text>
-                                <View
-                                    style={{
-                                        height: 30,
-                                        width: 30,
-                                        backgroundColor: `${this.state.selectedColor}`,
-                                        justifyContent: 'center',
-                                        borderRadius: 15,
-                                        marginLeft: 20,
-                                    }}
-                                ></View>
-                            </View>
-                        </View>
-                    </View>
-                    <TouchableOpacity
-                        disabled={this.state.label === ''}
-                        style={[
-                            styles.createTaskButton,
-                            {
-                                backgroundColor:
-                                    this.state.label === ''
-                                        ? 'rgba(46, 102, 231,0.5)'
-                                        : '#2E66E7',
-                            },
-                        ]}
-                        onPress={async () => {
-                            this.addColor()
+                    <View
+                        style={{
+                            flex: 1,
+                            // alignSelf: 'center',
+                            // backgroundColor: 'red',
+                            // justifyContent: 'center',
                         }}
                     >
-                        <Text
-                            style={{
-                                fontSize: 18,
-                                textAlign: 'center',
-                                color: '#fff',
-                            }}
-                        >
-                            Thêm nhãn
-                        </Text>
-                    </TouchableOpacity>
+                        <View style={styles.taskContainer}>
+                            <View
+                                style={{
+                                    height: 280,
+                                    paddingBottom: 25,
+                                    backgroundColor: '#FFF',
+                                }}
+                            >
+                                <Text style={styles.title}>Chọn màu</Text>
+                                <TriangleColorPicker
+                                    oldColor="purple"
+                                    color={this.state.color}
+                                    onColorChange={this.onColorChange}
+                                    onColorSelected={(color) => {
+                                        // alert(`Color selected: ${color}`)
+                                        this.setState({
+                                            selectedColor: color,
+                                        })
+                                    }}
+                                    onOldColorSelected={(color) => {
+                                        // alert(`Color selected: ${color}`)
+                                        this.setState({
+                                            selectedColor: color,
+                                        })
+                                    }}
+                                    style={{ flex: 1 }}
+                                />
+                            </View>
+                            <View>
+                                <Text style={styles.title}>Tên nhãn</Text>
+                                <TextInput
+                                    style={styles.newTask}
+                                    onChangeText={(text) =>
+                                        this.setState({
+                                            label: text,
+                                        })
+                                    }
+                                    placeholder="Nhập tên nhãn"
+                                    autoFocus={true}
+                                />
+                                <View style={styles.seperator}></View>
+                                <View
+                                    style={{
+                                        flexDirection: 'row',
+                                        alignItems: 'center',
+                                        marginTop: 10,
+                                    }}
+                                >
+                                    <Text style={styles.title}>
+                                        Màu đã chọn
+                                    </Text>
+                                    <View
+                                        style={{
+                                            height: 30,
+                                            width: 30,
+                                            backgroundColor: `${this.state.selectedColor}`,
+                                            justifyContent: 'center',
+                                            borderRadius: 15,
+                                            marginLeft: 20,
+                                        }}
+                                    ></View>
+                                </View>
+                            </View>
+                            <TouchableOpacity
+                                disabled={this.state.label === ''}
+                                style={[
+                                    styles.createTaskButton,
+                                    {
+                                        backgroundColor:
+                                            this.state.label === ''
+                                                ? 'rgba(46, 102, 231,0.5)'
+                                                : '#2E66E7',
+                                    },
+                                ]}
+                                onPress={async () => {
+                                    this.addColor()
+                                }}
+                            >
+                                <Text
+                                    style={{
+                                        fontSize: 18,
+                                        textAlign: 'center',
+                                        color: '#fff',
+                                    }}
+                                >
+                                    Thêm nhãn
+                                </Text>
+                            </TouchableOpacity>
+                        </View>
+                    </View>
+
                     {/* </ScrollView> */}
                 </View>
             </SafeAreaView>
@@ -188,12 +201,12 @@ export default class App extends Component {
 
 const styles = StyleSheet.create({
     container: {
-        // flex: 1,
+        flex: 1,
         // alignItems: 'center',
         // justifyContent: 'center',
     },
     taskContainer: {
-        // height: 600,
+        height: 500,
         width: 327,
         alignSelf: 'center',
         borderRadius: 20,
@@ -206,7 +219,7 @@ const styles = StyleSheet.create({
         shadowRadius: 20,
         shadowOpacity: 0.2,
         elevation: 5,
-        padding: 22,
+        padding: 20,
     },
     seperator: {
         height: 0.5,
@@ -226,11 +239,11 @@ const styles = StyleSheet.create({
         marginVertical: 10,
     },
     createTaskButton: {
-        width: 327,
+        width: 300,
         height: 48,
         alignSelf: 'center',
-        marginTop: 20,
-        borderRadius: 5,
+        marginTop: 10,
+        borderRadius: 10,
         justifyContent: 'center',
     },
 })

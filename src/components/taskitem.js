@@ -108,6 +108,7 @@ class taskitem extends React.Component {
             onSwipeFromLeft,
             onRightPress,
             index,
+            length,
             title,
             time,
             isCompleted,
@@ -167,16 +168,35 @@ class taskitem extends React.Component {
                             >
                                 {title}
                             </Text>
-                            <Text
-                                style={{
-                                    color: 'black',
-                                    // fontSize: 14,
-                                    fontSize: 11,
-                                    marginRight: 5,
-                                }}
-                            >
-                                {`${moment(time).format('HH:mm')}`}
-                            </Text>
+                            <View style={{ flexDirection: 'row' }}>
+                                <Text
+                                    style={{
+                                        color: 'black',
+                                        // fontSize: 14,
+                                        fontSize: 10,
+                                        marginRight: 3,
+                                    }}
+                                >
+                                    {`${moment(time).format('HH:mm')}`}
+                                </Text>
+                                <View
+                                    style={[
+                                        styles.numberView,
+                                        { width: length <= 1 ? 0 : 12 },
+                                    ]}
+                                >
+                                    <Text
+                                        style={{
+                                            fontSize: 10,
+                                            alignSelf: 'center',
+                                            fontWeight: '600',
+                                            color: this.state.color.color,
+                                        }}
+                                    >
+                                        {index + 1}
+                                    </Text>
+                                </View>
+                            </View>
                         </View>
                     </View>
                 </View>
@@ -236,5 +256,12 @@ const styles = StyleSheet.create({
         // paddingRight: 25,
         paddingLeft: 14,
         paddingRight: 14,
+    },
+    numberView: {
+        backgroundColor: '#FFF',
+        width: 12,
+        height: 12,
+        borderRadius: 6,
+        // marginLeft: 5,
     },
 })

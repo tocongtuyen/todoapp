@@ -13,6 +13,7 @@ import {
     FlatList,
     Modal,
     Alert,
+    StatusBar,
 } from 'react-native'
 import moment from 'moment'
 import firebase from '../database/firebase'
@@ -60,7 +61,7 @@ export default class Dashboard extends Component {
             groupname: '',
             groupArr: [],
             keyGroupCurrent: '',
-            isModalVisible: true,
+            isModalVisible: false,
             todoList: [],
         }
     }
@@ -138,6 +139,9 @@ export default class Dashboard extends Component {
 
     componentDidMount() {
         this.getTask(this.state.uid, nextDate(0), nextDate(1))
+        setTimeout(() => {
+            this.setState({ isModalVisible: true })
+        }, 1000)
         // this.unsubscribe = this.dbRef.onSnapshot(this.getCollection);
     }
     componentWillUnmount() {
@@ -249,8 +253,9 @@ export default class Dashboard extends Component {
     render() {
         return (
             <SafeAreaView style={{ flex: 1, backgroundColor: '#424F61' }}>
+                <StatusBar barStyle={'light-content'} />
                 <Modal
-                    animationType="fade"
+                    animationType="slide"
                     transparent={true}
                     visible={this.state.isModalVisible}
                     onRequestClose={() => null}
@@ -259,9 +264,9 @@ export default class Dashboard extends Component {
                         <View style={styles.cardMain}>
                             <View style={{ margin: 15 }}>
                                 <Text
-                                    style={{ fontSize: 22, fontWeight: '600' }}
+                                    style={{ fontSize: 26, fontWeight: '500' }}
                                 >
-                                    Công việc chưa hoàn thành hôm nay
+                                    Công việc còn lại hôm nay
                                 </Text>
                             </View>
                             <View
@@ -314,6 +319,7 @@ export default class Dashboard extends Component {
                         title={this.state.displayName}
                         iconLeft="user"
                         iconRight="search1"
+                        onPress={() => this.signOut()}
                     />
                     {/* onPress={() => {
                                     this.props.navigation.navigate(
@@ -418,9 +424,13 @@ export default class Dashboard extends Component {
                             <View style={styles.divider} />
                             <TouchableOpacity
                                 style={styles.itemContainer}
-                                onPress={() => this.signOut()}
+                                onPress={() => {
+                                    this.setState({ isModalVisible: true })
+                                }}
                             >
-                                <Text style={styles.itemText}>Đăng xuất</Text>
+                                <Text style={styles.itemText}>
+                                    Công việc còn lại hôm nay
+                                </Text>
                                 {/* <FontAwesome name="angle-right" size={26} color="#1e1e1e" /> */}
                             </TouchableOpacity>
                         </View>
@@ -451,23 +461,6 @@ export default class Dashboard extends Component {
                         </Text>
                         {/* <FontAwesome name="angle-right" size={26} color="#1e1e1e" /> */}
                     </TouchableOpacity>
-                    <Dialog.Container visible={this.state.dialogVisible}>
-                        <Dialog.Title>Danh sách mới</Dialog.Title>
-                        <Dialog.Input
-                            placeholder="Nhập tên danh sách"
-                            onChangeText={(text) => {
-                                console.log(text)
-                                this.setState({
-                                    groupname: text,
-                                })
-                            }}
-                        />
-                        <Dialog.Button
-                            label="Huỷ "
-                            onPress={this.handleCancel}
-                        />
-                        <Dialog.Button label="Lưu" onPress={this.handleSave} />
-                    </Dialog.Container>
                 </View>
             </SafeAreaView>
         )
@@ -521,7 +514,7 @@ const styles = StyleSheet.create({
     itemText: {
         flex: 1,
         color: '#1e1e1e',
-        fontSize: 22,
+        fontSize: 20,
     },
     //
     divider: {
@@ -543,8 +536,8 @@ const styles = StyleSheet.create({
     cardMain: {
         position: 'absolute',
         // top: 100,
-        height: 600,
-        width: 327,
+        height: 500,
+        width: 300,
         // justifyContent: 'center',
         // alignItems: 'center',
         // borderRadius: 20,
@@ -565,7 +558,7 @@ const styles = StyleSheet.create({
         elevation: 5,
     },
     createTaskButton: {
-        width: 300,
+        width: 275,
         height: 58,
         alignSelf: 'center',
         marginBottom: 15,

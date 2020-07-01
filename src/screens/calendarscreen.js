@@ -8,6 +8,8 @@ import {
     FlatList,
     TouchableOpacity,
     Alert,
+    Dimensions,
+    StatusBar,
 } from 'react-native'
 import moment from 'moment'
 import TaskItem from '../components/taskitem.js'
@@ -16,6 +18,8 @@ import { getTask } from '../database/api'
 import firebase from '../database/firebase'
 import ActionSheet from 'react-native-actionsheet'
 import ListTaskItem from '../components/listtaskitem'
+import TimeLife from '../components/timelife'
+const Width = Dimensions.get('window').width
 
 const renderDateOnWeek = (num) => {
     // Lấy số thứ tự của ngày hiện tại
@@ -213,7 +217,7 @@ export default class calendarscreen extends Component {
                         ...doc.data(),
                     })
                 })
-                console.log(todo)
+                // console.log(todo)
                 this.setState({ todo: todo })
             })
     }
@@ -246,6 +250,7 @@ export default class calendarscreen extends Component {
     render() {
         return (
             <SafeAreaView style={{ flex: 1, backgroundColor: '#424F61' }}>
+                <StatusBar barStyle={'light-content'} />
                 <View
                     style={{
                         height: 35,
@@ -318,7 +323,7 @@ export default class calendarscreen extends Component {
                                 {'tuần sau >'}
                             </Text>
                         </TouchableOpacity>
-                        <TouchableOpacity
+                        {/* <TouchableOpacity
                             onPress={() => {
                                 this.props.navigation.navigate('Addtask', {
                                     userid: this.state.uid,
@@ -334,362 +339,1688 @@ export default class calendarscreen extends Component {
                                     marginRight: 10,
                                 }}
                             />
-                        </TouchableOpacity>
+                        </TouchableOpacity> */}
                     </View>
                 </View>
                 <View style={styles.container}>
-                    <View>
+                    <View style={{ flexDirection: 'row' }}>
+                        <View style={styles.colmday}></View>
                         <View style={styles.colmday}>
-                            <View style={[styles.headercolm, {}]}>
-                                <TouchableOpacity
-                                    onPress={() => {
-                                        getTask(
-                                            'vHWoFPdFbMcmmcv0gmavkdeJZWb2',
-                                            nextDate(0 + this.state.number),
-                                            nextDate(1 + this.state.number),
-                                            3
-                                        )
-                                    }}
-                                />
-                            </View>
-                            <View
-                                style={[
-                                    styles.stylecolunm,
-                                    {
-                                        backgroundColor: '#EFEFEF',
-                                    },
-                                ]}
-                            >
-                                <Text>06h</Text>
-                                <Text>-</Text>
-                                <Text>13h</Text>
-                            </View>
-                            <View style={styles.dividercolunm} />
-                            <View
-                                style={[
-                                    styles.stylecolunm,
-                                    {
-                                        backgroundColor: '#EFEFEF',
-                                    },
-                                ]}
-                            >
-                                <Text>13h</Text>
-                                <Text>-</Text>
-                                <Text>19h</Text>
-                            </View>
-                            <View style={styles.dividercolunm} />
-                            <View
-                                style={[
-                                    styles.stylecolunm,
-                                    {
-                                        backgroundColor: '#EFEFEF',
-                                    },
-                                ]}
-                            >
-                                <Text>19h</Text>
-                                <Text>-</Text>
-                                <Text>24h</Text>
-                            </View>
+                            <StyleHeaderFocus
+                                check={checkThu2()}
+                                number={this.state.number}
+                            />
+                        </View>
+                        <View style={styles.divider} />
+                        <View style={styles.colmday}>
+                            <StyleHeaderFocus
+                                check={checkThu3()}
+                                number={this.state.number}
+                            />
+                        </View>
+                        <View style={styles.divider} />
+                        <View style={styles.colmday}>
+                            <StyleHeaderFocus
+                                check={checkThu4()}
+                                number={this.state.number}
+                            />
+                        </View>
+                        <View style={styles.divider} />
+                        <View style={styles.colmday}>
+                            <StyleHeaderFocus
+                                check={checkThu5()}
+                                number={this.state.number}
+                            />
+                        </View>
+                        <View style={styles.divider} />
+                        <View style={styles.colmday}>
+                            <StyleHeaderFocus
+                                check={checkThu6()}
+                                number={this.state.number}
+                            />
+                        </View>
+                        <View style={styles.divider} />
+                        <View style={styles.colmday}>
+                            <StyleHeaderFocus
+                                check={checkThu7()}
+                                number={this.state.number}
+                            />
+                        </View>
+                        <View style={styles.divider} />
+                        <View style={styles.colmday}>
+                            <StyleHeaderFocus
+                                check={checkCN()}
+                                number={this.state.number}
+                            />
                         </View>
                     </View>
-                    <View style={{ flex: 1 }}>
-                        {/* <ScrollView horizontal={true}> */}
-                        <View style={styles.calendar}>
-                            <View style={styles.colmday}>
-                                <StyleHeaderFocus
-                                    check={checkThu2()}
-                                    number={this.state.number}
-                                />
-                                <View style={styles.stylecolunm}>
-                                    {/* <Text>Sáng</Text> */}
-                                    <ListTaskItem
-                                        data={this.filterData(
-                                            this.state.todo,
-                                            1,
-                                            1
-                                        )}
-                                        navigation={this.props.navigation}
-                                    />
+
+                    <View style={{ flex: 1, width: Width }}>
+                        <ScrollView horizontal={false}>
+                            <View style={styles.calendar}>
+                                <View style={[styles.colmday, { width: 10 }]}>
+                                    {/* <View style={[styles.headercolm, {}]}>
+                                        <TouchableOpacity
+                                            onPress={() => {
+                                                getTask(
+                                                    'vHWoFPdFbMcmmcv0gmavkdeJZWb2',
+                                                    nextDate(
+                                                        0 + this.state.number
+                                                    ),
+                                                    nextDate(
+                                                        1 + this.state.number
+                                                    ),
+                                                    3
+                                                )
+                                            }}
+                                        />
+                                    </View> */}
+                                    <TimeLife />
                                 </View>
-                                <View style={styles.dividercolunm} />
-                                <View style={styles.stylecolunm}>
-                                    {/* <Text>Trưa</Text> */}
-                                    <ListTaskItem
-                                        data={this.filterData(
-                                            this.state.todo,
-                                            2,
-                                            1
-                                        )}
-                                        navigation={this.props.navigation}
+                                {/* Thu2 */}
+                                <View style={styles.colmday}>
+                                    <View style={styles.stylecolunm}>
+                                        {/* <Text>Sáng</Text> */}
+                                        <ListTaskItem
+                                            data={this.filterData(
+                                                this.state.todo,
+                                                6,
+                                                1
+                                            )}
+                                            navigation={this.props.navigation}
+                                        />
+                                    </View>
+                                    <View style={styles.dividercolunm} />
+                                    <View style={styles.stylecolunm}>
+                                        {/* <Text>Trưa</Text> */}
+                                        <ListTaskItem
+                                            data={this.filterData(
+                                                this.state.todo,
+                                                7,
+                                                1
+                                            )}
+                                            navigation={this.props.navigation}
+                                        />
+                                    </View>
+                                    <View style={styles.dividercolunm} />
+                                    <View style={styles.stylecolunm}>
+                                        {/* <Text>Chiều</Text> */}
+                                        <ListTaskItem
+                                            data={this.filterData(
+                                                this.state.todo,
+                                                8,
+                                                1
+                                            )}
+                                            navigation={this.props.navigation}
+                                        />
+                                    </View>
+                                    <View style={styles.dividercolunm} />
+                                    <View style={styles.stylecolunm}>
+                                        {/* <Text>Chiều</Text> */}
+                                        <ListTaskItem
+                                            data={this.filterData(
+                                                this.state.todo,
+                                                9,
+                                                1
+                                            )}
+                                            navigation={this.props.navigation}
+                                        />
+                                    </View>
+                                    <View style={styles.dividercolunm} />
+                                    <View style={styles.stylecolunm}>
+                                        {/* <Text>Chiều</Text> */}
+                                        <ListTaskItem
+                                            data={this.filterData(
+                                                this.state.todo,
+                                                10,
+                                                1
+                                            )}
+                                            navigation={this.props.navigation}
+                                        />
+                                    </View>
+                                    <View style={styles.dividercolunm} />
+                                    <View style={styles.stylecolunm}>
+                                        {/* <Text>Chiều</Text> */}
+                                        <ListTaskItem
+                                            data={this.filterData(
+                                                this.state.todo,
+                                                11,
+                                                1
+                                            )}
+                                            navigation={this.props.navigation}
+                                        />
+                                    </View>
+                                    <View
+                                        style={[
+                                            styles.dividercolunm,
+                                            { backgroundColor: '#cad3c3' },
+                                        ]}
                                     />
+                                    <View style={styles.stylecolunm}>
+                                        {/* <Text>Chiều</Text> */}
+                                        <ListTaskItem
+                                            data={this.filterData(
+                                                this.state.todo,
+                                                12,
+                                                1
+                                            )}
+                                            navigation={this.props.navigation}
+                                        />
+                                    </View>
+                                    <View style={styles.dividercolunm} />
+                                    <View style={styles.stylecolunm}>
+                                        {/* <Text>Chiều</Text> */}
+                                        <ListTaskItem
+                                            data={this.filterData(
+                                                this.state.todo,
+                                                13,
+                                                1
+                                            )}
+                                            navigation={this.props.navigation}
+                                        />
+                                    </View>
+                                    <View style={styles.dividercolunm} />
+                                    <View style={styles.stylecolunm}>
+                                        {/* <Text>Chiều</Text> */}
+                                        <ListTaskItem
+                                            data={this.filterData(
+                                                this.state.todo,
+                                                14,
+                                                1
+                                            )}
+                                            navigation={this.props.navigation}
+                                        />
+                                    </View>
+                                    <View style={styles.dividercolunm} />
+                                    <View style={styles.stylecolunm}>
+                                        {/* <Text>Chiều</Text> */}
+                                        <ListTaskItem
+                                            data={this.filterData(
+                                                this.state.todo,
+                                                15,
+                                                1
+                                            )}
+                                            navigation={this.props.navigation}
+                                        />
+                                    </View>
+                                    <View style={styles.dividercolunm} />
+                                    <View style={styles.stylecolunm}>
+                                        {/* <Text>Chiều</Text> */}
+                                        <ListTaskItem
+                                            data={this.filterData(
+                                                this.state.todo,
+                                                16,
+                                                1
+                                            )}
+                                            navigation={this.props.navigation}
+                                        />
+                                    </View>
+                                    <View style={styles.dividercolunm} />
+                                    <View style={styles.stylecolunm}>
+                                        {/* <Text>Chiều</Text> */}
+                                        <ListTaskItem
+                                            data={this.filterData(
+                                                this.state.todo,
+                                                17,
+                                                1
+                                            )}
+                                            navigation={this.props.navigation}
+                                        />
+                                    </View>
+                                    <View
+                                        style={[
+                                            styles.dividercolunm,
+                                            { backgroundColor: '#cad3c3' },
+                                        ]}
+                                    />
+                                    <View style={styles.stylecolunm}>
+                                        {/* <Text>Chiều</Text> */}
+                                        <ListTaskItem
+                                            data={this.filterData(
+                                                this.state.todo,
+                                                18,
+                                                1
+                                            )}
+                                            navigation={this.props.navigation}
+                                        />
+                                    </View>
+                                    <View style={styles.dividercolunm} />
+                                    <View style={styles.stylecolunm}>
+                                        {/* <Text>Chiều</Text> */}
+                                        <ListTaskItem
+                                            data={this.filterData(
+                                                this.state.todo,
+                                                19,
+                                                1
+                                            )}
+                                            navigation={this.props.navigation}
+                                        />
+                                    </View>
+                                    <View style={styles.dividercolunm} />
+                                    <View style={styles.stylecolunm}>
+                                        {/* <Text>Chiều</Text> */}
+                                        <ListTaskItem
+                                            data={this.filterData(
+                                                this.state.todo,
+                                                20,
+                                                1
+                                            )}
+                                            navigation={this.props.navigation}
+                                        />
+                                    </View>
+                                    <View style={styles.dividercolunm} />
+                                    <View style={styles.stylecolunm}>
+                                        {/* <Text>Chiều</Text> */}
+                                        <ListTaskItem
+                                            data={this.filterData(
+                                                this.state.todo,
+                                                21,
+                                                1
+                                            )}
+                                            navigation={this.props.navigation}
+                                        />
+                                    </View>
+                                    <View style={styles.dividercolunm} />
+                                    <View style={styles.stylecolunm}>
+                                        {/* <Text>Chiều</Text> */}
+                                        <ListTaskItem
+                                            data={this.filterData(
+                                                this.state.todo,
+                                                22,
+                                                1
+                                            )}
+                                            navigation={this.props.navigation}
+                                        />
+                                    </View>
+                                    <View style={styles.dividercolunm} />
+                                    <View style={styles.stylecolunm}>
+                                        {/* <Text>Chiều</Text> */}
+                                        <ListTaskItem
+                                            data={this.filterData(
+                                                this.state.todo,
+                                                23,
+                                                1
+                                            )}
+                                            navigation={this.props.navigation}
+                                        />
+                                    </View>
                                 </View>
-                                <View style={styles.dividercolunm} />
-                                <View style={styles.stylecolunm}>
-                                    {/* <Text>Chiều</Text> */}
-                                    <ListTaskItem
-                                        data={this.filterData(
-                                            this.state.todo,
-                                            3,
-                                            1
-                                        )}
-                                        navigation={this.props.navigation}
+                                <View style={styles.divider} />
+                                {/* Thu3 */}
+                                <View style={styles.colmday}>
+                                    <View style={styles.stylecolunm}>
+                                        {/* <Text>Sáng</Text> */}
+                                        <ListTaskItem
+                                            data={this.filterData(
+                                                this.state.todo,
+                                                6,
+                                                2
+                                            )}
+                                            navigation={this.props.navigation}
+                                        />
+                                    </View>
+                                    <View style={styles.dividercolunm} />
+                                    <View style={styles.stylecolunm}>
+                                        {/* <Text>Trưa</Text> */}
+                                        <ListTaskItem
+                                            data={this.filterData(
+                                                this.state.todo,
+                                                7,
+                                                2
+                                            )}
+                                            navigation={this.props.navigation}
+                                        />
+                                    </View>
+                                    <View style={styles.dividercolunm} />
+                                    <View style={styles.stylecolunm}>
+                                        {/* <Text>Chiều</Text> */}
+                                        <ListTaskItem
+                                            data={this.filterData(
+                                                this.state.todo,
+                                                8,
+                                                2
+                                            )}
+                                            navigation={this.props.navigation}
+                                        />
+                                    </View>
+                                    <View style={styles.dividercolunm} />
+                                    <View style={styles.stylecolunm}>
+                                        {/* <Text>Chiều</Text> */}
+                                        <ListTaskItem
+                                            data={this.filterData(
+                                                this.state.todo,
+                                                9,
+                                                2
+                                            )}
+                                            navigation={this.props.navigation}
+                                        />
+                                    </View>
+                                    <View style={styles.dividercolunm} />
+                                    <View style={styles.stylecolunm}>
+                                        {/* <Text>Chiều</Text> */}
+                                        <ListTaskItem
+                                            data={this.filterData(
+                                                this.state.todo,
+                                                10,
+                                                2
+                                            )}
+                                            navigation={this.props.navigation}
+                                        />
+                                    </View>
+                                    <View style={styles.dividercolunm} />
+                                    <View style={styles.stylecolunm}>
+                                        {/* <Text>Chiều</Text> */}
+                                        <ListTaskItem
+                                            data={this.filterData(
+                                                this.state.todo,
+                                                11,
+                                                2
+                                            )}
+                                            navigation={this.props.navigation}
+                                        />
+                                    </View>
+                                    <View
+                                        style={[
+                                            styles.dividercolunm,
+                                            { backgroundColor: '#cad3c3' },
+                                        ]}
                                     />
+                                    <View style={styles.stylecolunm}>
+                                        {/* <Text>Chiều</Text> */}
+                                        <ListTaskItem
+                                            data={this.filterData(
+                                                this.state.todo,
+                                                12,
+                                                2
+                                            )}
+                                            navigation={this.props.navigation}
+                                        />
+                                    </View>
+                                    <View style={styles.dividercolunm} />
+                                    <View style={styles.stylecolunm}>
+                                        {/* <Text>Chiều</Text> */}
+                                        <ListTaskItem
+                                            data={this.filterData(
+                                                this.state.todo,
+                                                13,
+                                                2
+                                            )}
+                                            navigation={this.props.navigation}
+                                        />
+                                    </View>
+                                    <View style={styles.dividercolunm} />
+                                    <View style={styles.stylecolunm}>
+                                        {/* <Text>Chiều</Text> */}
+                                        <ListTaskItem
+                                            data={this.filterData(
+                                                this.state.todo,
+                                                14,
+                                                2
+                                            )}
+                                            navigation={this.props.navigation}
+                                        />
+                                    </View>
+                                    <View style={styles.dividercolunm} />
+                                    <View style={styles.stylecolunm}>
+                                        {/* <Text>Chiều</Text> */}
+                                        <ListTaskItem
+                                            data={this.filterData(
+                                                this.state.todo,
+                                                15,
+                                                2
+                                            )}
+                                            navigation={this.props.navigation}
+                                        />
+                                    </View>
+                                    <View style={styles.dividercolunm} />
+                                    <View style={styles.stylecolunm}>
+                                        {/* <Text>Chiều</Text> */}
+                                        <ListTaskItem
+                                            data={this.filterData(
+                                                this.state.todo,
+                                                16,
+                                                2
+                                            )}
+                                            navigation={this.props.navigation}
+                                        />
+                                    </View>
+                                    <View style={styles.dividercolunm} />
+                                    <View style={styles.stylecolunm}>
+                                        {/* <Text>Chiều</Text> */}
+                                        <ListTaskItem
+                                            data={this.filterData(
+                                                this.state.todo,
+                                                17,
+                                                2
+                                            )}
+                                            navigation={this.props.navigation}
+                                        />
+                                    </View>
+                                    <View
+                                        style={[
+                                            styles.dividercolunm,
+                                            { backgroundColor: '#cad3c3' },
+                                        ]}
+                                    />
+                                    <View style={styles.stylecolunm}>
+                                        {/* <Text>Chiều</Text> */}
+                                        <ListTaskItem
+                                            data={this.filterData(
+                                                this.state.todo,
+                                                18,
+                                                2
+                                            )}
+                                            navigation={this.props.navigation}
+                                        />
+                                    </View>
+                                    <View style={styles.dividercolunm} />
+                                    <View style={styles.stylecolunm}>
+                                        {/* <Text>Chiều</Text> */}
+                                        <ListTaskItem
+                                            data={this.filterData(
+                                                this.state.todo,
+                                                19,
+                                                2
+                                            )}
+                                            navigation={this.props.navigation}
+                                        />
+                                    </View>
+                                    <View style={styles.dividercolunm} />
+                                    <View style={styles.stylecolunm}>
+                                        {/* <Text>Chiều</Text> */}
+                                        <ListTaskItem
+                                            data={this.filterData(
+                                                this.state.todo,
+                                                20,
+                                                2
+                                            )}
+                                            navigation={this.props.navigation}
+                                        />
+                                    </View>
+                                    <View style={styles.dividercolunm} />
+                                    <View style={styles.stylecolunm}>
+                                        {/* <Text>Chiều</Text> */}
+                                        <ListTaskItem
+                                            data={this.filterData(
+                                                this.state.todo,
+                                                21,
+                                                2
+                                            )}
+                                            navigation={this.props.navigation}
+                                        />
+                                    </View>
+                                    <View style={styles.dividercolunm} />
+                                    <View style={styles.stylecolunm}>
+                                        {/* <Text>Chiều</Text> */}
+                                        <ListTaskItem
+                                            data={this.filterData(
+                                                this.state.todo,
+                                                22,
+                                                2
+                                            )}
+                                            navigation={this.props.navigation}
+                                        />
+                                    </View>
+                                    <View style={styles.dividercolunm} />
+                                    <View style={styles.stylecolunm}>
+                                        {/* <Text>Chiều</Text> */}
+                                        <ListTaskItem
+                                            data={this.filterData(
+                                                this.state.todo,
+                                                23,
+                                                2
+                                            )}
+                                            navigation={this.props.navigation}
+                                        />
+                                    </View>
+                                </View>
+                                <View style={styles.divider} />
+                                {/* Thu4 */}
+                                <View style={styles.colmday}>
+                                    <View style={styles.stylecolunm}>
+                                        {/* <Text>Sáng</Text> */}
+                                        <ListTaskItem
+                                            data={this.filterData(
+                                                this.state.todo,
+                                                6,
+                                                3
+                                            )}
+                                            navigation={this.props.navigation}
+                                        />
+                                    </View>
+                                    <View style={styles.dividercolunm} />
+                                    <View style={styles.stylecolunm}>
+                                        {/* <Text>Trưa</Text> */}
+                                        <ListTaskItem
+                                            data={this.filterData(
+                                                this.state.todo,
+                                                7,
+                                                3
+                                            )}
+                                            navigation={this.props.navigation}
+                                        />
+                                    </View>
+                                    <View style={styles.dividercolunm} />
+                                    <View style={styles.stylecolunm}>
+                                        {/* <Text>Chiều</Text> */}
+                                        <ListTaskItem
+                                            data={this.filterData(
+                                                this.state.todo,
+                                                8,
+                                                3
+                                            )}
+                                            navigation={this.props.navigation}
+                                        />
+                                    </View>
+                                    <View style={styles.dividercolunm} />
+                                    <View style={styles.stylecolunm}>
+                                        {/* <Text>Chiều</Text> */}
+                                        <ListTaskItem
+                                            data={this.filterData(
+                                                this.state.todo,
+                                                9,
+                                                3
+                                            )}
+                                            navigation={this.props.navigation}
+                                        />
+                                    </View>
+                                    <View style={styles.dividercolunm} />
+                                    <View style={styles.stylecolunm}>
+                                        {/* <Text>Chiều</Text> */}
+                                        <ListTaskItem
+                                            data={this.filterData(
+                                                this.state.todo,
+                                                10,
+                                                3
+                                            )}
+                                            navigation={this.props.navigation}
+                                        />
+                                    </View>
+                                    <View style={styles.dividercolunm} />
+                                    <View style={styles.stylecolunm}>
+                                        {/* <Text>Chiều</Text> */}
+                                        <ListTaskItem
+                                            data={this.filterData(
+                                                this.state.todo,
+                                                11,
+                                                3
+                                            )}
+                                            navigation={this.props.navigation}
+                                        />
+                                    </View>
+                                    <View
+                                        style={[
+                                            styles.dividercolunm,
+                                            { backgroundColor: '#cad3c3' },
+                                        ]}
+                                    />
+                                    <View style={styles.stylecolunm}>
+                                        {/* <Text>Chiều</Text> */}
+                                        <ListTaskItem
+                                            data={this.filterData(
+                                                this.state.todo,
+                                                12,
+                                                3
+                                            )}
+                                            navigation={this.props.navigation}
+                                        />
+                                    </View>
+                                    <View style={styles.dividercolunm} />
+                                    <View style={styles.stylecolunm}>
+                                        {/* <Text>Chiều</Text> */}
+                                        <ListTaskItem
+                                            data={this.filterData(
+                                                this.state.todo,
+                                                13,
+                                                3
+                                            )}
+                                            navigation={this.props.navigation}
+                                        />
+                                    </View>
+                                    <View style={styles.dividercolunm} />
+                                    <View style={styles.stylecolunm}>
+                                        {/* <Text>Chiều</Text> */}
+                                        <ListTaskItem
+                                            data={this.filterData(
+                                                this.state.todo,
+                                                14,
+                                                3
+                                            )}
+                                            navigation={this.props.navigation}
+                                        />
+                                    </View>
+                                    <View style={styles.dividercolunm} />
+                                    <View style={styles.stylecolunm}>
+                                        {/* <Text>Chiều</Text> */}
+                                        <ListTaskItem
+                                            data={this.filterData(
+                                                this.state.todo,
+                                                15,
+                                                3
+                                            )}
+                                            navigation={this.props.navigation}
+                                        />
+                                    </View>
+                                    <View style={styles.dividercolunm} />
+                                    <View style={styles.stylecolunm}>
+                                        {/* <Text>Chiều</Text> */}
+                                        <ListTaskItem
+                                            data={this.filterData(
+                                                this.state.todo,
+                                                16,
+                                                3
+                                            )}
+                                            navigation={this.props.navigation}
+                                        />
+                                    </View>
+                                    <View style={styles.dividercolunm} />
+                                    <View style={styles.stylecolunm}>
+                                        {/* <Text>Chiều</Text> */}
+                                        <ListTaskItem
+                                            data={this.filterData(
+                                                this.state.todo,
+                                                17,
+                                                3
+                                            )}
+                                            navigation={this.props.navigation}
+                                        />
+                                    </View>
+                                    <View
+                                        style={[
+                                            styles.dividercolunm,
+                                            { backgroundColor: '#cad3c3' },
+                                        ]}
+                                    />
+                                    <View style={styles.stylecolunm}>
+                                        {/* <Text>Chiều</Text> */}
+                                        <ListTaskItem
+                                            data={this.filterData(
+                                                this.state.todo,
+                                                18,
+                                                3
+                                            )}
+                                            navigation={this.props.navigation}
+                                        />
+                                    </View>
+                                    <View style={styles.dividercolunm} />
+                                    <View style={styles.stylecolunm}>
+                                        {/* <Text>Chiều</Text> */}
+                                        <ListTaskItem
+                                            data={this.filterData(
+                                                this.state.todo,
+                                                19,
+                                                3
+                                            )}
+                                            navigation={this.props.navigation}
+                                        />
+                                    </View>
+                                    <View style={styles.dividercolunm} />
+                                    <View style={styles.stylecolunm}>
+                                        {/* <Text>Chiều</Text> */}
+                                        <ListTaskItem
+                                            data={this.filterData(
+                                                this.state.todo,
+                                                20,
+                                                3
+                                            )}
+                                            navigation={this.props.navigation}
+                                        />
+                                    </View>
+                                    <View style={styles.dividercolunm} />
+                                    <View style={styles.stylecolunm}>
+                                        {/* <Text>Chiều</Text> */}
+                                        <ListTaskItem
+                                            data={this.filterData(
+                                                this.state.todo,
+                                                21,
+                                                3
+                                            )}
+                                            navigation={this.props.navigation}
+                                        />
+                                    </View>
+                                    <View style={styles.dividercolunm} />
+                                    <View style={styles.stylecolunm}>
+                                        {/* <Text>Chiều</Text> */}
+                                        <ListTaskItem
+                                            data={this.filterData(
+                                                this.state.todo,
+                                                22,
+                                                3
+                                            )}
+                                            navigation={this.props.navigation}
+                                        />
+                                    </View>
+                                    <View style={styles.dividercolunm} />
+                                    <View style={styles.stylecolunm}>
+                                        {/* <Text>Chiều</Text> */}
+                                        <ListTaskItem
+                                            data={this.filterData(
+                                                this.state.todo,
+                                                23,
+                                                3
+                                            )}
+                                            navigation={this.props.navigation}
+                                        />
+                                    </View>
+                                </View>
+                                <View style={styles.divider} />
+                                {/* Thu5 */}
+                                <View style={styles.colmday}>
+                                    <View style={styles.stylecolunm}>
+                                        {/* <Text>Sáng</Text> */}
+                                        <ListTaskItem
+                                            data={this.filterData(
+                                                this.state.todo,
+                                                6,
+                                                4
+                                            )}
+                                            navigation={this.props.navigation}
+                                        />
+                                    </View>
+                                    <View style={styles.dividercolunm} />
+                                    <View style={styles.stylecolunm}>
+                                        {/* <Text>Trưa</Text> */}
+                                        <ListTaskItem
+                                            data={this.filterData(
+                                                this.state.todo,
+                                                7,
+                                                4
+                                            )}
+                                            navigation={this.props.navigation}
+                                        />
+                                    </View>
+                                    <View style={styles.dividercolunm} />
+                                    <View style={styles.stylecolunm}>
+                                        {/* <Text>Chiều</Text> */}
+                                        <ListTaskItem
+                                            data={this.filterData(
+                                                this.state.todo,
+                                                8,
+                                                4
+                                            )}
+                                            navigation={this.props.navigation}
+                                        />
+                                    </View>
+                                    <View style={styles.dividercolunm} />
+                                    <View style={styles.stylecolunm}>
+                                        {/* <Text>Chiều</Text> */}
+                                        <ListTaskItem
+                                            data={this.filterData(
+                                                this.state.todo,
+                                                9,
+                                                4
+                                            )}
+                                            navigation={this.props.navigation}
+                                        />
+                                    </View>
+                                    <View style={styles.dividercolunm} />
+                                    <View style={styles.stylecolunm}>
+                                        {/* <Text>Chiều</Text> */}
+                                        <ListTaskItem
+                                            data={this.filterData(
+                                                this.state.todo,
+                                                10,
+                                                4
+                                            )}
+                                            navigation={this.props.navigation}
+                                        />
+                                    </View>
+                                    <View style={styles.dividercolunm} />
+                                    <View style={styles.stylecolunm}>
+                                        {/* <Text>Chiều</Text> */}
+                                        <ListTaskItem
+                                            data={this.filterData(
+                                                this.state.todo,
+                                                11,
+                                                4
+                                            )}
+                                            navigation={this.props.navigation}
+                                        />
+                                    </View>
+                                    <View
+                                        style={[
+                                            styles.dividercolunm,
+                                            { backgroundColor: '#cad3c3' },
+                                        ]}
+                                    />
+                                    <View style={styles.stylecolunm}>
+                                        {/* <Text>Chiều</Text> */}
+                                        <ListTaskItem
+                                            data={this.filterData(
+                                                this.state.todo,
+                                                12,
+                                                4
+                                            )}
+                                            navigation={this.props.navigation}
+                                        />
+                                    </View>
+                                    <View style={styles.dividercolunm} />
+                                    <View style={styles.stylecolunm}>
+                                        {/* <Text>Chiều</Text> */}
+                                        <ListTaskItem
+                                            data={this.filterData(
+                                                this.state.todo,
+                                                13,
+                                                4
+                                            )}
+                                            navigation={this.props.navigation}
+                                        />
+                                    </View>
+                                    <View style={styles.dividercolunm} />
+                                    <View style={styles.stylecolunm}>
+                                        {/* <Text>Chiều</Text> */}
+                                        <ListTaskItem
+                                            data={this.filterData(
+                                                this.state.todo,
+                                                14,
+                                                4
+                                            )}
+                                            navigation={this.props.navigation}
+                                        />
+                                    </View>
+                                    <View style={styles.dividercolunm} />
+                                    <View style={styles.stylecolunm}>
+                                        {/* <Text>Chiều</Text> */}
+                                        <ListTaskItem
+                                            data={this.filterData(
+                                                this.state.todo,
+                                                15,
+                                                4
+                                            )}
+                                            navigation={this.props.navigation}
+                                        />
+                                    </View>
+                                    <View style={styles.dividercolunm} />
+                                    <View style={styles.stylecolunm}>
+                                        {/* <Text>Chiều</Text> */}
+                                        <ListTaskItem
+                                            data={this.filterData(
+                                                this.state.todo,
+                                                16,
+                                                4
+                                            )}
+                                            navigation={this.props.navigation}
+                                        />
+                                    </View>
+                                    <View style={styles.dividercolunm} />
+                                    <View style={styles.stylecolunm}>
+                                        {/* <Text>Chiều</Text> */}
+                                        <ListTaskItem
+                                            data={this.filterData(
+                                                this.state.todo,
+                                                17,
+                                                4
+                                            )}
+                                            navigation={this.props.navigation}
+                                        />
+                                    </View>
+                                    <View
+                                        style={[
+                                            styles.dividercolunm,
+                                            { backgroundColor: '#cad3c3' },
+                                        ]}
+                                    />
+                                    <View style={styles.stylecolunm}>
+                                        {/* <Text>Chiều</Text> */}
+                                        <ListTaskItem
+                                            data={this.filterData(
+                                                this.state.todo,
+                                                18,
+                                                4
+                                            )}
+                                            navigation={this.props.navigation}
+                                        />
+                                    </View>
+                                    <View style={styles.dividercolunm} />
+                                    <View style={styles.stylecolunm}>
+                                        {/* <Text>Chiều</Text> */}
+                                        <ListTaskItem
+                                            data={this.filterData(
+                                                this.state.todo,
+                                                19,
+                                                4
+                                            )}
+                                            navigation={this.props.navigation}
+                                        />
+                                    </View>
+                                    <View style={styles.dividercolunm} />
+                                    <View style={styles.stylecolunm}>
+                                        {/* <Text>Chiều</Text> */}
+                                        <ListTaskItem
+                                            data={this.filterData(
+                                                this.state.todo,
+                                                20,
+                                                4
+                                            )}
+                                            navigation={this.props.navigation}
+                                        />
+                                    </View>
+                                    <View style={styles.dividercolunm} />
+                                    <View style={styles.stylecolunm}>
+                                        {/* <Text>Chiều</Text> */}
+                                        <ListTaskItem
+                                            data={this.filterData(
+                                                this.state.todo,
+                                                21,
+                                                4
+                                            )}
+                                            navigation={this.props.navigation}
+                                        />
+                                    </View>
+                                    <View style={styles.dividercolunm} />
+                                    <View style={styles.stylecolunm}>
+                                        {/* <Text>Chiều</Text> */}
+                                        <ListTaskItem
+                                            data={this.filterData(
+                                                this.state.todo,
+                                                22,
+                                                4
+                                            )}
+                                            navigation={this.props.navigation}
+                                        />
+                                    </View>
+                                    <View style={styles.dividercolunm} />
+                                    <View style={styles.stylecolunm}>
+                                        {/* <Text>Chiều</Text> */}
+                                        <ListTaskItem
+                                            data={this.filterData(
+                                                this.state.todo,
+                                                23,
+                                                4
+                                            )}
+                                            navigation={this.props.navigation}
+                                        />
+                                    </View>
+                                </View>
+                                <View style={styles.divider} />
+                                {/* Thu6 */}
+                                <View style={styles.colmday}>
+                                    <View style={styles.stylecolunm}>
+                                        {/* <Text>Sáng</Text> */}
+                                        <ListTaskItem
+                                            data={this.filterData(
+                                                this.state.todo,
+                                                6,
+                                                5
+                                            )}
+                                            navigation={this.props.navigation}
+                                        />
+                                    </View>
+                                    <View style={styles.dividercolunm} />
+                                    <View style={styles.stylecolunm}>
+                                        {/* <Text>Trưa</Text> */}
+                                        <ListTaskItem
+                                            data={this.filterData(
+                                                this.state.todo,
+                                                7,
+                                                5
+                                            )}
+                                            navigation={this.props.navigation}
+                                        />
+                                    </View>
+                                    <View style={styles.dividercolunm} />
+                                    <View style={styles.stylecolunm}>
+                                        {/* <Text>Chiều</Text> */}
+                                        <ListTaskItem
+                                            data={this.filterData(
+                                                this.state.todo,
+                                                8,
+                                                5
+                                            )}
+                                            navigation={this.props.navigation}
+                                        />
+                                    </View>
+                                    <View style={styles.dividercolunm} />
+                                    <View style={styles.stylecolunm}>
+                                        {/* <Text>Chiều</Text> */}
+                                        <ListTaskItem
+                                            data={this.filterData(
+                                                this.state.todo,
+                                                9,
+                                                5
+                                            )}
+                                            navigation={this.props.navigation}
+                                        />
+                                    </View>
+                                    <View style={styles.dividercolunm} />
+                                    <View style={styles.stylecolunm}>
+                                        {/* <Text>Chiều</Text> */}
+                                        <ListTaskItem
+                                            data={this.filterData(
+                                                this.state.todo,
+                                                10,
+                                                5
+                                            )}
+                                            navigation={this.props.navigation}
+                                        />
+                                    </View>
+                                    <View style={styles.dividercolunm} />
+                                    <View style={styles.stylecolunm}>
+                                        {/* <Text>Chiều</Text> */}
+                                        <ListTaskItem
+                                            data={this.filterData(
+                                                this.state.todo,
+                                                11,
+                                                5
+                                            )}
+                                            navigation={this.props.navigation}
+                                        />
+                                    </View>
+                                    <View
+                                        style={[
+                                            styles.dividercolunm,
+                                            { backgroundColor: '#cad3c3' },
+                                        ]}
+                                    />
+                                    <View style={styles.stylecolunm}>
+                                        {/* <Text>Chiều</Text> */}
+                                        <ListTaskItem
+                                            data={this.filterData(
+                                                this.state.todo,
+                                                12,
+                                                5
+                                            )}
+                                            navigation={this.props.navigation}
+                                        />
+                                    </View>
+                                    <View style={styles.dividercolunm} />
+                                    <View style={styles.stylecolunm}>
+                                        {/* <Text>Chiều</Text> */}
+                                        <ListTaskItem
+                                            data={this.filterData(
+                                                this.state.todo,
+                                                13,
+                                                5
+                                            )}
+                                            navigation={this.props.navigation}
+                                        />
+                                    </View>
+                                    <View style={styles.dividercolunm} />
+                                    <View style={styles.stylecolunm}>
+                                        {/* <Text>Chiều</Text> */}
+                                        <ListTaskItem
+                                            data={this.filterData(
+                                                this.state.todo,
+                                                14,
+                                                5
+                                            )}
+                                            navigation={this.props.navigation}
+                                        />
+                                    </View>
+                                    <View style={styles.dividercolunm} />
+                                    <View style={styles.stylecolunm}>
+                                        {/* <Text>Chiều</Text> */}
+                                        <ListTaskItem
+                                            data={this.filterData(
+                                                this.state.todo,
+                                                15,
+                                                5
+                                            )}
+                                            navigation={this.props.navigation}
+                                        />
+                                    </View>
+                                    <View style={styles.dividercolunm} />
+                                    <View style={styles.stylecolunm}>
+                                        {/* <Text>Chiều</Text> */}
+                                        <ListTaskItem
+                                            data={this.filterData(
+                                                this.state.todo,
+                                                16,
+                                                5
+                                            )}
+                                            navigation={this.props.navigation}
+                                        />
+                                    </View>
+                                    <View style={styles.dividercolunm} />
+                                    <View style={styles.stylecolunm}>
+                                        {/* <Text>Chiều</Text> */}
+                                        <ListTaskItem
+                                            data={this.filterData(
+                                                this.state.todo,
+                                                17,
+                                                5
+                                            )}
+                                            navigation={this.props.navigation}
+                                        />
+                                    </View>
+                                    <View
+                                        style={[
+                                            styles.dividercolunm,
+                                            { backgroundColor: '#cad3c3' },
+                                        ]}
+                                    />
+                                    <View style={styles.stylecolunm}>
+                                        {/* <Text>Chiều</Text> */}
+                                        <ListTaskItem
+                                            data={this.filterData(
+                                                this.state.todo,
+                                                18,
+                                                5
+                                            )}
+                                            navigation={this.props.navigation}
+                                        />
+                                    </View>
+                                    <View style={styles.dividercolunm} />
+                                    <View style={styles.stylecolunm}>
+                                        {/* <Text>Chiều</Text> */}
+                                        <ListTaskItem
+                                            data={this.filterData(
+                                                this.state.todo,
+                                                19,
+                                                5
+                                            )}
+                                            navigation={this.props.navigation}
+                                        />
+                                    </View>
+                                    <View style={styles.dividercolunm} />
+                                    <View style={styles.stylecolunm}>
+                                        {/* <Text>Chiều</Text> */}
+                                        <ListTaskItem
+                                            data={this.filterData(
+                                                this.state.todo,
+                                                20,
+                                                5
+                                            )}
+                                            navigation={this.props.navigation}
+                                        />
+                                    </View>
+                                    <View style={styles.dividercolunm} />
+                                    <View style={styles.stylecolunm}>
+                                        {/* <Text>Chiều</Text> */}
+                                        <ListTaskItem
+                                            data={this.filterData(
+                                                this.state.todo,
+                                                21,
+                                                5
+                                            )}
+                                            navigation={this.props.navigation}
+                                        />
+                                    </View>
+                                    <View style={styles.dividercolunm} />
+                                    <View style={styles.stylecolunm}>
+                                        {/* <Text>Chiều</Text> */}
+                                        <ListTaskItem
+                                            data={this.filterData(
+                                                this.state.todo,
+                                                22,
+                                                5
+                                            )}
+                                            navigation={this.props.navigation}
+                                        />
+                                    </View>
+                                    <View style={styles.dividercolunm} />
+                                    <View style={styles.stylecolunm}>
+                                        {/* <Text>Chiều</Text> */}
+                                        <ListTaskItem
+                                            data={this.filterData(
+                                                this.state.todo,
+                                                23,
+                                                5
+                                            )}
+                                            navigation={this.props.navigation}
+                                        />
+                                    </View>
+                                </View>
+                                <View style={styles.divider} />
+                                {/* Thu7 */}
+                                <View style={styles.colmday}>
+                                    <View style={styles.stylecolunm}>
+                                        {/* <Text>Sáng</Text> */}
+                                        <ListTaskItem
+                                            data={this.filterData(
+                                                this.state.todo,
+                                                6,
+                                                6
+                                            )}
+                                            navigation={this.props.navigation}
+                                        />
+                                    </View>
+                                    <View style={styles.dividercolunm} />
+                                    <View style={styles.stylecolunm}>
+                                        {/* <Text>Trưa</Text> */}
+                                        <ListTaskItem
+                                            data={this.filterData(
+                                                this.state.todo,
+                                                7,
+                                                6
+                                            )}
+                                            navigation={this.props.navigation}
+                                        />
+                                    </View>
+                                    <View style={styles.dividercolunm} />
+                                    <View style={styles.stylecolunm}>
+                                        {/* <Text>Chiều</Text> */}
+                                        <ListTaskItem
+                                            data={this.filterData(
+                                                this.state.todo,
+                                                8,
+                                                6
+                                            )}
+                                            navigation={this.props.navigation}
+                                        />
+                                    </View>
+                                    <View style={styles.dividercolunm} />
+                                    <View style={styles.stylecolunm}>
+                                        {/* <Text>Chiều</Text> */}
+                                        <ListTaskItem
+                                            data={this.filterData(
+                                                this.state.todo,
+                                                9,
+                                                6
+                                            )}
+                                            navigation={this.props.navigation}
+                                        />
+                                    </View>
+                                    <View style={styles.dividercolunm} />
+                                    <View style={styles.stylecolunm}>
+                                        {/* <Text>Chiều</Text> */}
+                                        <ListTaskItem
+                                            data={this.filterData(
+                                                this.state.todo,
+                                                10,
+                                                6
+                                            )}
+                                            navigation={this.props.navigation}
+                                        />
+                                    </View>
+                                    <View style={styles.dividercolunm} />
+                                    <View style={styles.stylecolunm}>
+                                        {/* <Text>Chiều</Text> */}
+                                        <ListTaskItem
+                                            data={this.filterData(
+                                                this.state.todo,
+                                                11,
+                                                6
+                                            )}
+                                            navigation={this.props.navigation}
+                                        />
+                                    </View>
+                                    <View
+                                        style={[
+                                            styles.dividercolunm,
+                                            { backgroundColor: '#cad3c3' },
+                                        ]}
+                                    />
+                                    <View style={styles.stylecolunm}>
+                                        {/* <Text>Chiều</Text> */}
+                                        <ListTaskItem
+                                            data={this.filterData(
+                                                this.state.todo,
+                                                12,
+                                                6
+                                            )}
+                                            navigation={this.props.navigation}
+                                        />
+                                    </View>
+                                    <View style={styles.dividercolunm} />
+                                    <View style={styles.stylecolunm}>
+                                        {/* <Text>Chiều</Text> */}
+                                        <ListTaskItem
+                                            data={this.filterData(
+                                                this.state.todo,
+                                                13,
+                                                6
+                                            )}
+                                            navigation={this.props.navigation}
+                                        />
+                                    </View>
+                                    <View style={styles.dividercolunm} />
+                                    <View style={styles.stylecolunm}>
+                                        {/* <Text>Chiều</Text> */}
+                                        <ListTaskItem
+                                            data={this.filterData(
+                                                this.state.todo,
+                                                14,
+                                                6
+                                            )}
+                                            navigation={this.props.navigation}
+                                        />
+                                    </View>
+                                    <View style={styles.dividercolunm} />
+                                    <View style={styles.stylecolunm}>
+                                        {/* <Text>Chiều</Text> */}
+                                        <ListTaskItem
+                                            data={this.filterData(
+                                                this.state.todo,
+                                                15,
+                                                6
+                                            )}
+                                            navigation={this.props.navigation}
+                                        />
+                                    </View>
+                                    <View style={styles.dividercolunm} />
+                                    <View style={styles.stylecolunm}>
+                                        {/* <Text>Chiều</Text> */}
+                                        <ListTaskItem
+                                            data={this.filterData(
+                                                this.state.todo,
+                                                16,
+                                                6
+                                            )}
+                                            navigation={this.props.navigation}
+                                        />
+                                    </View>
+                                    <View style={styles.dividercolunm} />
+                                    <View style={styles.stylecolunm}>
+                                        {/* <Text>Chiều</Text> */}
+                                        <ListTaskItem
+                                            data={this.filterData(
+                                                this.state.todo,
+                                                17,
+                                                6
+                                            )}
+                                            navigation={this.props.navigation}
+                                        />
+                                    </View>
+                                    <View
+                                        style={[
+                                            styles.dividercolunm,
+                                            { backgroundColor: '#cad3c3' },
+                                        ]}
+                                    />
+                                    <View style={styles.stylecolunm}>
+                                        {/* <Text>Chiều</Text> */}
+                                        <ListTaskItem
+                                            data={this.filterData(
+                                                this.state.todo,
+                                                18,
+                                                6
+                                            )}
+                                            navigation={this.props.navigation}
+                                        />
+                                    </View>
+                                    <View style={styles.dividercolunm} />
+                                    <View style={styles.stylecolunm}>
+                                        {/* <Text>Chiều</Text> */}
+                                        <ListTaskItem
+                                            data={this.filterData(
+                                                this.state.todo,
+                                                19,
+                                                6
+                                            )}
+                                            navigation={this.props.navigation}
+                                        />
+                                    </View>
+                                    <View style={styles.dividercolunm} />
+                                    <View style={styles.stylecolunm}>
+                                        {/* <Text>Chiều</Text> */}
+                                        <ListTaskItem
+                                            data={this.filterData(
+                                                this.state.todo,
+                                                20,
+                                                6
+                                            )}
+                                            navigation={this.props.navigation}
+                                        />
+                                    </View>
+                                    <View style={styles.dividercolunm} />
+                                    <View style={styles.stylecolunm}>
+                                        {/* <Text>Chiều</Text> */}
+                                        <ListTaskItem
+                                            data={this.filterData(
+                                                this.state.todo,
+                                                21,
+                                                6
+                                            )}
+                                            navigation={this.props.navigation}
+                                        />
+                                    </View>
+                                    <View style={styles.dividercolunm} />
+                                    <View style={styles.stylecolunm}>
+                                        {/* <Text>Chiều</Text> */}
+                                        <ListTaskItem
+                                            data={this.filterData(
+                                                this.state.todo,
+                                                22,
+                                                6
+                                            )}
+                                            navigation={this.props.navigation}
+                                        />
+                                    </View>
+                                    <View style={styles.dividercolunm} />
+                                    <View style={styles.stylecolunm}>
+                                        {/* <Text>Chiều</Text> */}
+                                        <ListTaskItem
+                                            data={this.filterData(
+                                                this.state.todo,
+                                                23,
+                                                6
+                                            )}
+                                            navigation={this.props.navigation}
+                                        />
+                                    </View>
+                                </View>
+                                <View style={styles.divider} />
+                                {/* cn */}
+                                <View style={styles.colmday}>
+                                    <View style={styles.stylecolunm}>
+                                        {/* <Text>Sáng</Text> */}
+                                        <ListTaskItem
+                                            data={this.filterData(
+                                                this.state.todo,
+                                                6,
+                                                0
+                                            )}
+                                            navigation={this.props.navigation}
+                                        />
+                                    </View>
+                                    <View style={styles.dividercolunm} />
+                                    <View style={styles.stylecolunm}>
+                                        {/* <Text>Trưa</Text> */}
+                                        <ListTaskItem
+                                            data={this.filterData(
+                                                this.state.todo,
+                                                7,
+                                                0
+                                            )}
+                                            navigation={this.props.navigation}
+                                        />
+                                    </View>
+                                    <View style={styles.dividercolunm} />
+                                    <View style={styles.stylecolunm}>
+                                        {/* <Text>Chiều</Text> */}
+                                        <ListTaskItem
+                                            data={this.filterData(
+                                                this.state.todo,
+                                                8,
+                                                0
+                                            )}
+                                            navigation={this.props.navigation}
+                                        />
+                                    </View>
+                                    <View style={styles.dividercolunm} />
+                                    <View style={styles.stylecolunm}>
+                                        {/* <Text>Chiều</Text> */}
+                                        <ListTaskItem
+                                            data={this.filterData(
+                                                this.state.todo,
+                                                9,
+                                                0
+                                            )}
+                                            navigation={this.props.navigation}
+                                        />
+                                    </View>
+                                    <View style={styles.dividercolunm} />
+                                    <View style={styles.stylecolunm}>
+                                        {/* <Text>Chiều</Text> */}
+                                        <ListTaskItem
+                                            data={this.filterData(
+                                                this.state.todo,
+                                                10,
+                                                0
+                                            )}
+                                            navigation={this.props.navigation}
+                                        />
+                                    </View>
+                                    <View style={styles.dividercolunm} />
+                                    <View style={styles.stylecolunm}>
+                                        {/* <Text>Chiều</Text> */}
+                                        <ListTaskItem
+                                            data={this.filterData(
+                                                this.state.todo,
+                                                11,
+                                                0
+                                            )}
+                                            navigation={this.props.navigation}
+                                        />
+                                    </View>
+                                    <View
+                                        style={[
+                                            styles.dividercolunm,
+                                            { backgroundColor: '#cad3c3' },
+                                        ]}
+                                    />
+                                    <View style={styles.stylecolunm}>
+                                        {/* <Text>Chiều</Text> */}
+                                        <ListTaskItem
+                                            data={this.filterData(
+                                                this.state.todo,
+                                                12,
+                                                0
+                                            )}
+                                            navigation={this.props.navigation}
+                                        />
+                                    </View>
+                                    <View style={styles.dividercolunm} />
+                                    <View style={styles.stylecolunm}>
+                                        {/* <Text>Chiều</Text> */}
+                                        <ListTaskItem
+                                            data={this.filterData(
+                                                this.state.todo,
+                                                13,
+                                                0
+                                            )}
+                                            navigation={this.props.navigation}
+                                        />
+                                    </View>
+                                    <View style={styles.dividercolunm} />
+                                    <View style={styles.stylecolunm}>
+                                        {/* <Text>Chiều</Text> */}
+                                        <ListTaskItem
+                                            data={this.filterData(
+                                                this.state.todo,
+                                                14,
+                                                0
+                                            )}
+                                            navigation={this.props.navigation}
+                                        />
+                                    </View>
+                                    <View style={styles.dividercolunm} />
+                                    <View style={styles.stylecolunm}>
+                                        {/* <Text>Chiều</Text> */}
+                                        <ListTaskItem
+                                            data={this.filterData(
+                                                this.state.todo,
+                                                15,
+                                                0
+                                            )}
+                                            navigation={this.props.navigation}
+                                        />
+                                    </View>
+                                    <View style={styles.dividercolunm} />
+                                    <View style={styles.stylecolunm}>
+                                        {/* <Text>Chiều</Text> */}
+                                        <ListTaskItem
+                                            data={this.filterData(
+                                                this.state.todo,
+                                                16,
+                                                0
+                                            )}
+                                            navigation={this.props.navigation}
+                                        />
+                                    </View>
+                                    <View style={styles.dividercolunm} />
+                                    <View style={styles.stylecolunm}>
+                                        {/* <Text>Chiều</Text> */}
+                                        <ListTaskItem
+                                            data={this.filterData(
+                                                this.state.todo,
+                                                17,
+                                                0
+                                            )}
+                                            navigation={this.props.navigation}
+                                        />
+                                    </View>
+                                    <View
+                                        style={[
+                                            styles.dividercolunm,
+                                            { backgroundColor: '#cad3c3' },
+                                        ]}
+                                    />
+                                    <View style={styles.stylecolunm}>
+                                        {/* <Text>Chiều</Text> */}
+                                        <ListTaskItem
+                                            data={this.filterData(
+                                                this.state.todo,
+                                                18,
+                                                0
+                                            )}
+                                            navigation={this.props.navigation}
+                                        />
+                                    </View>
+                                    <View style={styles.dividercolunm} />
+                                    <View style={styles.stylecolunm}>
+                                        {/* <Text>Chiều</Text> */}
+                                        <ListTaskItem
+                                            data={this.filterData(
+                                                this.state.todo,
+                                                19,
+                                                0
+                                            )}
+                                            navigation={this.props.navigation}
+                                        />
+                                    </View>
+                                    <View style={styles.dividercolunm} />
+                                    <View style={styles.stylecolunm}>
+                                        {/* <Text>Chiều</Text> */}
+                                        <ListTaskItem
+                                            data={this.filterData(
+                                                this.state.todo,
+                                                20,
+                                                0
+                                            )}
+                                            navigation={this.props.navigation}
+                                        />
+                                    </View>
+                                    <View style={styles.dividercolunm} />
+                                    <View style={styles.stylecolunm}>
+                                        {/* <Text>Chiều</Text> */}
+                                        <ListTaskItem
+                                            data={this.filterData(
+                                                this.state.todo,
+                                                21,
+                                                0
+                                            )}
+                                            navigation={this.props.navigation}
+                                        />
+                                    </View>
+                                    <View style={styles.dividercolunm} />
+                                    <View style={styles.stylecolunm}>
+                                        {/* <Text>Chiều</Text> */}
+                                        <ListTaskItem
+                                            data={this.filterData(
+                                                this.state.todo,
+                                                22,
+                                                0
+                                            )}
+                                            navigation={this.props.navigation}
+                                        />
+                                    </View>
+                                    <View style={styles.dividercolunm} />
+                                    <View style={styles.stylecolunm}>
+                                        {/* <Text>Chiều</Text> */}
+                                        <ListTaskItem
+                                            data={this.filterData(
+                                                this.state.todo,
+                                                23,
+                                                0
+                                            )}
+                                            navigation={this.props.navigation}
+                                        />
+                                    </View>
                                 </View>
                             </View>
-                            <View style={styles.divider} />
-                            <View style={styles.colmday}>
-                                <StyleHeaderFocus
-                                    check={checkThu3()}
-                                    number={this.state.number}
-                                />
-                                <View style={styles.stylecolunm}>
-                                    {/* <Text>Sáng</Text> */}
-                                    <ListTaskItem
-                                        data={this.filterData(
-                                            this.state.todo,
-                                            1,
-                                            2
-                                        )}
-                                        navigation={this.props.navigation}
-                                    />
-                                </View>
-                                <View style={styles.dividercolunm} />
-                                <View style={styles.stylecolunm}>
-                                    {/* <Text>Trưa</Text> */}
-                                    <ListTaskItem
-                                        data={this.filterData(
-                                            this.state.todo,
-                                            2,
-                                            2
-                                        )}
-                                        navigation={this.props.navigation}
-                                    />
-                                </View>
-                                <View style={styles.dividercolunm} />
-                                <View style={styles.stylecolunm}>
-                                    {/* <Text>Chiều</Text> */}
-                                    <ListTaskItem
-                                        data={this.filterData(
-                                            this.state.todo,
-                                            3,
-                                            2
-                                        )}
-                                        navigation={this.props.navigation}
-                                    />
-                                </View>
-                            </View>
-                            <View style={styles.divider} />
-                            <View style={styles.colmday}>
-                                <StyleHeaderFocus
-                                    check={checkThu4()}
-                                    number={this.state.number}
-                                />
-                                <View style={styles.stylecolunm}>
-                                    {/* <Text>Sáng</Text> */}
-                                    <ListTaskItem
-                                        data={this.filterData(
-                                            this.state.todo,
-                                            1,
-                                            3
-                                        )}
-                                        navigation={this.props.navigation}
-                                    />
-                                </View>
-                                <View style={styles.dividercolunm} />
-                                <View style={styles.stylecolunm}>
-                                    {/* <Text>Trưa</Text> */}
-                                    <ListTaskItem
-                                        data={this.filterData(
-                                            this.state.todo,
-                                            2,
-                                            3
-                                        )}
-                                        navigation={this.props.navigation}
-                                    />
-                                </View>
-                                <View style={styles.dividercolunm} />
-                                <View style={styles.stylecolunm}>
-                                    {/* <Text>Chiều</Text> */}
-                                    <ListTaskItem
-                                        data={this.filterData(
-                                            this.state.todo,
-                                            3,
-                                            3
-                                        )}
-                                        navigation={this.props.navigation}
-                                    />
-                                </View>
-                            </View>
-                            <View style={styles.divider} />
-                            <View style={styles.colmday}>
-                                <StyleHeaderFocus
-                                    check={checkThu5()}
-                                    number={this.state.number}
-                                />
-                                <View style={styles.stylecolunm}>
-                                    {/* <Text>Sáng</Text> */}
-                                    <ListTaskItem
-                                        data={this.filterData(
-                                            this.state.todo,
-                                            1,
-                                            4
-                                        )}
-                                        navigation={this.props.navigation}
-                                    />
-                                </View>
-                                <View style={styles.dividercolunm} />
-                                <View style={styles.stylecolunm}>
-                                    {/* <Text>Trưa</Text> */}
-                                    <ListTaskItem
-                                        data={this.filterData(
-                                            this.state.todo,
-                                            2,
-                                            4
-                                        )}
-                                        navigation={this.props.navigation}
-                                    />
-                                </View>
-                                <View style={styles.dividercolunm} />
-                                <View style={styles.stylecolunm}>
-                                    {/* <Text>Chiều</Text> */}
-                                    <ListTaskItem
-                                        data={this.filterData(
-                                            this.state.todo,
-                                            3,
-                                            4
-                                        )}
-                                        navigation={this.props.navigation}
-                                    />
-                                </View>
-                            </View>
-                            <View style={styles.divider} />
-                            <View style={styles.colmday}>
-                                <StyleHeaderFocus
-                                    check={checkThu6()}
-                                    number={this.state.number}
-                                />
-                                <View style={styles.stylecolunm}>
-                                    {/* <Text>Sáng</Text> */}
-                                    <ListTaskItem
-                                        data={this.filterData(
-                                            this.state.todo,
-                                            1,
-                                            5
-                                        )}
-                                        navigation={this.props.navigation}
-                                    />
-                                </View>
-                                <View style={styles.dividercolunm} />
-                                <View style={styles.stylecolunm}>
-                                    {/* <Text>Trưa</Text> */}
-                                    <ListTaskItem
-                                        data={this.filterData(
-                                            this.state.todo,
-                                            2,
-                                            5
-                                        )}
-                                        navigation={this.props.navigation}
-                                    />
-                                </View>
-                                <View style={styles.dividercolunm} />
-                                <View style={styles.stylecolunm}>
-                                    {/* <Text>Chiều</Text> */}
-                                    <ListTaskItem
-                                        data={this.filterData(
-                                            this.state.todo,
-                                            3,
-                                            5
-                                        )}
-                                        navigation={this.props.navigation}
-                                    />
-                                </View>
-                            </View>
-                            <View style={styles.divider} />
-                            <View style={styles.colmday}>
-                                <StyleHeaderFocus
-                                    check={checkThu7()}
-                                    number={this.state.number}
-                                />
-                                <View style={styles.stylecolunm}>
-                                    {/* <Text>Sáng</Text> */}
-                                    <ListTaskItem
-                                        data={this.filterData(
-                                            this.state.todo,
-                                            1,
-                                            6
-                                        )}
-                                        navigation={this.props.navigation}
-                                    />
-                                </View>
-                                <View style={styles.dividercolunm} />
-                                <View style={styles.stylecolunm}>
-                                    {/* <Text>Trưa</Text> */}
-                                    <ListTaskItem
-                                        data={this.filterData(
-                                            this.state.todo,
-                                            2,
-                                            6
-                                        )}
-                                        navigation={this.props.navigation}
-                                    />
-                                </View>
-                                <View style={styles.dividercolunm} />
-                                <View style={styles.stylecolunm}>
-                                    {/* <Text>Chiều</Text> */}
-                                    <ListTaskItem
-                                        data={this.filterData(
-                                            this.state.todo,
-                                            3,
-                                            6
-                                        )}
-                                        navigation={this.props.navigation}
-                                    />
-                                </View>
-                            </View>
-                            <View style={styles.divider} />
-                            <View style={styles.colmday}>
-                                <StyleHeaderFocus
-                                    check={checkCN()}
-                                    number={this.state.number}
-                                />
-                                <View style={styles.stylecolunm}>
-                                    {/* <Text>Sáng</Text> */}
-                                    <ListTaskItem
-                                        data={this.filterData(
-                                            this.state.todo,
-                                            1,
-                                            0
-                                        )}
-                                        navigation={this.props.navigation}
-                                    />
-                                </View>
-                                <View style={styles.dividercolunm} />
-                                <View style={styles.stylecolunm}>
-                                    {/* <Text>Trưa</Text> */}
-                                    <ListTaskItem
-                                        data={this.filterData(
-                                            this.state.todo,
-                                            2,
-                                            0
-                                        )}
-                                        navigation={this.props.navigation}
-                                    />
-                                </View>
-                                <View style={styles.dividercolunm} />
-                                <View style={styles.stylecolunm}>
-                                    {/* <Text>Chiều</Text> */}
-                                    <ListTaskItem
-                                        data={this.filterData(
-                                            this.state.todo,
-                                            3,
-                                            0
-                                        )}
-                                        navigation={this.props.navigation}
-                                    />
-                                </View>
-                            </View>
-                        </View>
-                        {/* </ScrollView> */}
+                        </ScrollView>
                     </View>
                 </View>
             </SafeAreaView>
@@ -700,7 +2031,7 @@ export default class calendarscreen extends Component {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        flexDirection: 'row',
+        // flexDirection: 'row',
         justifyContent: 'center',
         alignItems: 'center',
     },
@@ -708,7 +2039,7 @@ const styles = StyleSheet.create({
         flex: 1,
         // width: 770,
         // width: 420,
-        // height: 768,
+        height: 1062,
         flexDirection: 'row',
         backgroundColor: '#B0D9F8',
     },
@@ -722,7 +2053,7 @@ const styles = StyleSheet.create({
     },
     dividercolunm: {
         height: 1,
-        backgroundColor: '#cad3c3',
+        backgroundColor: '#FFF',
     },
     headercolm: {
         height: 50,

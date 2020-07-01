@@ -9,6 +9,7 @@ import {
     ScrollView,
     SafeAreaView,
     Alert,
+    StatusBar,
 } from 'react-native'
 import { TriangleColorPicker, toHsv } from 'react-native-color-picker'
 import firebase from '../database/firebase'
@@ -83,6 +84,7 @@ export default class App extends Component {
         const { selected } = this.state
         return (
             <SafeAreaView>
+                <StatusBar barStyle={'dark-content'} />
                 <ActionSheet
                     ref={(o) => (this.ActionSheet = o)}
                     title={'Dữ liệu sẽ bị xoá vĩnh viễn!'}
@@ -148,18 +150,17 @@ export default class App extends Component {
                             paddingBottom: 70,
                         }}
                     > */}
-                    <View style={{ flex: 1 }}></View>
                     <View style={styles.taskContainer}>
                         <View
                             style={{
-                                height: 400,
+                                height: 280,
                                 paddingBottom: 25,
                                 backgroundColor: '#FFF',
                             }}
                         >
                             <Text style={styles.title}>Chọn màu</Text>
                             <TriangleColorPicker
-                                oldColor="purple"
+                                oldColor={this.props.route.params.data.color}
                                 color={this.state.color}
                                 onColorChange={this.onColorChange}
                                 onColorSelected={(color) => {
@@ -220,56 +221,57 @@ export default class App extends Component {
                                 ></View>
                             </View>
                         </View>
-                    </View>
-                    <View
-                        style={{
-                            flexDirection: 'row',
-                            justifyContent: 'center',
-                            alignItems: 'center',
-                        }}
-                    >
-                        <TouchableOpacity
-                            disabled={selected.label === ''}
-                            style={[
-                                styles.updateButton,
-                                {
-                                    backgroundColor:
-                                        selected.label === ''
-                                            ? 'rgba(46, 102, 231,0.5)'
-                                            : '#2E66E7',
-                                },
-                            ]}
-                            onPress={() => {
-                                this.updateColor(this.state.selected)
+                        <View
+                            style={{
+                                flexDirection: 'row',
+                                justifyContent: 'center',
+                                alignItems: 'center',
                             }}
                         >
-                            <Text
-                                style={{
-                                    fontSize: 18,
-                                    textAlign: 'center',
-                                    color: '#fff',
+                            <TouchableOpacity
+                                disabled={selected.label === ''}
+                                style={[
+                                    styles.updateButton,
+                                    {
+                                        backgroundColor:
+                                            selected.label === ''
+                                                ? 'rgba(46, 102, 231,0.5)'
+                                                : '#2E66E7',
+                                    },
+                                ]}
+                                onPress={() => {
+                                    this.updateColor(this.state.selected)
                                 }}
                             >
-                                Cập nhật
-                            </Text>
-                        </TouchableOpacity>
-                        <TouchableOpacity
-                            style={styles.deleteButton}
-                            onPress={async () => {
-                                this.ActionSheet.show()
-                            }}
-                        >
-                            <Text
-                                style={{
-                                    fontSize: 18,
-                                    textAlign: 'center',
-                                    color: '#fff',
+                                <Text
+                                    style={{
+                                        fontSize: 18,
+                                        textAlign: 'center',
+                                        color: '#fff',
+                                    }}
+                                >
+                                    Cập nhật
+                                </Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity
+                                style={styles.deleteButton}
+                                onPress={async () => {
+                                    this.ActionSheet.show()
                                 }}
                             >
-                                Xoá
-                            </Text>
-                        </TouchableOpacity>
+                                <Text
+                                    style={{
+                                        fontSize: 18,
+                                        textAlign: 'center',
+                                        color: '#fff',
+                                    }}
+                                >
+                                    Xoá
+                                </Text>
+                            </TouchableOpacity>
+                        </View>
                     </View>
+
                     {/* </ScrollView> */}
                 </View>
             </SafeAreaView>
@@ -297,7 +299,7 @@ const styles = StyleSheet.create({
         shadowRadius: 20,
         shadowOpacity: 0.2,
         elevation: 5,
-        padding: 22,
+        padding: 20,
     },
     seperator: {
         height: 0.5,
@@ -326,20 +328,20 @@ const styles = StyleSheet.create({
     },
     deleteButton: {
         backgroundColor: '#ff6347',
-        width: 150,
+        width: 140,
         height: 38,
         alignSelf: 'center',
-        marginTop: 20,
-        borderRadius: 5,
+        marginTop: 10,
+        borderRadius: 10,
         justifyContent: 'center',
     },
     updateButton: {
         backgroundColor: '#2E66E7',
-        width: 150,
+        width: 140,
         height: 38,
         alignSelf: 'center',
-        marginTop: 20,
-        borderRadius: 5,
+        marginTop: 10,
+        borderRadius: 10,
         justifyContent: 'center',
         marginRight: 20,
     },

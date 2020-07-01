@@ -13,6 +13,7 @@ import {
     Alert,
     SafeAreaView,
     FlatList,
+    StatusBar,
 } from 'react-native'
 import moment from 'moment'
 import { CalendarList } from 'react-native-calendars'
@@ -62,12 +63,42 @@ class UpdateTask extends Component {
     checkHour() {
         let tamp = new Date(this.state.selectedTask.time.toDate()).getHours()
         console.log(tamp)
-        if (tamp >= 6 && tamp < 13) {
-            return 1
-        } else if (tamp >= 13 && tamp < 19) {
-            return 2
-        } else if (tamp >= 19 && tamp < 24) {
-            return 3
+        if (tamp >= 6 && tamp < 7) {
+            return 6
+        } else if (tamp >= 7 && tamp < 8) {
+            return 7
+        } else if (tamp >= 8 && tamp < 9) {
+            return 8
+        } else if (tamp >= 9 && tamp < 10) {
+            return 9
+        } else if (tamp >= 10 && tamp < 11) {
+            return 10
+        } else if (tamp >= 11 && tamp < 12) {
+            return 11
+        } else if (tamp >= 12 && tamp < 13) {
+            return 12
+        } else if (tamp >= 13 && tamp < 14) {
+            return 13
+        } else if (tamp >= 14 && tamp < 15) {
+            return 14
+        } else if (tamp >= 15 && tamp < 16) {
+            return 15
+        } else if (tamp >= 16 && tamp < 17) {
+            return 16
+        } else if (tamp >= 17 && tamp < 18) {
+            return 17
+        } else if (tamp >= 18 && tamp < 19) {
+            return 18
+        } else if (tamp >= 19 && tamp < 20) {
+            return 19
+        } else if (tamp >= 20 && tamp < 21) {
+            return 20
+        } else if (tamp >= 21 && tamp < 22) {
+            return 21
+        } else if (tamp >= 22 && tamp < 23) {
+            return 22
+        } else if (tamp >= 23 && tamp < 24) {
+            return 23
         } else {
             return 0
         }
@@ -268,6 +299,7 @@ class UpdateTask extends Component {
 
         return (
             <SafeAreaView>
+                <StatusBar barStyle={'dark-content'} />
                 <ActionSheet
                     ref={(o) => (this.ActionSheet = o)}
                     title={'Dữ liệu sẽ bị xoá vĩnh viễn!'}
@@ -342,7 +374,7 @@ class UpdateTask extends Component {
                             </View>
                             <ScrollView
                                 contentContainerStyle={{
-                                    paddingBottom: 75,
+                                    paddingBottom: 50,
                                 }}
                             >
                                 <View style={styles.calenderContainer}>
@@ -424,8 +456,9 @@ class UpdateTask extends Component {
                                     <View style={styles.seperator} />
                                     <Text
                                         style={{
-                                            fontSize: 14,
-                                            color: '#BDC6D8',
+                                            color: '#9CAAC4',
+                                            fontSize: 16,
+                                            fontWeight: '600',
                                             marginVertical: 5,
                                         }}
                                     >

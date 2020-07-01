@@ -5,16 +5,13 @@ import AntDesign from 'react-native-vector-icons/AntDesign'
 import Feather from 'react-native-vector-icons/Feather'
 
 const Header = (props) => {
-    const { title, iconLeft, iconRight, onLeftPress, onRightPress } = {
+    const { title, iconLeft, iconRight, onPress, onRightPress } = {
         ...props,
     }
     return (
         <View style={styles.headerContainer}>
             {/*  */}
-            <TouchableOpacity
-                style={styles.cartContainer}
-                onPress={onLeftPress}
-            >
+            <TouchableOpacity style={styles.cartContainer}>
                 <SimpleLineIcons
                     name={iconLeft}
                     size={HEADER_ICON_SIZE}
@@ -25,11 +22,8 @@ const Header = (props) => {
             {/*  */}
             <Text style={styles.headerText} />
             {/*  */}
-            <TouchableOpacity
-                style={styles.cartContainer}
-                onRightPress={onRightPress}
-            >
-                <Feather name="settings" color="#fff" size={26} />
+            <TouchableOpacity style={styles.cartContainer} onPress={onPress}>
+                <Feather name="log-out" color="#fff" size={26} />
             </TouchableOpacity>
         </View>
     )
