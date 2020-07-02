@@ -250,7 +250,7 @@ export default class App extends Component {
                                         color: '#fff',
                                     }}
                                 >
-                                    Cập nhật
+                                    Lưu
                                 </Text>
                             </TouchableOpacity>
                             <TouchableOpacity

@@ -109,7 +109,6 @@ export default class Dashboard extends Component {
                         ...doc.data(),
                     })
                 })
-                console.log(todo)
                 this.setState({ todoList: todo })
             })
     }
@@ -319,7 +318,25 @@ export default class Dashboard extends Component {
                         title={this.state.displayName}
                         iconLeft="user"
                         iconRight="search1"
-                        onPress={() => this.signOut()}
+                        onPress={() => {
+                            Alert.alert(
+                                'Thông báo',
+                                'Xác nhận đăng xuất tài khoản',
+                                [
+                                    {
+                                        text: 'Huỷ bỏ',
+                                        onPress: () =>
+                                            console.log('Cancel Pressed'),
+                                        style: 'cancel',
+                                    },
+                                    {
+                                        text: 'Đồng ý',
+                                        onPress: () => this.signOut(),
+                                    },
+                                ],
+                                { cancelable: false }
+                            )
+                        }}
                     />
                     {/* onPress={() => {
                                     this.props.navigation.navigate(
@@ -377,8 +394,13 @@ export default class Dashboard extends Component {
                             {/* <ProfileItem icon="alarm-check" name="Công việc quan trọng" /> */}
                             <View style={styles.seperator}></View>
                             <ProfileItem
-                                icon="chart-line"
+                                icon="chart-bar"
                                 name="Xem thống kê"
+                                onPress={() => {
+                                    this.props.navigation.navigate('ChartKit', {
+                                        userid: this.state.uid,
+                                    })
+                                }}
                             />
                             {/*  */}
                             {/* <View style={styles.divider} />

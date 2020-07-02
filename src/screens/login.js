@@ -30,15 +30,21 @@ export default class Login extends Component {
 
     userLogin = () => {
         //this.state.email === '' && this.state.password === ''
-        if (false) {
-            Alert.alert('Tài khoản hoặc mật khẩu không chính xác')
+        if (this.state.email === '' && this.state.password === '') {
+            Alert.alert('Thông báo', 'Email hoặc password không chính xác')
+            this.setState({
+                isLoading: false,
+            })
         } else {
             this.setState({
                 isLoading: true,
             })
             firebase
                 .auth()
-                .signInWithEmailAndPassword('admin@gmail.com', '123456')
+                .signInWithEmailAndPassword(
+                    this.state.email,
+                    this.state.password
+                )
                 .then((res) => {
                     console.log(res)
                     console.log('User logged-in successfully!')
@@ -52,18 +58,24 @@ export default class Login extends Component {
                 .catch((error) => {
                     this.setState({ errorMessage: error.message })
                     console.log(error)
-                    Alert.alert('Tài khoản hoặc mật khẩu không chính xác')
+                    Alert.alert(
+                        'Thông báo',
+                        'Email hoặc password không chính xác'
+                    )
+                    this.setState({
+                        isLoading: false,
+                    })
                 })
         }
     }
 
     render() {
         if (this.state.isLoading) {
-            // return (
-            //   <View style={styles.preloader}>
-            //     <ActivityIndicator size="large" color="#9E9E9E" />
-            //   </View>
-            // );
+            return (
+                <View style={styles.preloader}>
+                    <ActivityIndicator size="large" color="#9E9E9E" />
+                </View>
+            )
         }
         return (
             <View style={styles.container}>

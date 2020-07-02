@@ -186,7 +186,7 @@ export default class App extends Component {
                                         color: '#fff',
                                     }}
                                 >
-                                    Thêm nhãn
+                                    Lưu
                                 </Text>
                             </TouchableOpacity>
                         </View>

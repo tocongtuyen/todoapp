@@ -1,6 +1,6 @@
 import React from 'react'
 import { StyleSheet, View, Text, TouchableOpacity } from 'react-native'
-import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons'
+import FontAwesome5 from 'react-native-vector-icons/FontAwesome5'
 import AntDesign from 'react-native-vector-icons/AntDesign'
 import Feather from 'react-native-vector-icons/Feather'
 
@@ -12,8 +12,8 @@ const Header = (props) => {
         <View style={styles.headerContainer}>
             {/*  */}
             <TouchableOpacity style={styles.cartContainer}>
-                <SimpleLineIcons
-                    name={iconLeft}
+                <FontAwesome5
+                    name="user-alt"
                     size={HEADER_ICON_SIZE}
                     color="#fff"
                 />

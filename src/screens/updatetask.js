@@ -864,7 +864,7 @@ class UpdateTask extends Component {
                                                 color: '#fff',
                                             }}
                                         >
-                                            Cập nhật
+                                            Lưu
                                         </Text>
                                     </TouchableOpacity>
                                     <TouchableOpacity
@@ -901,7 +901,7 @@ const styles = StyleSheet.create({
         height: 48,
         alignSelf: 'center',
         marginTop: 20,
-        borderRadius: 5,
+        borderRadius: 10,
         justifyContent: 'center',
     },
     seperator: {
@@ -1032,7 +1032,7 @@ const styles = StyleSheet.create({
         height: 38,
         alignSelf: 'center',
         marginTop: 20,
-        borderRadius: 5,
+        borderRadius: 10,
         justifyContent: 'center',
     },
     updateButton: {
@@ -1041,7 +1041,7 @@ const styles = StyleSheet.create({
         height: 38,
         alignSelf: 'center',
         marginTop: 20,
-        borderRadius: 5,
+        borderRadius: 10,
         justifyContent: 'center',
         marginRight: 20,
     },

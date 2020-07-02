@@ -1086,7 +1086,7 @@ class detailtask extends Component {
                                             color: '#fff',
                                         }}
                                     >
-                                        Thêm công việc
+                                        Lưu công việc
                                     </Text>
                                 </TouchableOpacity>
                             </ScrollView>
@@ -1106,7 +1106,7 @@ const styles = StyleSheet.create({
         height: 48,
         alignSelf: 'center',
         marginTop: 20,
-        borderRadius: 5,
+        borderRadius: 10,
         justifyContent: 'center',
     },
     seperator: {

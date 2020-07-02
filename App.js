@@ -16,6 +16,7 @@ import Calendarscreen from './src/screens/calendarscreen'
 import AddColor from './src/screens/addcolor'
 import Home from './src/screens/home'
 import UpdateColor from './src/screens/updateColor'
+import ChartKit from './src/screens/chartkit'
 
 const Stack = createStackNavigator()
 
@@ -88,6 +89,11 @@ function MyStack() {
             <Stack.Screen
                 name="UpdateColor"
                 component={UpdateColor}
+                options={{ title: 'Danh sách công việc' }}
+            />
+            <Stack.Screen
+                name="ChartKit"
+                component={ChartKit}
                 options={{ title: 'Danh sách công việc' }}
             />
         </Stack.Navigator>

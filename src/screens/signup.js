@@ -58,18 +58,24 @@ export default class Signup extends Component {
                 .catch((error) => {
                     this.setState({ errorMessage: error.message })
                     console.log(error)
-                    Alert.alert(`${error}`)
+                    Alert.alert(
+                        'Thông báo',
+                        'Địa chỉ email đã được sử dụng bởi một tài khoản khác'
+                    )
+                    this.setState({
+                        isLoading: false,
+                    })
                 })
         }
     }
 
     render() {
         if (this.state.isLoading) {
-            // return (
-            //   <View style={styles.preloader}>
-            //     <ActivityIndicator size="large" color="#9E9E9E" />
-            //   </View>
-            // );
+            return (
+                <View style={styles.preloader}>
+                    <ActivityIndicator size="large" color="#9E9E9E" />
+                </View>
+            )
         }
         return (
             <View style={styles.container}>
