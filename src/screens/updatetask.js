@@ -14,6 +14,7 @@ import {
     SafeAreaView,
     FlatList,
     StatusBar,
+    ActivityIndicator,
 } from 'react-native'
 import moment from 'moment'
 import { CalendarList } from 'react-native-calendars'
@@ -26,6 +27,7 @@ import firebase from '../database/firebase'
 import ActionSheet from 'react-native-actionsheet'
 import AntDesign from 'react-native-vector-icons/AntDesign'
 import Feather from 'react-native-vector-icons/Feather'
+import NetInfo from '@react-native-community/netinfo'
 
 class UpdateTask extends Component {
     constructor(props) {
@@ -267,6 +269,10 @@ class UpdateTask extends Component {
         })
     }
 
+    unsubscribe = NetInfo.addEventListener((state) => {
+        this.setState({ isLoading: !state.isConnected })
+    })
+
     componentDidMount() {
         // const taskid = this.props.route.params.taskid
         // this.getTaskById('QbdXFnnICWgJrjxGEGSL').then((tasks) => {
@@ -279,6 +285,11 @@ class UpdateTask extends Component {
             console.log(color)
             this.setState({ colorCurrent: color })
         })
+        this.unsubscribe
+    }
+
+    componentWillUnmount() {
+        this.unsubscribe()
     }
 
     render() {
@@ -296,7 +307,13 @@ class UpdateTask extends Component {
             },
             props: { navigation },
         } = this
-
+        if (this.state.isLoading) {
+            return (
+                <View style={styles.preloader}>
+                    <ActivityIndicator size="large" color="#9E9E9E" />
+                </View>
+            )
+        }
         return (
             <SafeAreaView>
                 <StatusBar barStyle={'dark-content'} />
@@ -1044,5 +1061,15 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         justifyContent: 'center',
         marginRight: 20,
+    },
+    preloader: {
+        left: 0,
+        right: 0,
+        top: 0,
+        bottom: 0,
+        position: 'absolute',
+        alignItems: 'center',
+        justifyContent: 'center',
+        backgroundColor: '#fff',
     },
 })

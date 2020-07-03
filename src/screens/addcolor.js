@@ -9,7 +9,11 @@ import {
     ScrollView,
     SafeAreaView,
     StatusBar,
+    ActivityIndicator,
+    Alert,
+    Platform,
 } from 'react-native'
+import NetInfo from '@react-native-community/netinfo'
 import { TriangleColorPicker, toHsv } from 'react-native-color-picker'
 import firebase from '../database/firebase'
 
@@ -21,6 +25,8 @@ export default class App extends Component {
             selectedColor: '',
             taskText: '',
             label: '',
+            isLoading: false,
+            connected: false,
         }
         this.onColorChange = this.onColorChange.bind(this)
     }
@@ -33,8 +39,14 @@ export default class App extends Component {
 
     addColor() {
         if (this.state.selectedColor === '') {
-            alert('hãy chon một màu!')
+            Alert.alert('Thông báo', 'hãy chọn một màu!')
+            this.setState({
+                isLoading: false,
+            })
         } else {
+            this.setState({
+                isLoading: true,
+            })
             firebase
                 .firestore()
                 .collection('colors')
@@ -45,19 +57,60 @@ export default class App extends Component {
                 })
                 .then((res) => {
                     this.props.navigation.goBack()
+                    this.setState({ isLoading: false })
                     // this.getTaskByGroupId(this.state.userid).then(tasks => {
                     //   this.props.route.params.onSelect({todoList: tasks});
                     // });
                 })
                 .catch((err) => {
                     console.error('Error found: ', err)
+                    Alert.alert('Thông báo', err)
+                    this.setState({
+                        isLoading: false,
+                    })
                 })
         }
     }
 
+    unsubscribe = NetInfo.addEventListener((state) => {
+        console.log('Connection type', state.type)
+        console.log('Is connected?', state.isConnected)
+        this.setState({ isLoading: !state.isConnected })
+    })
+
+    checkConnectivity = () => {
+        NetInfo.addEventListener((state) => {
+            console.log(state.isConnected)
+            let count = 0
+            // if (state.isConnected == false) {
+            //     count++
+            //     console.log(count)
+            // }
+            // if (state.isConnected == false && count != 1) {
+            //     Alert.alert('Thông báo', 'Thiết bị đã tắt kết nối mạng')
+            // }
+            this.setState({ isLoading: !state.isConnected })
+        })
+    }
+
     onSelect = (color) => this.setState({ selectedColor: color })
 
+    componentDidMount() {
+        // this.checkConnectivity()
+        this.unsubscribe
+    }
+    componentWillUnmount() {
+        this.unsubscribe()
+    }
+
     render() {
+        if (this.state.isLoading) {
+            return (
+                <View style={styles.preloader}>
+                    <ActivityIndicator size="large" color="#9E9E9E" />
+                </View>
+            )
+        }
         return (
             <SafeAreaView>
                 <StatusBar barStyle={'dark-content'} />
@@ -245,5 +298,15 @@ const styles = StyleSheet.create({
         marginTop: 10,
         borderRadius: 10,
         justifyContent: 'center',
+    },
+    preloader: {
+        left: 0,
+        right: 0,
+        top: 0,
+        bottom: 0,
+        position: 'absolute',
+        alignItems: 'center',
+        justifyContent: 'center',
+        backgroundColor: '#fff',
     },
 })

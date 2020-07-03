@@ -9,6 +9,7 @@ import {
     ScrollView,
     SafeAreaView,
     StatusBar,
+    ActivityIndicator,
 } from 'react-native'
 import firebase from '../database/firebase'
 import moment from 'moment'
@@ -20,6 +21,7 @@ import {
     ContributionGraph,
     StackedBarChart,
 } from 'react-native-chart-kit'
+import NetInfo from '@react-native-community/netinfo'
 import Statistic from '../components/statistic'
 //import React Native chart Kit for different kind of Chart
 var today = new Date()
@@ -194,13 +196,17 @@ export default class ChartKit extends React.Component {
             })
     }
 
-    componentDidMount() {
-        this.getAllColor(
-            this.state.userid,
-            `${today.getFullYear()}/${today.getMonth() + 1}/01`,
-            `${today.getFullYear()}/${today.getMonth() + 2}/01`
-        )
+    unsubscribe = NetInfo.addEventListener((state) => {
+        this.setState({ isLoading: !state.isConnected })
+    })
 
+    componentDidMount() {
+        // this.getAllColor(
+        //     this.state.userid,
+        //     `${today.getFullYear()}/${today.getMonth() + 1}/01`,
+        //     `${today.getFullYear()}/${today.getMonth() + 2}/01`
+        // )
+        this.unsubscribe
         // this.getAllTaskByColorIdAndUserId(
         //     'VeLR0AWygEdFcIQ8WQjT',
         //     'vHWoFPdFbMcmmcv0gmavkdeJZWb2'
@@ -208,13 +214,28 @@ export default class ChartKit extends React.Component {
         //     console.log(tasks)
         // })
     }
+    componentWillUnmount() {
+        this.unsubscribe()
+    }
 
     render() {
+        if (this.state.isLoading) {
+            return (
+                <View style={styles.preloader}>
+                    <ActivityIndicator size="large" color="#9E9E9E" />
+                </View>
+            )
+        }
         return (
             <SafeAreaView style={{ flex: 1, backgroundColor: '#FFF' }}>
                 <StatusBar barStyle={'dark-content'} />
                 <View style={styles.container}>
-                    <View style={{ flex: 1, alignItem: 'space-between' }}>
+                    <View
+                        style={{
+                            flex: 1,
+                            alignItem: 'space-between',
+                        }}
+                    >
                         {/*Example of StackedBar Chart*/}
                         <Text
                             style={{
@@ -299,5 +320,15 @@ const styles = StyleSheet.create({
         padding: 8,
         // paddingTop: 25,
         backgroundColor: '#FFF',
+    },
+    preloader: {
+        left: 0,
+        right: 0,
+        top: 0,
+        bottom: 0,
+        position: 'absolute',
+        alignItems: 'center',
+        justifyContent: 'center',
+        backgroundColor: '#fff',
     },
 })

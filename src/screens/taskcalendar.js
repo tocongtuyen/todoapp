@@ -13,6 +13,7 @@ import {
     Switch,
     SafeAreaView,
     StatusBar,
+    ActivityIndicator,
 } from 'react-native'
 import moment from 'moment'
 import TaskItem from '../components/taskitem.js'
@@ -25,6 +26,7 @@ const { width: vw } = Dimensions.get('window')
 import Timeline from 'react-native-timeline-flatlist'
 import AntDesign from 'react-native-vector-icons/AntDesign'
 import Rowtaskitem from '../components/rowtaskitem'
+import NetInfo from '@react-native-community/netinfo'
 
 function nextDate(num) {
     let today = moment()
@@ -64,6 +66,7 @@ export default class TaskCalendar extends Component {
             selectedTask: null,
             isDateTimePickerVisible: false,
             keyTaskCurrent: '',
+            isLoading: true,
         }
     }
 
@@ -97,7 +100,7 @@ export default class TaskCalendar extends Component {
                     })
                 })
                 // console.log(todo)
-                this.setState({ todoList: todo })
+                this.setState({ todoList: todo, isLoading: false })
             })
     }
 
@@ -116,8 +119,16 @@ export default class TaskCalendar extends Component {
         )
     }
 
+    unsubscribe = NetInfo.addEventListener((state) => {
+        this.setState({ isLoading: !state.isConnected })
+    })
+
     componentDidMount() {
         this.getTask(this.state.userid, nextDate(0), nextDate(1))
+        this.unsubscribe
+    }
+    componentWillUnmount() {
+        this.unsubscribe()
     }
 
     render() {
@@ -134,6 +145,13 @@ export default class TaskCalendar extends Component {
             },
             props: { navigation },
         } = this
+        if (this.state.isLoading) {
+            return (
+                <View style={styles.preloader}>
+                    <ActivityIndicator size="large" color="#9E9E9E" />
+                </View>
+            )
+        }
         return (
             <SafeAreaView style={{ flex: 1, backgroundColor: '#FFF' }}>
                 <StatusBar barStyle={'dark-content'} />
@@ -399,5 +417,15 @@ const styles = StyleSheet.create({
         padding: 5,
         // margin: 5,
         alignItems: 'center',
+    },
+    preloader: {
+        left: 0,
+        right: 0,
+        top: 0,
+        bottom: 0,
+        position: 'absolute',
+        alignItems: 'center',
+        justifyContent: 'center',
+        backgroundColor: '#fff',
     },
 })

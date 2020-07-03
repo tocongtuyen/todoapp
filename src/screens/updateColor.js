@@ -10,10 +10,12 @@ import {
     SafeAreaView,
     Alert,
     StatusBar,
+    ActivityIndicator,
 } from 'react-native'
 import { TriangleColorPicker, toHsv } from 'react-native-color-picker'
 import firebase from '../database/firebase'
 import ActionSheet from 'react-native-actionsheet'
+import NetInfo from '@react-native-community/netinfo'
 
 export default class App extends Component {
     constructor(...args) {
@@ -80,8 +82,27 @@ export default class App extends Component {
 
     onSelect = (color) => this.setState({ selectedColor: color })
 
+    unsubscribe = NetInfo.addEventListener((state) => {
+        this.setState({ isLoading: !state.isConnected })
+    })
+
+    componentDidMount() {
+        this.unsubscribe
+    }
+
+    componentWillUnmount() {
+        this.unsubscribe()
+    }
+
     render() {
         const { selected } = this.state
+        if (this.state.isLoading) {
+            return (
+                <View style={styles.preloader}>
+                    <ActivityIndicator size="large" color="#9E9E9E" />
+                </View>
+            )
+        }
         return (
             <SafeAreaView>
                 <StatusBar barStyle={'dark-content'} />
@@ -344,5 +365,15 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         justifyContent: 'center',
         marginRight: 20,
+    },
+    preloader: {
+        left: 0,
+        right: 0,
+        top: 0,
+        bottom: 0,
+        position: 'absolute',
+        alignItems: 'center',
+        justifyContent: 'center',
+        backgroundColor: '#fff',
     },
 })

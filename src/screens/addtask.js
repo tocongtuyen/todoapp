@@ -14,6 +14,7 @@ import {
     SafeAreaView,
     FlatList,
     StatusBar,
+    ActivityIndicator,
 } from 'react-native'
 import moment from 'moment'
 import { CalendarList } from 'react-native-calendars'
@@ -27,6 +28,7 @@ import AntDesign from 'react-native-vector-icons/AntDesign'
 import Feather from 'react-native-vector-icons/Feather'
 import ActionSheet from 'react-native-actionsheet'
 import RNPickerSelect from 'react-native-picker-select'
+import NetInfo from '@react-native-community/netinfo'
 
 class detailtask extends Component {
     constructor(props) {
@@ -61,6 +63,7 @@ class detailtask extends Component {
             colorid: '',
             keyColorCurrent: '',
             valuePickerSelect: 'Không lặp',
+            isLoading: true,
         }
     }
 
@@ -147,6 +150,9 @@ class detailtask extends Component {
                 })
                 .then((res) => {
                     this.props.navigation.goBack()
+                    this.setState({
+                        isLoading: false,
+                    })
                     // this.getTaskByGroupId(this.state.userid).then(tasks => {
                     //   this.props.route.params.onSelect({todoList: tasks});
                     // });
@@ -314,7 +320,7 @@ class detailtask extends Component {
                 querySnapshot.forEach(function (doc) {
                     arr.push({ key: doc.id, data: doc.data(), ...doc.data() })
                 })
-                this.setState({ arrColor: arr })
+                this.setState({ arrColor: arr, isLoading: false })
             })
     }
 
@@ -495,10 +501,21 @@ class detailtask extends Component {
         this._hideDateTimePicker2()
     }
 
+    unsubscribe = NetInfo.addEventListener((state) => {
+        console.log('Connection type', state.type)
+        console.log('Is connected?', state.isConnected)
+        this.setState({ isLoading: !state.isConnected })
+    })
+
     componentDidMount() {
         this.getAllColor(this.state.userid)
+        this.unsubscribe
         // console.log(new Date().getHours())
         // this.refreshTask();
+    }
+
+    componentWillUnmount() {
+        this.unsubscribe()
     }
 
     render() {
@@ -521,6 +538,13 @@ class detailtask extends Component {
             props: { navigation },
         } = this
 
+        if (this.state.isLoading) {
+            return (
+                <View style={styles.preloader}>
+                    <ActivityIndicator size="large" color="#9E9E9E" />
+                </View>
+            )
+        }
         return (
             <SafeAreaView>
                 <StatusBar barStyle={'dark-content'} />
@@ -1246,5 +1270,15 @@ const styles = StyleSheet.create({
         flex: 1,
         paddingTop: 1,
         backgroundColor: '#eaeef7',
+    },
+    preloader: {
+        left: 0,
+        right: 0,
+        top: 0,
+        bottom: 0,
+        position: 'absolute',
+        alignItems: 'center',
+        justifyContent: 'center',
+        backgroundColor: '#fff',
     },
 })

@@ -14,6 +14,7 @@ import {
     Modal,
     Alert,
     StatusBar,
+    ActivityIndicator,
 } from 'react-native'
 import moment from 'moment'
 import firebase from '../database/firebase'
@@ -22,6 +23,7 @@ import Entypo from 'react-native-vector-icons/Entypo'
 import FontAwesome from 'react-native-vector-icons/FontAwesome'
 import Dialog from 'react-native-dialog'
 import ActionSheet from 'react-native-actionsheet'
+import NetInfo from '@react-native-community/netinfo'
 
 import Header from '../components/headercomponent.js'
 import GroupTask from '../components/grouptaskcomponent.js'
@@ -136,7 +138,12 @@ export default class Dashboard extends Component {
         this.storeGroup()
     }
 
+    unsubscribe = NetInfo.addEventListener((state) => {
+        this.setState({ isLoading: !state.isConnected })
+    })
+
     componentDidMount() {
+        this.unsubscribe
         this.getTask(this.state.uid, nextDate(0), nextDate(1))
         setTimeout(() => {
             this.setState({ isModalVisible: true })
@@ -144,7 +151,7 @@ export default class Dashboard extends Component {
         // this.unsubscribe = this.dbRef.onSnapshot(this.getCollection);
     }
     componentWillUnmount() {
-        // this.unsubscribe();
+        this.unsubscribe()
     }
 
     // getCollection = querySnapshot => {
@@ -250,6 +257,13 @@ export default class Dashboard extends Component {
     }
 
     render() {
+        if (this.state.isLoading) {
+            return (
+                <View style={styles.preloader}>
+                    <ActivityIndicator size="large" color="#9E9E9E" />
+                </View>
+            )
+        }
         return (
             <SafeAreaView style={{ flex: 1, backgroundColor: '#424F61' }}>
                 <StatusBar barStyle={'light-content'} />
@@ -263,7 +277,10 @@ export default class Dashboard extends Component {
                         <View style={styles.cardMain}>
                             <View style={{ margin: 15 }}>
                                 <Text
-                                    style={{ fontSize: 26, fontWeight: '500' }}
+                                    style={{
+                                        fontSize: 26,
+                                        fontWeight: '500',
+                                    }}
                                 >
                                     Công việc còn lại hôm nay
                                 </Text>
@@ -295,7 +312,9 @@ export default class Dashboard extends Component {
                                     },
                                 ]}
                                 onPress={() => {
-                                    this.setState({ isModalVisible: false })
+                                    this.setState({
+                                        isModalVisible: false,
+                                    })
                                 }}
                             >
                                 <Text
@@ -447,7 +466,9 @@ export default class Dashboard extends Component {
                             <TouchableOpacity
                                 style={styles.itemContainer}
                                 onPress={() => {
-                                    this.setState({ isModalVisible: true })
+                                    this.setState({
+                                        isModalVisible: true,
+                                    })
                                 }}
                             >
                                 <Text style={styles.itemText}>
@@ -586,5 +607,15 @@ const styles = StyleSheet.create({
         marginBottom: 15,
         borderRadius: 10,
         justifyContent: 'center',
+    },
+    preloader: {
+        left: 0,
+        right: 0,
+        top: 0,
+        bottom: 0,
+        position: 'absolute',
+        alignItems: 'center',
+        justifyContent: 'center',
+        backgroundColor: '#fff',
     },
 })

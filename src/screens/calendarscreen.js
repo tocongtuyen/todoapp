@@ -10,7 +10,10 @@ import {
     Alert,
     Dimensions,
     StatusBar,
+    ActivityIndicator,
 } from 'react-native'
+import NetInfo from '@react-native-community/netinfo'
+
 import moment from 'moment'
 import TaskItem from '../components/taskitem.js'
 import AntDesign from 'react-native-vector-icons/AntDesign'
@@ -198,6 +201,7 @@ export default class calendarscreen extends Component {
             number: 0,
             todo: [],
             keyTaskCurrent: '',
+            isLoading: true,
         }
     }
 
@@ -218,7 +222,7 @@ export default class calendarscreen extends Component {
                     })
                 })
                 // console.log(todo)
-                this.setState({ todo: todo })
+                this.setState({ todo: todo, isLoading: false })
             })
     }
 
@@ -242,12 +246,25 @@ export default class calendarscreen extends Component {
             return item.session === session && item.number === number
         })
     }
-
+    unsubscribe = NetInfo.addEventListener((state) => {
+        this.setState({ isLoading: !state.isConnected })
+    })
     componentDidMount() {
         this.renderData()
+        this.unsubscribe
+    }
+    componentWillUnmount() {
+        this.unsubscribe()
     }
 
     render() {
+        if (this.state.isLoading) {
+            return (
+                <View style={styles.preloader}>
+                    <ActivityIndicator size="large" color="#9E9E9E" />
+                </View>
+            )
+        }
         return (
             <SafeAreaView style={{ flex: 1, backgroundColor: '#424F61' }}>
                 <StatusBar barStyle={'light-content'} />
@@ -493,7 +510,9 @@ export default class calendarscreen extends Component {
                                     <View
                                         style={[
                                             styles.dividercolunm,
-                                            { backgroundColor: '#cad3c3' },
+                                            {
+                                                backgroundColor: '#cad3c3',
+                                            },
                                         ]}
                                     />
                                     <View style={styles.stylecolunm}>
@@ -570,7 +589,9 @@ export default class calendarscreen extends Component {
                                     <View
                                         style={[
                                             styles.dividercolunm,
-                                            { backgroundColor: '#cad3c3' },
+                                            {
+                                                backgroundColor: '#cad3c3',
+                                            },
                                         ]}
                                     />
                                     <View style={styles.stylecolunm}>
@@ -722,7 +743,9 @@ export default class calendarscreen extends Component {
                                     <View
                                         style={[
                                             styles.dividercolunm,
-                                            { backgroundColor: '#cad3c3' },
+                                            {
+                                                backgroundColor: '#cad3c3',
+                                            },
                                         ]}
                                     />
                                     <View style={styles.stylecolunm}>
@@ -799,7 +822,9 @@ export default class calendarscreen extends Component {
                                     <View
                                         style={[
                                             styles.dividercolunm,
-                                            { backgroundColor: '#cad3c3' },
+                                            {
+                                                backgroundColor: '#cad3c3',
+                                            },
                                         ]}
                                     />
                                     <View style={styles.stylecolunm}>
@@ -951,7 +976,9 @@ export default class calendarscreen extends Component {
                                     <View
                                         style={[
                                             styles.dividercolunm,
-                                            { backgroundColor: '#cad3c3' },
+                                            {
+                                                backgroundColor: '#cad3c3',
+                                            },
                                         ]}
                                     />
                                     <View style={styles.stylecolunm}>
@@ -1028,7 +1055,9 @@ export default class calendarscreen extends Component {
                                     <View
                                         style={[
                                             styles.dividercolunm,
-                                            { backgroundColor: '#cad3c3' },
+                                            {
+                                                backgroundColor: '#cad3c3',
+                                            },
                                         ]}
                                     />
                                     <View style={styles.stylecolunm}>
@@ -1180,7 +1209,9 @@ export default class calendarscreen extends Component {
                                     <View
                                         style={[
                                             styles.dividercolunm,
-                                            { backgroundColor: '#cad3c3' },
+                                            {
+                                                backgroundColor: '#cad3c3',
+                                            },
                                         ]}
                                     />
                                     <View style={styles.stylecolunm}>
@@ -1257,7 +1288,9 @@ export default class calendarscreen extends Component {
                                     <View
                                         style={[
                                             styles.dividercolunm,
-                                            { backgroundColor: '#cad3c3' },
+                                            {
+                                                backgroundColor: '#cad3c3',
+                                            },
                                         ]}
                                     />
                                     <View style={styles.stylecolunm}>
@@ -1409,7 +1442,9 @@ export default class calendarscreen extends Component {
                                     <View
                                         style={[
                                             styles.dividercolunm,
-                                            { backgroundColor: '#cad3c3' },
+                                            {
+                                                backgroundColor: '#cad3c3',
+                                            },
                                         ]}
                                     />
                                     <View style={styles.stylecolunm}>
@@ -1486,7 +1521,9 @@ export default class calendarscreen extends Component {
                                     <View
                                         style={[
                                             styles.dividercolunm,
-                                            { backgroundColor: '#cad3c3' },
+                                            {
+                                                backgroundColor: '#cad3c3',
+                                            },
                                         ]}
                                     />
                                     <View style={styles.stylecolunm}>
@@ -1638,7 +1675,9 @@ export default class calendarscreen extends Component {
                                     <View
                                         style={[
                                             styles.dividercolunm,
-                                            { backgroundColor: '#cad3c3' },
+                                            {
+                                                backgroundColor: '#cad3c3',
+                                            },
                                         ]}
                                     />
                                     <View style={styles.stylecolunm}>
@@ -1715,7 +1754,9 @@ export default class calendarscreen extends Component {
                                     <View
                                         style={[
                                             styles.dividercolunm,
-                                            { backgroundColor: '#cad3c3' },
+                                            {
+                                                backgroundColor: '#cad3c3',
+                                            },
                                         ]}
                                     />
                                     <View style={styles.stylecolunm}>
@@ -1867,7 +1908,9 @@ export default class calendarscreen extends Component {
                                     <View
                                         style={[
                                             styles.dividercolunm,
-                                            { backgroundColor: '#cad3c3' },
+                                            {
+                                                backgroundColor: '#cad3c3',
+                                            },
                                         ]}
                                     />
                                     <View style={styles.stylecolunm}>
@@ -1944,7 +1987,9 @@ export default class calendarscreen extends Component {
                                     <View
                                         style={[
                                             styles.dividercolunm,
-                                            { backgroundColor: '#cad3c3' },
+                                            {
+                                                backgroundColor: '#cad3c3',
+                                            },
                                         ]}
                                     />
                                     <View style={styles.stylecolunm}>
@@ -2086,5 +2131,15 @@ const styles = StyleSheet.create({
     styleHeader: {
         height: 50,
         backgroundColor: '#FFF',
+    },
+    preloader: {
+        left: 0,
+        right: 0,
+        top: 0,
+        bottom: 0,
+        position: 'absolute',
+        alignItems: 'center',
+        justifyContent: 'center',
+        backgroundColor: '#fff',
     },
 })
