@@ -121,7 +121,15 @@ export default class Signup extends Component {
                 <Button
                     color="#3740FE"
                     title="Đăng ký"
-                    onPress={() => this.registerUser()}
+                    onPress={() => {
+                        var filter = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/
+                        if (!filter.test(this.state.email)) {
+                            Alert.alert(
+                                'Thông báo',
+                                'Hãy nhập địa chỉ email hợp lệ.\nExample@gmail.com'
+                            )
+                        } else this.registerUser()
+                    }}
                 />
 
                 <Text

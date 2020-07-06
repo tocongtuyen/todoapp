@@ -219,7 +219,7 @@ export default class App extends Component {
                                 }}
                                 value={selected.label}
                                 placeholder="Nhập tên nhãn"
-                                autoFocus={true}
+                                // autoFocus={true}
                             />
                             <View style={styles.seperator}></View>
                             <View

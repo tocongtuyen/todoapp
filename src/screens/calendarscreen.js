@@ -24,6 +24,8 @@ import ListTaskItem from '../components/listtaskitem'
 import TimeLife from '../components/timelife'
 const Width = Dimensions.get('window').width
 
+var hourCurrent = new Date().getHours()
+
 const renderDateOnWeek = (num) => {
     // Lấy số thứ tự của ngày hiện tại
     let today = moment()
@@ -146,6 +148,16 @@ const focusDay = (day) => {
     }
     return 1
 }
+
+const checkDateCurrent = (day) => {
+    let dateCurrent = new Date(moment().format('YYYY/MM/DD'))
+    let dateFocus = new Date(day)
+    if (dateFocus >= dateCurrent) {
+        return true
+    }
+    return false
+}
+
 const StyleHeaderFocus = (props) => {
     const { check, number } = props
     return (
@@ -231,6 +243,10 @@ export default class calendarscreen extends Component {
         dbRef.delete().then((res) => {
             console.log('Item removed from database')
         })
+    }
+
+    onSelect = (data) => {
+        this.setState(data)
     }
 
     renderData = () => {
@@ -444,6 +460,17 @@ export default class calendarscreen extends Component {
                                                 6,
                                                 1
                                             )}
+                                            currentday={checkDateCurrent(
+                                                nextDate(
+                                                    checkThu2() +
+                                                        this.state.number
+                                                )
+                                            )}
+                                            date={nextDate(
+                                                checkThu2() + this.state.number
+                                            )}
+                                            hour={6}
+                                            render={this.renderData}
                                             navigation={this.props.navigation}
                                         />
                                     </View>
@@ -456,6 +483,17 @@ export default class calendarscreen extends Component {
                                                 7,
                                                 1
                                             )}
+                                            currentday={checkDateCurrent(
+                                                nextDate(
+                                                    checkThu2() +
+                                                        this.state.number
+                                                )
+                                            )}
+                                            date={nextDate(
+                                                checkThu2() + this.state.number
+                                            )}
+                                            hour={7}
+                                            render={this.renderData}
                                             navigation={this.props.navigation}
                                         />
                                     </View>
@@ -468,6 +506,17 @@ export default class calendarscreen extends Component {
                                                 8,
                                                 1
                                             )}
+                                            currentday={checkDateCurrent(
+                                                nextDate(
+                                                    checkThu2() +
+                                                        this.state.number
+                                                )
+                                            )}
+                                            date={nextDate(
+                                                checkThu2() + this.state.number
+                                            )}
+                                            hour={8}
+                                            render={this.renderData}
                                             navigation={this.props.navigation}
                                         />
                                     </View>
@@ -480,6 +529,17 @@ export default class calendarscreen extends Component {
                                                 9,
                                                 1
                                             )}
+                                            currentday={checkDateCurrent(
+                                                nextDate(
+                                                    checkThu2() +
+                                                        this.state.number
+                                                )
+                                            )}
+                                            date={nextDate(
+                                                checkThu2() + this.state.number
+                                            )}
+                                            hour={9}
+                                            render={this.renderData}
                                             navigation={this.props.navigation}
                                         />
                                     </View>
@@ -492,6 +552,17 @@ export default class calendarscreen extends Component {
                                                 10,
                                                 1
                                             )}
+                                            currentday={checkDateCurrent(
+                                                nextDate(
+                                                    checkThu2() +
+                                                        this.state.number
+                                                )
+                                            )}
+                                            date={nextDate(
+                                                checkThu2() + this.state.number
+                                            )}
+                                            hour={10}
+                                            render={this.renderData}
                                             navigation={this.props.navigation}
                                         />
                                     </View>
@@ -504,6 +575,17 @@ export default class calendarscreen extends Component {
                                                 11,
                                                 1
                                             )}
+                                            currentday={checkDateCurrent(
+                                                nextDate(
+                                                    checkThu2() +
+                                                        this.state.number
+                                                )
+                                            )}
+                                            date={nextDate(
+                                                checkThu2() + this.state.number
+                                            )}
+                                            hour={11}
+                                            render={this.renderData}
                                             navigation={this.props.navigation}
                                         />
                                     </View>
@@ -523,6 +605,17 @@ export default class calendarscreen extends Component {
                                                 12,
                                                 1
                                             )}
+                                            currentday={checkDateCurrent(
+                                                nextDate(
+                                                    checkThu2() +
+                                                        this.state.number
+                                                )
+                                            )}
+                                            date={nextDate(
+                                                checkThu2() + this.state.number
+                                            )}
+                                            hour={12}
+                                            render={this.renderData}
                                             navigation={this.props.navigation}
                                         />
                                     </View>
@@ -535,6 +628,17 @@ export default class calendarscreen extends Component {
                                                 13,
                                                 1
                                             )}
+                                            currentday={checkDateCurrent(
+                                                nextDate(
+                                                    checkThu2() +
+                                                        this.state.number
+                                                )
+                                            )}
+                                            date={nextDate(
+                                                checkThu2() + this.state.number
+                                            )}
+                                            hour={13}
+                                            render={this.renderData}
                                             navigation={this.props.navigation}
                                         />
                                     </View>
@@ -547,6 +651,17 @@ export default class calendarscreen extends Component {
                                                 14,
                                                 1
                                             )}
+                                            currentday={checkDateCurrent(
+                                                nextDate(
+                                                    checkThu2() +
+                                                        this.state.number
+                                                )
+                                            )}
+                                            date={nextDate(
+                                                checkThu2() + this.state.number
+                                            )}
+                                            hour={14}
+                                            render={this.renderData}
                                             navigation={this.props.navigation}
                                         />
                                     </View>
@@ -559,6 +674,17 @@ export default class calendarscreen extends Component {
                                                 15,
                                                 1
                                             )}
+                                            currentday={checkDateCurrent(
+                                                nextDate(
+                                                    checkThu2() +
+                                                        this.state.number
+                                                )
+                                            )}
+                                            date={nextDate(
+                                                checkThu2() + this.state.number
+                                            )}
+                                            hour={15}
+                                            render={this.renderData}
                                             navigation={this.props.navigation}
                                         />
                                     </View>
@@ -571,6 +697,17 @@ export default class calendarscreen extends Component {
                                                 16,
                                                 1
                                             )}
+                                            currentday={checkDateCurrent(
+                                                nextDate(
+                                                    checkThu2() +
+                                                        this.state.number
+                                                )
+                                            )}
+                                            date={nextDate(
+                                                checkThu2() + this.state.number
+                                            )}
+                                            hour={16}
+                                            render={this.renderData}
                                             navigation={this.props.navigation}
                                         />
                                     </View>
@@ -583,6 +720,17 @@ export default class calendarscreen extends Component {
                                                 17,
                                                 1
                                             )}
+                                            currentday={checkDateCurrent(
+                                                nextDate(
+                                                    checkThu2() +
+                                                        this.state.number
+                                                )
+                                            )}
+                                            date={nextDate(
+                                                checkThu2() + this.state.number
+                                            )}
+                                            hour={17}
+                                            render={this.renderData}
                                             navigation={this.props.navigation}
                                         />
                                     </View>
@@ -602,6 +750,17 @@ export default class calendarscreen extends Component {
                                                 18,
                                                 1
                                             )}
+                                            currentday={checkDateCurrent(
+                                                nextDate(
+                                                    checkThu2() +
+                                                        this.state.number
+                                                )
+                                            )}
+                                            date={nextDate(
+                                                checkThu2() + this.state.number
+                                            )}
+                                            hour={18}
+                                            render={this.renderData}
                                             navigation={this.props.navigation}
                                         />
                                     </View>
@@ -614,6 +773,17 @@ export default class calendarscreen extends Component {
                                                 19,
                                                 1
                                             )}
+                                            currentday={checkDateCurrent(
+                                                nextDate(
+                                                    checkThu2() +
+                                                        this.state.number
+                                                )
+                                            )}
+                                            date={nextDate(
+                                                checkThu2() + this.state.number
+                                            )}
+                                            hour={19}
+                                            render={this.renderData}
                                             navigation={this.props.navigation}
                                         />
                                     </View>
@@ -626,6 +796,17 @@ export default class calendarscreen extends Component {
                                                 20,
                                                 1
                                             )}
+                                            currentday={checkDateCurrent(
+                                                nextDate(
+                                                    checkThu2() +
+                                                        this.state.number
+                                                )
+                                            )}
+                                            date={nextDate(
+                                                checkThu2() + this.state.number
+                                            )}
+                                            hour={20}
+                                            render={this.renderData}
                                             navigation={this.props.navigation}
                                         />
                                     </View>
@@ -638,6 +819,17 @@ export default class calendarscreen extends Component {
                                                 21,
                                                 1
                                             )}
+                                            currentday={checkDateCurrent(
+                                                nextDate(
+                                                    checkThu2() +
+                                                        this.state.number
+                                                )
+                                            )}
+                                            date={nextDate(
+                                                checkThu2() + this.state.number
+                                            )}
+                                            hour={21}
+                                            render={this.renderData}
                                             navigation={this.props.navigation}
                                         />
                                     </View>
@@ -650,6 +842,17 @@ export default class calendarscreen extends Component {
                                                 22,
                                                 1
                                             )}
+                                            currentday={checkDateCurrent(
+                                                nextDate(
+                                                    checkThu2() +
+                                                        this.state.number
+                                                )
+                                            )}
+                                            date={nextDate(
+                                                checkThu2() + this.state.number
+                                            )}
+                                            hour={22}
+                                            render={this.renderData}
                                             navigation={this.props.navigation}
                                         />
                                     </View>
@@ -662,6 +865,17 @@ export default class calendarscreen extends Component {
                                                 23,
                                                 1
                                             )}
+                                            currentday={checkDateCurrent(
+                                                nextDate(
+                                                    checkThu2() +
+                                                        this.state.number
+                                                )
+                                            )}
+                                            date={nextDate(
+                                                checkThu2() + this.state.number
+                                            )}
+                                            hour={23}
+                                            render={this.renderData}
                                             navigation={this.props.navigation}
                                         />
                                     </View>
@@ -677,6 +891,17 @@ export default class calendarscreen extends Component {
                                                 6,
                                                 2
                                             )}
+                                            currentday={checkDateCurrent(
+                                                nextDate(
+                                                    checkThu3() +
+                                                        this.state.number
+                                                )
+                                            )}
+                                            date={nextDate(
+                                                checkThu3() + this.state.number
+                                            )}
+                                            hour={6}
+                                            render={this.renderData}
                                             navigation={this.props.navigation}
                                         />
                                     </View>
@@ -689,6 +914,17 @@ export default class calendarscreen extends Component {
                                                 7,
                                                 2
                                             )}
+                                            currentday={checkDateCurrent(
+                                                nextDate(
+                                                    checkThu3() +
+                                                        this.state.number
+                                                )
+                                            )}
+                                            date={nextDate(
+                                                checkThu3() + this.state.number
+                                            )}
+                                            hour={7}
+                                            render={this.renderData}
                                             navigation={this.props.navigation}
                                         />
                                     </View>
@@ -701,6 +937,17 @@ export default class calendarscreen extends Component {
                                                 8,
                                                 2
                                             )}
+                                            currentday={checkDateCurrent(
+                                                nextDate(
+                                                    checkThu3() +
+                                                        this.state.number
+                                                )
+                                            )}
+                                            date={nextDate(
+                                                checkThu3() + this.state.number
+                                            )}
+                                            hour={8}
+                                            render={this.renderData}
                                             navigation={this.props.navigation}
                                         />
                                     </View>
@@ -713,6 +960,17 @@ export default class calendarscreen extends Component {
                                                 9,
                                                 2
                                             )}
+                                            currentday={checkDateCurrent(
+                                                nextDate(
+                                                    checkThu3() +
+                                                        this.state.number
+                                                )
+                                            )}
+                                            date={nextDate(
+                                                checkThu3() + this.state.number
+                                            )}
+                                            hour={9}
+                                            render={this.renderData}
                                             navigation={this.props.navigation}
                                         />
                                     </View>
@@ -725,6 +983,17 @@ export default class calendarscreen extends Component {
                                                 10,
                                                 2
                                             )}
+                                            currentday={checkDateCurrent(
+                                                nextDate(
+                                                    checkThu3() +
+                                                        this.state.number
+                                                )
+                                            )}
+                                            date={nextDate(
+                                                checkThu3() + this.state.number
+                                            )}
+                                            hour={10}
+                                            render={this.renderData}
                                             navigation={this.props.navigation}
                                         />
                                     </View>
@@ -737,6 +1006,17 @@ export default class calendarscreen extends Component {
                                                 11,
                                                 2
                                             )}
+                                            currentday={checkDateCurrent(
+                                                nextDate(
+                                                    checkThu3() +
+                                                        this.state.number
+                                                )
+                                            )}
+                                            date={nextDate(
+                                                checkThu3() + this.state.number
+                                            )}
+                                            hour={11}
+                                            render={this.renderData}
                                             navigation={this.props.navigation}
                                         />
                                     </View>
@@ -756,6 +1036,17 @@ export default class calendarscreen extends Component {
                                                 12,
                                                 2
                                             )}
+                                            currentday={checkDateCurrent(
+                                                nextDate(
+                                                    checkThu3() +
+                                                        this.state.number
+                                                )
+                                            )}
+                                            date={nextDate(
+                                                checkThu3() + this.state.number
+                                            )}
+                                            hour={12}
+                                            render={this.renderData}
                                             navigation={this.props.navigation}
                                         />
                                     </View>
@@ -768,6 +1059,17 @@ export default class calendarscreen extends Component {
                                                 13,
                                                 2
                                             )}
+                                            currentday={checkDateCurrent(
+                                                nextDate(
+                                                    checkThu3() +
+                                                        this.state.number
+                                                )
+                                            )}
+                                            date={nextDate(
+                                                checkThu3() + this.state.number
+                                            )}
+                                            hour={13}
+                                            render={this.renderData}
                                             navigation={this.props.navigation}
                                         />
                                     </View>
@@ -780,6 +1082,17 @@ export default class calendarscreen extends Component {
                                                 14,
                                                 2
                                             )}
+                                            currentday={checkDateCurrent(
+                                                nextDate(
+                                                    checkThu3() +
+                                                        this.state.number
+                                                )
+                                            )}
+                                            date={nextDate(
+                                                checkThu3() + this.state.number
+                                            )}
+                                            hour={14}
+                                            render={this.renderData}
                                             navigation={this.props.navigation}
                                         />
                                     </View>
@@ -792,6 +1105,17 @@ export default class calendarscreen extends Component {
                                                 15,
                                                 2
                                             )}
+                                            currentday={checkDateCurrent(
+                                                nextDate(
+                                                    checkThu3() +
+                                                        this.state.number
+                                                )
+                                            )}
+                                            date={nextDate(
+                                                checkThu3() + this.state.number
+                                            )}
+                                            hour={15}
+                                            render={this.renderData}
                                             navigation={this.props.navigation}
                                         />
                                     </View>
@@ -804,6 +1128,17 @@ export default class calendarscreen extends Component {
                                                 16,
                                                 2
                                             )}
+                                            currentday={checkDateCurrent(
+                                                nextDate(
+                                                    checkThu3() +
+                                                        this.state.number
+                                                )
+                                            )}
+                                            date={nextDate(
+                                                checkThu3() + this.state.number
+                                            )}
+                                            hour={16}
+                                            render={this.renderData}
                                             navigation={this.props.navigation}
                                         />
                                     </View>
@@ -816,6 +1151,17 @@ export default class calendarscreen extends Component {
                                                 17,
                                                 2
                                             )}
+                                            currentday={checkDateCurrent(
+                                                nextDate(
+                                                    checkThu3() +
+                                                        this.state.number
+                                                )
+                                            )}
+                                            date={nextDate(
+                                                checkThu3() + this.state.number
+                                            )}
+                                            hour={17}
+                                            render={this.renderData}
                                             navigation={this.props.navigation}
                                         />
                                     </View>
@@ -835,6 +1181,17 @@ export default class calendarscreen extends Component {
                                                 18,
                                                 2
                                             )}
+                                            currentday={checkDateCurrent(
+                                                nextDate(
+                                                    checkThu3() +
+                                                        this.state.number
+                                                )
+                                            )}
+                                            date={nextDate(
+                                                checkThu3() + this.state.number
+                                            )}
+                                            hour={18}
+                                            render={this.renderData}
                                             navigation={this.props.navigation}
                                         />
                                     </View>
@@ -847,6 +1204,17 @@ export default class calendarscreen extends Component {
                                                 19,
                                                 2
                                             )}
+                                            currentday={checkDateCurrent(
+                                                nextDate(
+                                                    checkThu3() +
+                                                        this.state.number
+                                                )
+                                            )}
+                                            date={nextDate(
+                                                checkThu3() + this.state.number
+                                            )}
+                                            hour={19}
+                                            render={this.renderData}
                                             navigation={this.props.navigation}
                                         />
                                     </View>
@@ -859,6 +1227,17 @@ export default class calendarscreen extends Component {
                                                 20,
                                                 2
                                             )}
+                                            currentday={checkDateCurrent(
+                                                nextDate(
+                                                    checkThu3() +
+                                                        this.state.number
+                                                )
+                                            )}
+                                            date={nextDate(
+                                                checkThu3() + this.state.number
+                                            )}
+                                            hour={20}
+                                            render={this.renderData}
                                             navigation={this.props.navigation}
                                         />
                                     </View>
@@ -871,6 +1250,17 @@ export default class calendarscreen extends Component {
                                                 21,
                                                 2
                                             )}
+                                            currentday={checkDateCurrent(
+                                                nextDate(
+                                                    checkThu3() +
+                                                        this.state.number
+                                                )
+                                            )}
+                                            date={nextDate(
+                                                checkThu3() + this.state.number
+                                            )}
+                                            hour={21}
+                                            render={this.renderData}
                                             navigation={this.props.navigation}
                                         />
                                     </View>
@@ -883,6 +1273,17 @@ export default class calendarscreen extends Component {
                                                 22,
                                                 2
                                             )}
+                                            currentday={checkDateCurrent(
+                                                nextDate(
+                                                    checkThu3() +
+                                                        this.state.number
+                                                )
+                                            )}
+                                            date={nextDate(
+                                                checkThu3() + this.state.number
+                                            )}
+                                            hour={22}
+                                            render={this.renderData}
                                             navigation={this.props.navigation}
                                         />
                                     </View>
@@ -895,6 +1296,17 @@ export default class calendarscreen extends Component {
                                                 23,
                                                 2
                                             )}
+                                            currentday={checkDateCurrent(
+                                                nextDate(
+                                                    checkThu3() +
+                                                        this.state.number
+                                                )
+                                            )}
+                                            date={nextDate(
+                                                checkThu3() + this.state.number
+                                            )}
+                                            hour={23}
+                                            render={this.renderData}
                                             navigation={this.props.navigation}
                                         />
                                     </View>
@@ -910,6 +1322,17 @@ export default class calendarscreen extends Component {
                                                 6,
                                                 3
                                             )}
+                                            currentday={checkDateCurrent(
+                                                nextDate(
+                                                    checkThu4() +
+                                                        this.state.number
+                                                )
+                                            )}
+                                            date={nextDate(
+                                                checkThu4() + this.state.number
+                                            )}
+                                            hour={6}
+                                            render={this.renderData}
                                             navigation={this.props.navigation}
                                         />
                                     </View>
@@ -922,6 +1345,17 @@ export default class calendarscreen extends Component {
                                                 7,
                                                 3
                                             )}
+                                            currentday={checkDateCurrent(
+                                                nextDate(
+                                                    checkThu4() +
+                                                        this.state.number
+                                                )
+                                            )}
+                                            date={nextDate(
+                                                checkThu4() + this.state.number
+                                            )}
+                                            hour={7}
+                                            render={this.renderData}
                                             navigation={this.props.navigation}
                                         />
                                     </View>
@@ -934,6 +1368,17 @@ export default class calendarscreen extends Component {
                                                 8,
                                                 3
                                             )}
+                                            currentday={checkDateCurrent(
+                                                nextDate(
+                                                    checkThu4() +
+                                                        this.state.number
+                                                )
+                                            )}
+                                            date={nextDate(
+                                                checkThu4() + this.state.number
+                                            )}
+                                            hour={8}
+                                            render={this.renderData}
                                             navigation={this.props.navigation}
                                         />
                                     </View>
@@ -946,6 +1391,17 @@ export default class calendarscreen extends Component {
                                                 9,
                                                 3
                                             )}
+                                            currentday={checkDateCurrent(
+                                                nextDate(
+                                                    checkThu4() +
+                                                        this.state.number
+                                                )
+                                            )}
+                                            date={nextDate(
+                                                checkThu4() + this.state.number
+                                            )}
+                                            hour={9}
+                                            render={this.renderData}
                                             navigation={this.props.navigation}
                                         />
                                     </View>
@@ -958,6 +1414,17 @@ export default class calendarscreen extends Component {
                                                 10,
                                                 3
                                             )}
+                                            currentday={checkDateCurrent(
+                                                nextDate(
+                                                    checkThu4() +
+                                                        this.state.number
+                                                )
+                                            )}
+                                            date={nextDate(
+                                                checkThu4() + this.state.number
+                                            )}
+                                            hour={10}
+                                            render={this.renderData}
                                             navigation={this.props.navigation}
                                         />
                                     </View>
@@ -970,6 +1437,17 @@ export default class calendarscreen extends Component {
                                                 11,
                                                 3
                                             )}
+                                            currentday={checkDateCurrent(
+                                                nextDate(
+                                                    checkThu4() +
+                                                        this.state.number
+                                                )
+                                            )}
+                                            date={nextDate(
+                                                checkThu4() + this.state.number
+                                            )}
+                                            hour={11}
+                                            render={this.renderData}
                                             navigation={this.props.navigation}
                                         />
                                     </View>
@@ -989,6 +1467,17 @@ export default class calendarscreen extends Component {
                                                 12,
                                                 3
                                             )}
+                                            currentday={checkDateCurrent(
+                                                nextDate(
+                                                    checkThu4() +
+                                                        this.state.number
+                                                )
+                                            )}
+                                            date={nextDate(
+                                                checkThu4() + this.state.number
+                                            )}
+                                            hour={12}
+                                            render={this.renderData}
                                             navigation={this.props.navigation}
                                         />
                                     </View>
@@ -1001,6 +1490,17 @@ export default class calendarscreen extends Component {
                                                 13,
                                                 3
                                             )}
+                                            currentday={checkDateCurrent(
+                                                nextDate(
+                                                    checkThu4() +
+                                                        this.state.number
+                                                )
+                                            )}
+                                            date={nextDate(
+                                                checkThu4() + this.state.number
+                                            )}
+                                            hour={13}
+                                            render={this.renderData}
                                             navigation={this.props.navigation}
                                         />
                                     </View>
@@ -1013,6 +1513,17 @@ export default class calendarscreen extends Component {
                                                 14,
                                                 3
                                             )}
+                                            currentday={checkDateCurrent(
+                                                nextDate(
+                                                    checkThu4() +
+                                                        this.state.number
+                                                )
+                                            )}
+                                            date={nextDate(
+                                                checkThu4() + this.state.number
+                                            )}
+                                            hour={14}
+                                            render={this.renderData}
                                             navigation={this.props.navigation}
                                         />
                                     </View>
@@ -1025,6 +1536,17 @@ export default class calendarscreen extends Component {
                                                 15,
                                                 3
                                             )}
+                                            currentday={checkDateCurrent(
+                                                nextDate(
+                                                    checkThu4() +
+                                                        this.state.number
+                                                )
+                                            )}
+                                            date={nextDate(
+                                                checkThu4() + this.state.number
+                                            )}
+                                            hour={15}
+                                            render={this.renderData}
                                             navigation={this.props.navigation}
                                         />
                                     </View>
@@ -1037,6 +1559,17 @@ export default class calendarscreen extends Component {
                                                 16,
                                                 3
                                             )}
+                                            currentday={checkDateCurrent(
+                                                nextDate(
+                                                    checkThu4() +
+                                                        this.state.number
+                                                )
+                                            )}
+                                            date={nextDate(
+                                                checkThu4() + this.state.number
+                                            )}
+                                            hour={16}
+                                            render={this.renderData}
                                             navigation={this.props.navigation}
                                         />
                                     </View>
@@ -1049,6 +1582,17 @@ export default class calendarscreen extends Component {
                                                 17,
                                                 3
                                             )}
+                                            currentday={checkDateCurrent(
+                                                nextDate(
+                                                    checkThu4() +
+                                                        this.state.number
+                                                )
+                                            )}
+                                            date={nextDate(
+                                                checkThu4() + this.state.number
+                                            )}
+                                            hour={17}
+                                            render={this.renderData}
                                             navigation={this.props.navigation}
                                         />
                                     </View>
@@ -1068,6 +1612,17 @@ export default class calendarscreen extends Component {
                                                 18,
                                                 3
                                             )}
+                                            currentday={checkDateCurrent(
+                                                nextDate(
+                                                    checkThu4() +
+                                                        this.state.number
+                                                )
+                                            )}
+                                            date={nextDate(
+                                                checkThu4() + this.state.number
+                                            )}
+                                            hour={18}
+                                            render={this.renderData}
                                             navigation={this.props.navigation}
                                         />
                                     </View>
@@ -1080,6 +1635,17 @@ export default class calendarscreen extends Component {
                                                 19,
                                                 3
                                             )}
+                                            currentday={checkDateCurrent(
+                                                nextDate(
+                                                    checkThu4() +
+                                                        this.state.number
+                                                )
+                                            )}
+                                            date={nextDate(
+                                                checkThu4() + this.state.number
+                                            )}
+                                            hour={19}
+                                            render={this.renderData}
                                             navigation={this.props.navigation}
                                         />
                                     </View>
@@ -1092,6 +1658,17 @@ export default class calendarscreen extends Component {
                                                 20,
                                                 3
                                             )}
+                                            currentday={checkDateCurrent(
+                                                nextDate(
+                                                    checkThu4() +
+                                                        this.state.number
+                                                )
+                                            )}
+                                            date={nextDate(
+                                                checkThu4() + this.state.number
+                                            )}
+                                            hour={20}
+                                            render={this.renderData}
                                             navigation={this.props.navigation}
                                         />
                                     </View>
@@ -1104,6 +1681,17 @@ export default class calendarscreen extends Component {
                                                 21,
                                                 3
                                             )}
+                                            currentday={checkDateCurrent(
+                                                nextDate(
+                                                    checkThu4() +
+                                                        this.state.number
+                                                )
+                                            )}
+                                            date={nextDate(
+                                                checkThu4() + this.state.number
+                                            )}
+                                            hour={21}
+                                            render={this.renderData}
                                             navigation={this.props.navigation}
                                         />
                                     </View>
@@ -1116,6 +1704,17 @@ export default class calendarscreen extends Component {
                                                 22,
                                                 3
                                             )}
+                                            currentday={checkDateCurrent(
+                                                nextDate(
+                                                    checkThu4() +
+                                                        this.state.number
+                                                )
+                                            )}
+                                            date={nextDate(
+                                                checkThu4() + this.state.number
+                                            )}
+                                            hour={22}
+                                            render={this.renderData}
                                             navigation={this.props.navigation}
                                         />
                                     </View>
@@ -1128,6 +1727,17 @@ export default class calendarscreen extends Component {
                                                 23,
                                                 3
                                             )}
+                                            currentday={checkDateCurrent(
+                                                nextDate(
+                                                    checkThu4() +
+                                                        this.state.number
+                                                )
+                                            )}
+                                            date={nextDate(
+                                                checkThu4() + this.state.number
+                                            )}
+                                            hour={23}
+                                            render={this.renderData}
                                             navigation={this.props.navigation}
                                         />
                                     </View>
@@ -1143,6 +1753,17 @@ export default class calendarscreen extends Component {
                                                 6,
                                                 4
                                             )}
+                                            currentday={checkDateCurrent(
+                                                nextDate(
+                                                    checkThu5() +
+                                                        this.state.number
+                                                )
+                                            )}
+                                            date={nextDate(
+                                                checkThu5() + this.state.number
+                                            )}
+                                            hour={6}
+                                            render={this.renderData}
                                             navigation={this.props.navigation}
                                         />
                                     </View>
@@ -1155,6 +1776,17 @@ export default class calendarscreen extends Component {
                                                 7,
                                                 4
                                             )}
+                                            currentday={checkDateCurrent(
+                                                nextDate(
+                                                    checkThu5() +
+                                                        this.state.number
+                                                )
+                                            )}
+                                            date={nextDate(
+                                                checkThu5() + this.state.number
+                                            )}
+                                            hour={7}
+                                            render={this.renderData}
                                             navigation={this.props.navigation}
                                         />
                                     </View>
@@ -1167,6 +1799,17 @@ export default class calendarscreen extends Component {
                                                 8,
                                                 4
                                             )}
+                                            currentday={checkDateCurrent(
+                                                nextDate(
+                                                    checkThu5() +
+                                                        this.state.number
+                                                )
+                                            )}
+                                            date={nextDate(
+                                                checkThu5() + this.state.number
+                                            )}
+                                            hour={8}
+                                            render={this.renderData}
                                             navigation={this.props.navigation}
                                         />
                                     </View>
@@ -1179,6 +1822,17 @@ export default class calendarscreen extends Component {
                                                 9,
                                                 4
                                             )}
+                                            currentday={checkDateCurrent(
+                                                nextDate(
+                                                    checkThu5() +
+                                                        this.state.number
+                                                )
+                                            )}
+                                            date={nextDate(
+                                                checkThu5() + this.state.number
+                                            )}
+                                            hour={9}
+                                            render={this.renderData}
                                             navigation={this.props.navigation}
                                         />
                                     </View>
@@ -1191,6 +1845,17 @@ export default class calendarscreen extends Component {
                                                 10,
                                                 4
                                             )}
+                                            currentday={checkDateCurrent(
+                                                nextDate(
+                                                    checkThu5() +
+                                                        this.state.number
+                                                )
+                                            )}
+                                            date={nextDate(
+                                                checkThu5() + this.state.number
+                                            )}
+                                            hour={10}
+                                            render={this.renderData}
                                             navigation={this.props.navigation}
                                         />
                                     </View>
@@ -1203,6 +1868,17 @@ export default class calendarscreen extends Component {
                                                 11,
                                                 4
                                             )}
+                                            currentday={checkDateCurrent(
+                                                nextDate(
+                                                    checkThu5() +
+                                                        this.state.number
+                                                )
+                                            )}
+                                            date={nextDate(
+                                                checkThu5() + this.state.number
+                                            )}
+                                            hour={11}
+                                            render={this.renderData}
                                             navigation={this.props.navigation}
                                         />
                                     </View>
@@ -1222,6 +1898,17 @@ export default class calendarscreen extends Component {
                                                 12,
                                                 4
                                             )}
+                                            currentday={checkDateCurrent(
+                                                nextDate(
+                                                    checkThu5() +
+                                                        this.state.number
+                                                )
+                                            )}
+                                            date={nextDate(
+                                                checkThu5() + this.state.number
+                                            )}
+                                            hour={12}
+                                            render={this.renderData}
                                             navigation={this.props.navigation}
                                         />
                                     </View>
@@ -1234,6 +1921,17 @@ export default class calendarscreen extends Component {
                                                 13,
                                                 4
                                             )}
+                                            currentday={checkDateCurrent(
+                                                nextDate(
+                                                    checkThu5() +
+                                                        this.state.number
+                                                )
+                                            )}
+                                            date={nextDate(
+                                                checkThu5() + this.state.number
+                                            )}
+                                            hour={13}
+                                            render={this.renderData}
                                             navigation={this.props.navigation}
                                         />
                                     </View>
@@ -1246,6 +1944,17 @@ export default class calendarscreen extends Component {
                                                 14,
                                                 4
                                             )}
+                                            currentday={checkDateCurrent(
+                                                nextDate(
+                                                    checkThu5() +
+                                                        this.state.number
+                                                )
+                                            )}
+                                            date={nextDate(
+                                                checkThu5() + this.state.number
+                                            )}
+                                            hour={14}
+                                            render={this.renderData}
                                             navigation={this.props.navigation}
                                         />
                                     </View>
@@ -1258,6 +1967,17 @@ export default class calendarscreen extends Component {
                                                 15,
                                                 4
                                             )}
+                                            currentday={checkDateCurrent(
+                                                nextDate(
+                                                    checkThu5() +
+                                                        this.state.number
+                                                )
+                                            )}
+                                            date={nextDate(
+                                                checkThu5() + this.state.number
+                                            )}
+                                            hour={15}
+                                            render={this.renderData}
                                             navigation={this.props.navigation}
                                         />
                                     </View>
@@ -1270,6 +1990,17 @@ export default class calendarscreen extends Component {
                                                 16,
                                                 4
                                             )}
+                                            currentday={checkDateCurrent(
+                                                nextDate(
+                                                    checkThu5() +
+                                                        this.state.number
+                                                )
+                                            )}
+                                            date={nextDate(
+                                                checkThu5() + this.state.number
+                                            )}
+                                            hour={16}
+                                            render={this.renderData}
                                             navigation={this.props.navigation}
                                         />
                                     </View>
@@ -1282,6 +2013,17 @@ export default class calendarscreen extends Component {
                                                 17,
                                                 4
                                             )}
+                                            currentday={checkDateCurrent(
+                                                nextDate(
+                                                    checkThu5() +
+                                                        this.state.number
+                                                )
+                                            )}
+                                            date={nextDate(
+                                                checkThu5() + this.state.number
+                                            )}
+                                            hour={17}
+                                            render={this.renderData}
                                             navigation={this.props.navigation}
                                         />
                                     </View>
@@ -1301,6 +2043,17 @@ export default class calendarscreen extends Component {
                                                 18,
                                                 4
                                             )}
+                                            currentday={checkDateCurrent(
+                                                nextDate(
+                                                    checkThu5() +
+                                                        this.state.number
+                                                )
+                                            )}
+                                            date={nextDate(
+                                                checkThu5() + this.state.number
+                                            )}
+                                            hour={18}
+                                            render={this.renderData}
                                             navigation={this.props.navigation}
                                         />
                                     </View>
@@ -1313,6 +2066,17 @@ export default class calendarscreen extends Component {
                                                 19,
                                                 4
                                             )}
+                                            currentday={checkDateCurrent(
+                                                nextDate(
+                                                    checkThu5() +
+                                                        this.state.number
+                                                )
+                                            )}
+                                            date={nextDate(
+                                                checkThu5() + this.state.number
+                                            )}
+                                            hour={19}
+                                            render={this.renderData}
                                             navigation={this.props.navigation}
                                         />
                                     </View>
@@ -1325,6 +2089,17 @@ export default class calendarscreen extends Component {
                                                 20,
                                                 4
                                             )}
+                                            currentday={checkDateCurrent(
+                                                nextDate(
+                                                    checkThu5() +
+                                                        this.state.number
+                                                )
+                                            )}
+                                            date={nextDate(
+                                                checkThu5() + this.state.number
+                                            )}
+                                            hour={20}
+                                            render={this.renderData}
                                             navigation={this.props.navigation}
                                         />
                                     </View>
@@ -1337,6 +2112,17 @@ export default class calendarscreen extends Component {
                                                 21,
                                                 4
                                             )}
+                                            currentday={checkDateCurrent(
+                                                nextDate(
+                                                    checkThu5() +
+                                                        this.state.number
+                                                )
+                                            )}
+                                            date={nextDate(
+                                                checkThu5() + this.state.number
+                                            )}
+                                            hour={21}
+                                            render={this.renderData}
                                             navigation={this.props.navigation}
                                         />
                                     </View>
@@ -1349,6 +2135,17 @@ export default class calendarscreen extends Component {
                                                 22,
                                                 4
                                             )}
+                                            currentday={checkDateCurrent(
+                                                nextDate(
+                                                    checkThu5() +
+                                                        this.state.number
+                                                )
+                                            )}
+                                            date={nextDate(
+                                                checkThu5() + this.state.number
+                                            )}
+                                            hour={22}
+                                            render={this.renderData}
                                             navigation={this.props.navigation}
                                         />
                                     </View>
@@ -1361,6 +2158,17 @@ export default class calendarscreen extends Component {
                                                 23,
                                                 4
                                             )}
+                                            currentday={checkDateCurrent(
+                                                nextDate(
+                                                    checkThu5() +
+                                                        this.state.number
+                                                )
+                                            )}
+                                            date={nextDate(
+                                                checkThu5() + this.state.number
+                                            )}
+                                            hour={23}
+                                            render={this.renderData}
                                             navigation={this.props.navigation}
                                         />
                                     </View>
@@ -1376,6 +2184,17 @@ export default class calendarscreen extends Component {
                                                 6,
                                                 5
                                             )}
+                                            currentday={checkDateCurrent(
+                                                nextDate(
+                                                    checkThu6() +
+                                                        this.state.number
+                                                )
+                                            )}
+                                            date={nextDate(
+                                                checkThu6() + this.state.number
+                                            )}
+                                            hour={6}
+                                            render={this.renderData}
                                             navigation={this.props.navigation}
                                         />
                                     </View>
@@ -1388,6 +2207,17 @@ export default class calendarscreen extends Component {
                                                 7,
                                                 5
                                             )}
+                                            currentday={checkDateCurrent(
+                                                nextDate(
+                                                    checkThu6() +
+                                                        this.state.number
+                                                )
+                                            )}
+                                            date={nextDate(
+                                                checkThu6() + this.state.number
+                                            )}
+                                            hour={7}
+                                            render={this.renderData}
                                             navigation={this.props.navigation}
                                         />
                                     </View>
@@ -1400,6 +2230,17 @@ export default class calendarscreen extends Component {
                                                 8,
                                                 5
                                             )}
+                                            currentday={checkDateCurrent(
+                                                nextDate(
+                                                    checkThu6() +
+                                                        this.state.number
+                                                )
+                                            )}
+                                            date={nextDate(
+                                                checkThu6() + this.state.number
+                                            )}
+                                            hour={8}
+                                            render={this.renderData}
                                             navigation={this.props.navigation}
                                         />
                                     </View>
@@ -1412,6 +2253,17 @@ export default class calendarscreen extends Component {
                                                 9,
                                                 5
                                             )}
+                                            currentday={checkDateCurrent(
+                                                nextDate(
+                                                    checkThu6() +
+                                                        this.state.number
+                                                )
+                                            )}
+                                            date={nextDate(
+                                                checkThu6() + this.state.number
+                                            )}
+                                            hour={9}
+                                            render={this.renderData}
                                             navigation={this.props.navigation}
                                         />
                                     </View>
@@ -1424,6 +2276,17 @@ export default class calendarscreen extends Component {
                                                 10,
                                                 5
                                             )}
+                                            currentday={checkDateCurrent(
+                                                nextDate(
+                                                    checkThu6() +
+                                                        this.state.number
+                                                )
+                                            )}
+                                            date={nextDate(
+                                                checkThu6() + this.state.number
+                                            )}
+                                            hour={10}
+                                            render={this.renderData}
                                             navigation={this.props.navigation}
                                         />
                                     </View>
@@ -1436,6 +2299,17 @@ export default class calendarscreen extends Component {
                                                 11,
                                                 5
                                             )}
+                                            currentday={checkDateCurrent(
+                                                nextDate(
+                                                    checkThu6() +
+                                                        this.state.number
+                                                )
+                                            )}
+                                            date={nextDate(
+                                                checkThu6() + this.state.number
+                                            )}
+                                            hour={11}
+                                            render={this.renderData}
                                             navigation={this.props.navigation}
                                         />
                                     </View>
@@ -1455,6 +2329,17 @@ export default class calendarscreen extends Component {
                                                 12,
                                                 5
                                             )}
+                                            currentday={checkDateCurrent(
+                                                nextDate(
+                                                    checkThu6() +
+                                                        this.state.number
+                                                )
+                                            )}
+                                            date={nextDate(
+                                                checkThu6() + this.state.number
+                                            )}
+                                            hour={12}
+                                            render={this.renderData}
                                             navigation={this.props.navigation}
                                         />
                                     </View>
@@ -1467,6 +2352,17 @@ export default class calendarscreen extends Component {
                                                 13,
                                                 5
                                             )}
+                                            currentday={checkDateCurrent(
+                                                nextDate(
+                                                    checkThu6() +
+                                                        this.state.number
+                                                )
+                                            )}
+                                            date={nextDate(
+                                                checkThu6() + this.state.number
+                                            )}
+                                            hour={13}
+                                            render={this.renderData}
                                             navigation={this.props.navigation}
                                         />
                                     </View>
@@ -1479,6 +2375,17 @@ export default class calendarscreen extends Component {
                                                 14,
                                                 5
                                             )}
+                                            currentday={checkDateCurrent(
+                                                nextDate(
+                                                    checkThu6() +
+                                                        this.state.number
+                                                )
+                                            )}
+                                            date={nextDate(
+                                                checkThu6() + this.state.number
+                                            )}
+                                            hour={14}
+                                            render={this.renderData}
                                             navigation={this.props.navigation}
                                         />
                                     </View>
@@ -1491,6 +2398,17 @@ export default class calendarscreen extends Component {
                                                 15,
                                                 5
                                             )}
+                                            currentday={checkDateCurrent(
+                                                nextDate(
+                                                    checkThu6() +
+                                                        this.state.number
+                                                )
+                                            )}
+                                            date={nextDate(
+                                                checkThu6() + this.state.number
+                                            )}
+                                            hour={15}
+                                            render={this.renderData}
                                             navigation={this.props.navigation}
                                         />
                                     </View>
@@ -1503,6 +2421,17 @@ export default class calendarscreen extends Component {
                                                 16,
                                                 5
                                             )}
+                                            currentday={checkDateCurrent(
+                                                nextDate(
+                                                    checkThu6() +
+                                                        this.state.number
+                                                )
+                                            )}
+                                            date={nextDate(
+                                                checkThu6() + this.state.number
+                                            )}
+                                            hour={16}
+                                            render={this.renderData}
                                             navigation={this.props.navigation}
                                         />
                                     </View>
@@ -1515,6 +2444,17 @@ export default class calendarscreen extends Component {
                                                 17,
                                                 5
                                             )}
+                                            currentday={checkDateCurrent(
+                                                nextDate(
+                                                    checkThu6() +
+                                                        this.state.number
+                                                )
+                                            )}
+                                            date={nextDate(
+                                                checkThu6() + this.state.number
+                                            )}
+                                            hour={17}
+                                            render={this.renderData}
                                             navigation={this.props.navigation}
                                         />
                                     </View>
@@ -1534,6 +2474,17 @@ export default class calendarscreen extends Component {
                                                 18,
                                                 5
                                             )}
+                                            currentday={checkDateCurrent(
+                                                nextDate(
+                                                    checkThu6() +
+                                                        this.state.number
+                                                )
+                                            )}
+                                            date={nextDate(
+                                                checkThu6() + this.state.number
+                                            )}
+                                            hour={18}
+                                            render={this.renderData}
                                             navigation={this.props.navigation}
                                         />
                                     </View>
@@ -1546,6 +2497,17 @@ export default class calendarscreen extends Component {
                                                 19,
                                                 5
                                             )}
+                                            currentday={checkDateCurrent(
+                                                nextDate(
+                                                    checkThu6() +
+                                                        this.state.number
+                                                )
+                                            )}
+                                            date={nextDate(
+                                                checkThu6() + this.state.number
+                                            )}
+                                            hour={19}
+                                            render={this.renderData}
                                             navigation={this.props.navigation}
                                         />
                                     </View>
@@ -1558,6 +2520,17 @@ export default class calendarscreen extends Component {
                                                 20,
                                                 5
                                             )}
+                                            currentday={checkDateCurrent(
+                                                nextDate(
+                                                    checkThu6() +
+                                                        this.state.number
+                                                )
+                                            )}
+                                            date={nextDate(
+                                                checkThu6() + this.state.number
+                                            )}
+                                            hour={20}
+                                            render={this.renderData}
                                             navigation={this.props.navigation}
                                         />
                                     </View>
@@ -1570,6 +2543,17 @@ export default class calendarscreen extends Component {
                                                 21,
                                                 5
                                             )}
+                                            currentday={checkDateCurrent(
+                                                nextDate(
+                                                    checkThu6() +
+                                                        this.state.number
+                                                )
+                                            )}
+                                            date={nextDate(
+                                                checkThu6() + this.state.number
+                                            )}
+                                            hour={21}
+                                            render={this.renderData}
                                             navigation={this.props.navigation}
                                         />
                                     </View>
@@ -1582,6 +2566,17 @@ export default class calendarscreen extends Component {
                                                 22,
                                                 5
                                             )}
+                                            currentday={checkDateCurrent(
+                                                nextDate(
+                                                    checkThu6() +
+                                                        this.state.number
+                                                )
+                                            )}
+                                            date={nextDate(
+                                                checkThu6() + this.state.number
+                                            )}
+                                            hour={22}
+                                            render={this.renderData}
                                             navigation={this.props.navigation}
                                         />
                                     </View>
@@ -1594,6 +2589,17 @@ export default class calendarscreen extends Component {
                                                 23,
                                                 5
                                             )}
+                                            currentday={checkDateCurrent(
+                                                nextDate(
+                                                    checkThu6() +
+                                                        this.state.number
+                                                )
+                                            )}
+                                            date={nextDate(
+                                                checkThu6() + this.state.number
+                                            )}
+                                            hour={23}
+                                            render={this.renderData}
                                             navigation={this.props.navigation}
                                         />
                                     </View>
@@ -1609,6 +2615,17 @@ export default class calendarscreen extends Component {
                                                 6,
                                                 6
                                             )}
+                                            currentday={checkDateCurrent(
+                                                nextDate(
+                                                    checkThu7() +
+                                                        this.state.number
+                                                )
+                                            )}
+                                            date={nextDate(
+                                                checkThu7() + this.state.number
+                                            )}
+                                            hour={6}
+                                            render={this.renderData}
                                             navigation={this.props.navigation}
                                         />
                                     </View>
@@ -1621,6 +2638,17 @@ export default class calendarscreen extends Component {
                                                 7,
                                                 6
                                             )}
+                                            currentday={checkDateCurrent(
+                                                nextDate(
+                                                    checkThu7() +
+                                                        this.state.number
+                                                )
+                                            )}
+                                            date={nextDate(
+                                                checkThu7() + this.state.number
+                                            )}
+                                            hour={7}
+                                            render={this.renderData}
                                             navigation={this.props.navigation}
                                         />
                                     </View>
@@ -1633,6 +2661,17 @@ export default class calendarscreen extends Component {
                                                 8,
                                                 6
                                             )}
+                                            currentday={checkDateCurrent(
+                                                nextDate(
+                                                    checkThu7() +
+                                                        this.state.number
+                                                )
+                                            )}
+                                            date={nextDate(
+                                                checkThu7() + this.state.number
+                                            )}
+                                            hour={8}
+                                            render={this.renderData}
                                             navigation={this.props.navigation}
                                         />
                                     </View>
@@ -1645,6 +2684,17 @@ export default class calendarscreen extends Component {
                                                 9,
                                                 6
                                             )}
+                                            currentday={checkDateCurrent(
+                                                nextDate(
+                                                    checkThu7() +
+                                                        this.state.number
+                                                )
+                                            )}
+                                            date={nextDate(
+                                                checkThu7() + this.state.number
+                                            )}
+                                            hour={9}
+                                            render={this.renderData}
                                             navigation={this.props.navigation}
                                         />
                                     </View>
@@ -1657,6 +2707,17 @@ export default class calendarscreen extends Component {
                                                 10,
                                                 6
                                             )}
+                                            currentday={checkDateCurrent(
+                                                nextDate(
+                                                    checkThu7() +
+                                                        this.state.number
+                                                )
+                                            )}
+                                            date={nextDate(
+                                                checkThu7() + this.state.number
+                                            )}
+                                            hour={10}
+                                            render={this.renderData}
                                             navigation={this.props.navigation}
                                         />
                                     </View>
@@ -1669,6 +2730,17 @@ export default class calendarscreen extends Component {
                                                 11,
                                                 6
                                             )}
+                                            currentday={checkDateCurrent(
+                                                nextDate(
+                                                    checkThu7() +
+                                                        this.state.number
+                                                )
+                                            )}
+                                            date={nextDate(
+                                                checkThu7() + this.state.number
+                                            )}
+                                            hour={11}
+                                            render={this.renderData}
                                             navigation={this.props.navigation}
                                         />
                                     </View>
@@ -1688,6 +2760,17 @@ export default class calendarscreen extends Component {
                                                 12,
                                                 6
                                             )}
+                                            currentday={checkDateCurrent(
+                                                nextDate(
+                                                    checkThu7() +
+                                                        this.state.number
+                                                )
+                                            )}
+                                            date={nextDate(
+                                                checkThu7() + this.state.number
+                                            )}
+                                            hour={12}
+                                            render={this.renderData}
                                             navigation={this.props.navigation}
                                         />
                                     </View>
@@ -1700,6 +2783,17 @@ export default class calendarscreen extends Component {
                                                 13,
                                                 6
                                             )}
+                                            currentday={checkDateCurrent(
+                                                nextDate(
+                                                    checkThu7() +
+                                                        this.state.number
+                                                )
+                                            )}
+                                            date={nextDate(
+                                                checkThu7() + this.state.number
+                                            )}
+                                            hour={13}
+                                            render={this.renderData}
                                             navigation={this.props.navigation}
                                         />
                                     </View>
@@ -1712,6 +2806,17 @@ export default class calendarscreen extends Component {
                                                 14,
                                                 6
                                             )}
+                                            currentday={checkDateCurrent(
+                                                nextDate(
+                                                    checkThu7() +
+                                                        this.state.number
+                                                )
+                                            )}
+                                            date={nextDate(
+                                                checkThu7() + this.state.number
+                                            )}
+                                            hour={14}
+                                            render={this.renderData}
                                             navigation={this.props.navigation}
                                         />
                                     </View>
@@ -1724,6 +2829,17 @@ export default class calendarscreen extends Component {
                                                 15,
                                                 6
                                             )}
+                                            currentday={checkDateCurrent(
+                                                nextDate(
+                                                    checkThu7() +
+                                                        this.state.number
+                                                )
+                                            )}
+                                            date={nextDate(
+                                                checkThu7() + this.state.number
+                                            )}
+                                            hour={15}
+                                            render={this.renderData}
                                             navigation={this.props.navigation}
                                         />
                                     </View>
@@ -1736,6 +2852,17 @@ export default class calendarscreen extends Component {
                                                 16,
                                                 6
                                             )}
+                                            currentday={checkDateCurrent(
+                                                nextDate(
+                                                    checkThu7() +
+                                                        this.state.number
+                                                )
+                                            )}
+                                            date={nextDate(
+                                                checkThu7() + this.state.number
+                                            )}
+                                            hour={16}
+                                            render={this.renderData}
                                             navigation={this.props.navigation}
                                         />
                                     </View>
@@ -1748,6 +2875,17 @@ export default class calendarscreen extends Component {
                                                 17,
                                                 6
                                             )}
+                                            currentday={checkDateCurrent(
+                                                nextDate(
+                                                    checkThu7() +
+                                                        this.state.number
+                                                )
+                                            )}
+                                            date={nextDate(
+                                                checkThu7() + this.state.number
+                                            )}
+                                            hour={17}
+                                            render={this.renderData}
                                             navigation={this.props.navigation}
                                         />
                                     </View>
@@ -1767,6 +2905,17 @@ export default class calendarscreen extends Component {
                                                 18,
                                                 6
                                             )}
+                                            currentday={checkDateCurrent(
+                                                nextDate(
+                                                    checkThu7() +
+                                                        this.state.number
+                                                )
+                                            )}
+                                            date={nextDate(
+                                                checkThu7() + this.state.number
+                                            )}
+                                            hour={18}
+                                            render={this.renderData}
                                             navigation={this.props.navigation}
                                         />
                                     </View>
@@ -1779,6 +2928,17 @@ export default class calendarscreen extends Component {
                                                 19,
                                                 6
                                             )}
+                                            currentday={checkDateCurrent(
+                                                nextDate(
+                                                    checkThu7() +
+                                                        this.state.number
+                                                )
+                                            )}
+                                            date={nextDate(
+                                                checkThu7() + this.state.number
+                                            )}
+                                            hour={19}
+                                            render={this.renderData}
                                             navigation={this.props.navigation}
                                         />
                                     </View>
@@ -1791,6 +2951,17 @@ export default class calendarscreen extends Component {
                                                 20,
                                                 6
                                             )}
+                                            currentday={checkDateCurrent(
+                                                nextDate(
+                                                    checkThu7() +
+                                                        this.state.number
+                                                )
+                                            )}
+                                            date={nextDate(
+                                                checkThu7() + this.state.number
+                                            )}
+                                            hour={20}
+                                            render={this.renderData}
                                             navigation={this.props.navigation}
                                         />
                                     </View>
@@ -1803,6 +2974,17 @@ export default class calendarscreen extends Component {
                                                 21,
                                                 6
                                             )}
+                                            currentday={checkDateCurrent(
+                                                nextDate(
+                                                    checkThu7() +
+                                                        this.state.number
+                                                )
+                                            )}
+                                            date={nextDate(
+                                                checkThu7() + this.state.number
+                                            )}
+                                            hour={21}
+                                            render={this.renderData}
                                             navigation={this.props.navigation}
                                         />
                                     </View>
@@ -1815,6 +2997,17 @@ export default class calendarscreen extends Component {
                                                 22,
                                                 6
                                             )}
+                                            currentday={checkDateCurrent(
+                                                nextDate(
+                                                    checkThu7() +
+                                                        this.state.number
+                                                )
+                                            )}
+                                            date={nextDate(
+                                                checkThu7() + this.state.number
+                                            )}
+                                            hour={22}
+                                            render={this.renderData}
                                             navigation={this.props.navigation}
                                         />
                                     </View>
@@ -1827,6 +3020,17 @@ export default class calendarscreen extends Component {
                                                 23,
                                                 6
                                             )}
+                                            currentday={checkDateCurrent(
+                                                nextDate(
+                                                    checkThu7() +
+                                                        this.state.number
+                                                )
+                                            )}
+                                            date={nextDate(
+                                                checkThu7() + this.state.number
+                                            )}
+                                            hour={23}
+                                            render={this.renderData}
                                             navigation={this.props.navigation}
                                         />
                                     </View>
@@ -1842,6 +3046,17 @@ export default class calendarscreen extends Component {
                                                 6,
                                                 0
                                             )}
+                                            currentday={checkDateCurrent(
+                                                nextDate(
+                                                    checkCN() +
+                                                        this.state.number
+                                                )
+                                            )}
+                                            date={nextDate(
+                                                checkCN() + this.state.number
+                                            )}
+                                            hour={6}
+                                            render={this.renderData}
                                             navigation={this.props.navigation}
                                         />
                                     </View>
@@ -1854,6 +3069,17 @@ export default class calendarscreen extends Component {
                                                 7,
                                                 0
                                             )}
+                                            currentday={checkDateCurrent(
+                                                nextDate(
+                                                    checkCN() +
+                                                        this.state.number
+                                                )
+                                            )}
+                                            date={nextDate(
+                                                checkCN() + this.state.number
+                                            )}
+                                            hour={7}
+                                            render={this.renderData}
                                             navigation={this.props.navigation}
                                         />
                                     </View>
@@ -1866,6 +3092,17 @@ export default class calendarscreen extends Component {
                                                 8,
                                                 0
                                             )}
+                                            currentday={checkDateCurrent(
+                                                nextDate(
+                                                    checkCN() +
+                                                        this.state.number
+                                                )
+                                            )}
+                                            date={nextDate(
+                                                checkCN() + this.state.number
+                                            )}
+                                            hour={8}
+                                            render={this.renderData}
                                             navigation={this.props.navigation}
                                         />
                                     </View>
@@ -1878,6 +3115,17 @@ export default class calendarscreen extends Component {
                                                 9,
                                                 0
                                             )}
+                                            currentday={checkDateCurrent(
+                                                nextDate(
+                                                    checkCN() +
+                                                        this.state.number
+                                                )
+                                            )}
+                                            date={nextDate(
+                                                checkCN() + this.state.number
+                                            )}
+                                            hour={9}
+                                            render={this.renderData}
                                             navigation={this.props.navigation}
                                         />
                                     </View>
@@ -1890,6 +3138,17 @@ export default class calendarscreen extends Component {
                                                 10,
                                                 0
                                             )}
+                                            currentday={checkDateCurrent(
+                                                nextDate(
+                                                    checkCN() +
+                                                        this.state.number
+                                                )
+                                            )}
+                                            date={nextDate(
+                                                checkCN() + this.state.number
+                                            )}
+                                            hour={10}
+                                            render={this.renderData}
                                             navigation={this.props.navigation}
                                         />
                                     </View>
@@ -1902,6 +3161,17 @@ export default class calendarscreen extends Component {
                                                 11,
                                                 0
                                             )}
+                                            currentday={checkDateCurrent(
+                                                nextDate(
+                                                    checkCN() +
+                                                        this.state.number
+                                                )
+                                            )}
+                                            date={nextDate(
+                                                checkCN() + this.state.number
+                                            )}
+                                            hour={11}
+                                            render={this.renderData}
                                             navigation={this.props.navigation}
                                         />
                                     </View>
@@ -1921,6 +3191,17 @@ export default class calendarscreen extends Component {
                                                 12,
                                                 0
                                             )}
+                                            currentday={checkDateCurrent(
+                                                nextDate(
+                                                    checkCN() +
+                                                        this.state.number
+                                                )
+                                            )}
+                                            date={nextDate(
+                                                checkCN() + this.state.number
+                                            )}
+                                            hour={12}
+                                            render={this.renderData}
                                             navigation={this.props.navigation}
                                         />
                                     </View>
@@ -1933,6 +3214,17 @@ export default class calendarscreen extends Component {
                                                 13,
                                                 0
                                             )}
+                                            currentday={checkDateCurrent(
+                                                nextDate(
+                                                    checkCN() +
+                                                        this.state.number
+                                                )
+                                            )}
+                                            date={nextDate(
+                                                checkCN() + this.state.number
+                                            )}
+                                            hour={13}
+                                            render={this.renderData}
                                             navigation={this.props.navigation}
                                         />
                                     </View>
@@ -1945,6 +3237,17 @@ export default class calendarscreen extends Component {
                                                 14,
                                                 0
                                             )}
+                                            currentday={checkDateCurrent(
+                                                nextDate(
+                                                    checkCN() +
+                                                        this.state.number
+                                                )
+                                            )}
+                                            date={nextDate(
+                                                checkCN() + this.state.number
+                                            )}
+                                            hour={14}
+                                            render={this.renderData}
                                             navigation={this.props.navigation}
                                         />
                                     </View>
@@ -1957,6 +3260,17 @@ export default class calendarscreen extends Component {
                                                 15,
                                                 0
                                             )}
+                                            currentday={checkDateCurrent(
+                                                nextDate(
+                                                    checkCN() +
+                                                        this.state.number
+                                                )
+                                            )}
+                                            date={nextDate(
+                                                checkCN() + this.state.number
+                                            )}
+                                            hour={15}
+                                            render={this.renderData}
                                             navigation={this.props.navigation}
                                         />
                                     </View>
@@ -1969,6 +3283,17 @@ export default class calendarscreen extends Component {
                                                 16,
                                                 0
                                             )}
+                                            currentday={checkDateCurrent(
+                                                nextDate(
+                                                    checkCN() +
+                                                        this.state.number
+                                                )
+                                            )}
+                                            date={nextDate(
+                                                checkCN() + this.state.number
+                                            )}
+                                            hour={16}
+                                            render={this.renderData}
                                             navigation={this.props.navigation}
                                         />
                                     </View>
@@ -1981,6 +3306,17 @@ export default class calendarscreen extends Component {
                                                 17,
                                                 0
                                             )}
+                                            currentday={checkDateCurrent(
+                                                nextDate(
+                                                    checkCN() +
+                                                        this.state.number
+                                                )
+                                            )}
+                                            date={nextDate(
+                                                checkCN() + this.state.number
+                                            )}
+                                            hour={17}
+                                            render={this.renderData}
                                             navigation={this.props.navigation}
                                         />
                                     </View>
@@ -2000,6 +3336,17 @@ export default class calendarscreen extends Component {
                                                 18,
                                                 0
                                             )}
+                                            currentday={checkDateCurrent(
+                                                nextDate(
+                                                    checkCN() +
+                                                        this.state.number
+                                                )
+                                            )}
+                                            date={nextDate(
+                                                checkCN() + this.state.number
+                                            )}
+                                            hour={18}
+                                            render={this.renderData}
                                             navigation={this.props.navigation}
                                         />
                                     </View>
@@ -2012,6 +3359,17 @@ export default class calendarscreen extends Component {
                                                 19,
                                                 0
                                             )}
+                                            currentday={checkDateCurrent(
+                                                nextDate(
+                                                    checkCN() +
+                                                        this.state.number
+                                                )
+                                            )}
+                                            date={nextDate(
+                                                checkCN() + this.state.number
+                                            )}
+                                            hour={19}
+                                            render={this.renderData}
                                             navigation={this.props.navigation}
                                         />
                                     </View>
@@ -2024,6 +3382,17 @@ export default class calendarscreen extends Component {
                                                 20,
                                                 0
                                             )}
+                                            currentday={checkDateCurrent(
+                                                nextDate(
+                                                    checkCN() +
+                                                        this.state.number
+                                                )
+                                            )}
+                                            date={nextDate(
+                                                checkCN() + this.state.number
+                                            )}
+                                            hour={20}
+                                            render={this.renderData}
                                             navigation={this.props.navigation}
                                         />
                                     </View>
@@ -2036,6 +3405,17 @@ export default class calendarscreen extends Component {
                                                 21,
                                                 0
                                             )}
+                                            currentday={checkDateCurrent(
+                                                nextDate(
+                                                    checkCN() +
+                                                        this.state.number
+                                                )
+                                            )}
+                                            date={nextDate(
+                                                checkCN() + this.state.number
+                                            )}
+                                            hour={21}
+                                            render={this.renderData}
                                             navigation={this.props.navigation}
                                         />
                                     </View>
@@ -2048,6 +3428,17 @@ export default class calendarscreen extends Component {
                                                 22,
                                                 0
                                             )}
+                                            currentday={checkDateCurrent(
+                                                nextDate(
+                                                    checkCN() +
+                                                        this.state.number
+                                                )
+                                            )}
+                                            date={nextDate(
+                                                checkCN() + this.state.number
+                                            )}
+                                            hour={22}
+                                            render={this.renderData}
                                             navigation={this.props.navigation}
                                         />
                                     </View>
@@ -2060,6 +3451,17 @@ export default class calendarscreen extends Component {
                                                 23,
                                                 0
                                             )}
+                                            currentday={checkDateCurrent(
+                                                nextDate(
+                                                    checkCN() +
+                                                        this.state.number
+                                                )
+                                            )}
+                                            date={nextDate(
+                                                checkCN() + this.state.number
+                                            )}
+                                            hour={23}
+                                            render={this.renderData}
                                             navigation={this.props.navigation}
                                         />
                                     </View>

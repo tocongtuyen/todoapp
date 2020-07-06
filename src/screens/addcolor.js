@@ -192,7 +192,7 @@ export default class App extends Component {
                                         })
                                     }
                                     placeholder="Nhập tên nhãn"
-                                    autoFocus={true}
+                                    // autoFocus={true}
                                 />
                                 <View style={styles.seperator}></View>
                                 <View

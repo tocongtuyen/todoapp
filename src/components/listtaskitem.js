@@ -6,10 +6,14 @@ import {
     FlatList,
     TouchableOpacity,
     Alert,
+    StyleSheet,
+    Dimensions,
 } from 'react-native'
 import moment from 'moment'
 import firebase from '../database/firebase'
 import TaskItem from './taskitem'
+import AntDesign from 'react-native-vector-icons/AntDesign'
+const windowWidth = Dimensions.get('window').width / 8 - 1
 
 const updateTask = (id, item) => {
     const { isCompleted } = item
@@ -48,7 +52,7 @@ const deleteTask = (key) => {
     })
 }
 
-const ListTaskItem = ({ data, navigation }) => (
+const ListTaskItem = ({ data, currentday, hour, date, render, navigation }) => (
     <View>
         <FlatList
             data={data}
@@ -99,7 +103,64 @@ const ListTaskItem = ({ data, navigation }) => (
             )}
             keyExtractor={(item) => item.key}
         />
+        <TouchableOpacity
+            onPress={() => {
+                navigation.navigate('AddTaskQuick', {
+                    date: date,
+                    render: render,
+                    hour: hour,
+                })
+            }}
+            style={[
+                styles.taskListContent,
+                {
+                    height:
+                        data.length != 0 || currentday !== true
+                            ? 0
+                            : 1062 / 18 - 2,
+                    backgroundColor: '#FFF',
+                },
+            ]}
+        >
+            <AntDesign
+                name={'plus'}
+                size={24}
+                color={'#efefef'}
+                style={{
+                    width: 24,
+                    // marginRight: 10,
+                }}
+            />
+            {/* <Text>{hour}</Text> */}
+        </TouchableOpacity>
     </View>
 )
 
 export default ListTaskItem
+
+const styles = StyleSheet.create({
+    taskListContent: {
+        height: 0,
+        // flex: 2,
+        // marginLeft: 1,
+        // marginRight: 1,
+        width: windowWidth,
+        // width: 110,
+        alignSelf: 'center',
+        // borderRadius: 10,
+        shadowColor: '#2E66E7',
+        backgroundColor: '#ffffff',
+        // marginTop: 1,
+        // marginBottom: 1,
+        shadowOffset: {
+            width: 3,
+            height: 3,
+        },
+        shadowRadius: 5,
+        // shadowOpacity: 0.5,
+        elevation: 3,
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+})

@@ -50,6 +50,7 @@ class UpdateTask extends Component {
             isAlarmSet: false,
             alarmTime: moment().format(),
             isDateTimePickerVisible: false,
+            isDateTimePickerAlarmTimeVisible: false,
             timeType: '',
             creatTodo: {},
             createEventAsyncRes: '',
@@ -188,6 +189,50 @@ class UpdateTask extends Component {
         this._hideDateTimePicker()
     }
 
+    // _showDateTimePicker1 = () =>
+    //     this.setState({ isDateTimePickerAlarmTimeVisible: true })
+    // _hideDateTimePicker1 = () =>
+    //     this.setState({ isDateTimePickerAlarmTimeVisible: false })
+
+    // _handleDatePicked1 = (date) => {
+    //     const { currentDay } = this.state
+    //     const selectedDatePicked = currentDay
+    //     const hour = moment(date).hour()
+    //     const minute = moment(date).minute()
+    //     const newModifiedDay = moment(selectedDatePicked)
+    //         .hour(hour)
+    //         .minute(minute)
+
+    //     let doTime = new Date(this.state.time).getTime()
+    //     let alarmTime = new Date(date).getTime()
+
+    //     if (doTime < alarmTime) {
+    //         this.setState(
+    //             {
+    //                 alarmTime: this.state.time,
+    //                 isAlarmSet: true,
+    //             },
+    //             () => {
+    //                 setTimeout(() => {
+    //                     Alert.alert(
+    //                         'Thông báo',
+    //                         'Thời gian nhắc nhở không được sau giờ bắt đầu'
+    //                     )
+    //                 }, 500)
+    //             }
+    //         )
+    //     } else {
+    //         this.setState({
+    //             alarmTime: newModifiedDay,
+    //             isAlarmSet: true,
+    //         })
+    //     }
+
+    //     console.log(date)
+
+    //     this._hideDateTimePicker1()
+    // }
+
     isNowOver = () => {
         const timeCurrent = new Date(Date.now()).getTime()
         const timeTodo = new Date(
@@ -303,6 +348,7 @@ class UpdateTask extends Component {
                 isAlarmSet,
                 alarmTime,
                 isDateTimePickerVisible,
+                isDateTimePickerAlarmTimeVisible,
                 selectedTask,
             },
             props: { navigation },
@@ -350,6 +396,15 @@ class UpdateTask extends Component {
                         }
                         mode="time"
                     />
+                    {/* <DateTimePicker
+                        isVisible={isDateTimePickerAlarmTimeVisible}
+                        onConfirm={this._handleDatePicked1}
+                        onCancel={this._hideDateTimePicker1}
+                        date={
+                            new Date(moment(this.state.time).add(-1, 'hours'))
+                        }
+                        mode="time"
+                    /> */}
                     <View style={styles.container}>
                         <View
                             style={{
@@ -439,6 +494,47 @@ class UpdateTask extends Component {
                                 /> */}
                                 </View>
                                 <View style={styles.taskContainer}>
+                                    <View
+                                        style={{
+                                            flexDirection: 'row',
+                                            justifyContent: 'space-between',
+                                            alignItems: 'center',
+                                        }}
+                                    >
+                                        <View>
+                                            <Text
+                                                style={{
+                                                    color: '#9CAAC4',
+                                                    fontSize: 16,
+                                                    fontWeight: '600',
+                                                }}
+                                            >
+                                                Ngày bắt đầu
+                                            </Text>
+                                            <TouchableOpacity
+                                                style={{
+                                                    height: 25,
+                                                    marginTop: 10,
+                                                }}
+                                                disabled={true}
+                                                // onPress={
+                                                //     this._showDateTimePicker2
+                                                // }
+                                            >
+                                                <Text
+                                                    style={{
+                                                        fontSize: 19,
+                                                        color: 'gray',
+                                                    }}
+                                                >
+                                                    {moment(
+                                                        selectedTask.time.toDate()
+                                                    ).format('DD/MM/YYYY')}
+                                                </Text>
+                                            </TouchableOpacity>
+                                        </View>
+                                    </View>
+                                    <View style={styles.seperator} />
                                     <Text
                                         style={{
                                             color: '#9CAAC4',

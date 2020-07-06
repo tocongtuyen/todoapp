@@ -17,6 +17,7 @@ import AddColor from './src/screens/addcolor'
 import Home from './src/screens/home'
 import UpdateColor from './src/screens/updateColor'
 import ChartKit from './src/screens/chartkit'
+import AddTaskQuick from './src/screens/addtaskquick'
 
 const Stack = createStackNavigator()
 
@@ -95,6 +96,11 @@ function MyStack() {
                 name="ChartKit"
                 component={ChartKit}
                 options={{ title: 'Danh sách công việc' }}
+            />
+            <Stack.Screen
+                name="AddTaskQuick"
+                component={AddTaskQuick}
+                options={{ title: 'Thêm nhanh công việc' }}
             />
         </Stack.Navigator>
     )

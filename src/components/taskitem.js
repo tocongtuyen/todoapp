@@ -72,7 +72,7 @@ class taskitem extends React.Component {
             .doc(id + '')
             .get()
             .then((docRef) => {
-                console.log(docRef.data())
+                // console.log(docRef.data())
                 return docRef.data()
             })
             .catch((error) => {})
@@ -90,7 +90,7 @@ class taskitem extends React.Component {
 
     componentDidMount() {
         this.getColorBy_Id(this.props.colorid)
-        console.log(this.state.currentDay)
+        // console.log(this.state.currentDay)
     }
 
     componentDidUpdate(prevProps, prevState) {

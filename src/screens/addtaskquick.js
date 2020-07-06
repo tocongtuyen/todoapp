@@ -44,15 +44,23 @@ class detailtask extends Component {
                     selectedColor: '#2E66E7',
                 },
             },
-            currentDay: moment().format(),
+            currentDay: moment(new Date(this.props.route.params.date))
+                .hour(this.props.route.params.hour)
+                .format(),
             taskText: '',
             notesText: '',
             keyboardHeight: 0,
             visibleHeight: Dimensions.get('window').height,
             isAlarmSet: false,
-            time: moment().format(),
-            alarmTime: moment().format(),
-            endTime: moment().format(),
+            time: moment(new Date(this.props.route.params.date))
+                .hour(this.props.route.params.hour)
+                .format(),
+            alarmTime: moment(new Date(this.props.route.params.date))
+                .hour(this.props.route.params.hour)
+                .format(),
+            endTime: moment(new Date(this.props.route.params.date))
+                .hour(this.props.route.params.hour)
+                .format(),
             isDateTimePickerVisible: false,
             isDateTimePickerAlarmTimeVisible: false,
             isDateTimePickerVisibleEndDay: false,
@@ -308,6 +316,7 @@ class detailtask extends Component {
                 this.addTasks(new Date(this.state.time).getDay(), 0)
             }
             this.props.navigation.goBack()
+            this.props.route.params.render()
         }
     }
 
@@ -595,7 +604,14 @@ class detailtask extends Component {
                         isVisible={isDateTimePickerVisible}
                         onConfirm={this._handleDatePicked}
                         onCancel={this._hideDateTimePicker}
-                        date={new Date(moment(this.state.time).add(0, 'hours'))}
+                        date={
+                            new Date(
+                                moment(this.state.time).add(
+                                    this.props.route.params.hour,
+                                    'hours'
+                                )
+                            )
+                        }
                         mode="time"
                     />
                     <DateTimePicker
@@ -649,54 +665,51 @@ class detailtask extends Component {
                                     paddingBottom: 50,
                                 }}
                             >
-                                <View style={styles.calenderContainer}>
-                                    <CalendarList
-                                        style={{
-                                            width: 350,
-                                            height: 350,
-                                        }}
-                                        current={currentDay}
-                                        minDate={moment().format()}
-                                        horizontal
-                                        pastScrollRange={0}
-                                        pagingEnabled
-                                        calendarWidth={350}
-                                        onDayPress={(day) => {
-                                            this.setState(
-                                                {
-                                                    selectedDay: {
-                                                        [day.dateString]: {
-                                                            selected: true,
-                                                            selectedColor:
-                                                                '#2E66E7',
-                                                        },
-                                                    },
-                                                    currentDay: day.dateString,
-                                                    time: day.dateString,
-                                                    alarmTime: day.dateString,
-                                                    endTime: day.dateString,
-                                                },
-                                                () => {
-                                                    console.log(currentDay)
-                                                }
-                                            )
-                                        }}
-                                        monthFormat="yyyy MMMM"
-                                        hideArrows
-                                        markingType="simple"
-                                        theme={{
-                                            selectedDayBackgroundColor:
-                                                '#2E66E7',
-                                            selectedDayTextColor: '#ffffff',
-                                            todayTextColor: '#2E66E7',
-                                            backgroundColor: '#eaeef7',
-                                            calendarBackground: '#eaeef7',
-                                            textDisabledColor: '#d9dbe0',
-                                        }}
-                                        markedDates={selectedDay}
-                                    />
-                                </View>
                                 <View style={styles.taskContainer}>
+                                    <View
+                                        style={{
+                                            flexDirection: 'row',
+                                            justifyContent: 'space-between',
+                                            alignItems: 'center',
+                                        }}
+                                    >
+                                        <View>
+                                            <Text
+                                                style={{
+                                                    color: '#9CAAC4',
+                                                    fontSize: 16,
+                                                    fontWeight: '600',
+                                                }}
+                                            >
+                                                Ngày bắt đầu
+                                            </Text>
+                                            <TouchableOpacity
+                                                style={{
+                                                    height: 25,
+                                                    marginTop: 10,
+                                                }}
+                                                disabled={
+                                                    valuePickerSelect ===
+                                                    'Không lặp'
+                                                }
+                                                // onPress={
+                                                //     this._showDateTimePicker2
+                                                // }
+                                            >
+                                                <Text
+                                                    style={{
+                                                        fontSize: 19,
+                                                        color: 'gray',
+                                                    }}
+                                                >
+                                                    {moment(time).format(
+                                                        'DD/MM/YYYY'
+                                                    )}
+                                                </Text>
+                                            </TouchableOpacity>
+                                        </View>
+                                    </View>
+                                    <View style={styles.seperator} />
                                     <Text
                                         style={{
                                             color: '#9CAAC4',
