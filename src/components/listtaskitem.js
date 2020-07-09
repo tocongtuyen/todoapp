@@ -21,10 +21,10 @@ const updateTask = (id, item) => {
     let currentTime = new Date(
         new Date(moment(Date.now()).add(-12, 'hours'))
     ).getTime()
-    if (todoTime < currentTime || todoTime > new Date(Date.now()).getTime()) {
+    if (todoTime > new Date(Date.now()).getTime()) {
         Alert.alert(
             'Thông báo',
-            'Công việc này đã qua 12 giờ hoặc chưa tới, không thể cập nhật trạng thái'
+            'Công việc này chưa tới, không thể cập nhật trạng thái'
         )
     } else {
         const updateDBRef = firebase.firestore().collection('tasks').doc(id)
@@ -72,7 +72,26 @@ const ListTaskItem = ({ data, currentday, hour, date, render, navigation }) => (
                         index={index}
                         length={data.length}
                         isCompleted={item.isCompleted}
-                        onSwipeFromLeft={() => updateTask(item.key, item.data)}
+                        onSwipeFromLeft={() => {
+                            Alert.alert(
+                                'Thông báo',
+                                'Xác nhận cập nhật trạng thái công việc',
+                                [
+                                    {
+                                        text: 'Huỷ bỏ',
+                                        onPress: () =>
+                                            console.log('Cancel Pressed'),
+                                        style: 'cancel',
+                                    },
+                                    {
+                                        text: 'Đồng ý',
+                                        onPress: () =>
+                                            updateTask(item.key, item.data),
+                                    },
+                                ],
+                                { cancelable: false }
+                            )
+                        }}
                         onRightPress={() => {
                             // this.deleteGroup(item.key);
                             // this.setState({

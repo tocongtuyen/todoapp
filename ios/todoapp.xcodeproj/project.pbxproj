@@ -20,6 +20,7 @@
 		3279C74D5373B8C1591A3144 /* libPods-todoapp-tvOSTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A89324D0CC43BF2EAC398268 /* libPods-todoapp-tvOSTests.a */; };
 		4C3327C1AFC8B6FE5B64394B /* libPods-todoapp.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9B50A0725DEFA1A380BE8F83 /* libPods-todoapp.a */; };
 		7F0CAF0189B1F8F2801F8CA0 /* libPods-todoapp-todoappTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 14C8DB5316BF7A8CFC85C63D /* libPods-todoapp-todoappTests.a */; };
+		864F584224B5A205003E64DE /* File.swift in Sources */ = {isa = PBXBuildFile; fileRef = 864F584124B5A205003E64DE /* File.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -54,6 +55,8 @@
 		14C8DB5316BF7A8CFC85C63D /* libPods-todoapp-todoappTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-todoapp-todoappTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2D02E47B1E0B4A5D006451C7 /* todoapp-tvOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "todoapp-tvOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2D02E4901E0B4A5D006451C7 /* todoapp-tvOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "todoapp-tvOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		864F584024B5A205003E64DE /* todoapp-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "todoapp-Bridging-Header.h"; sourceTree = "<group>"; };
+		864F584124B5A205003E64DE /* File.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = File.swift; sourceTree = "<group>"; };
 		99085D170A06D37CEBFF41F4 /* libPods-todoapp-tvOS.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-todoapp-tvOS.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		9B50A0725DEFA1A380BE8F83 /* libPods-todoapp.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-todoapp.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		9CBCF086B510EEA99EDF7A74 /* Pods-todoapp-tvOSTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-todoapp-tvOSTests.debug.xcconfig"; path = "Target Support Files/Pods-todoapp-tvOSTests/Pods-todoapp-tvOSTests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -174,12 +177,14 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
+				864F584124B5A205003E64DE /* File.swift */,
 				13B07FAE1A68108700A75B9A /* todoapp */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
 				00E356EF1AD99517003FC87E /* todoappTests */,
 				83CBBA001A601CBA00E9B192 /* Products */,
 				2D16E6871FA4F8E400B85C8A /* Frameworks */,
 				0D6B3E24090C308CAE8D394B /* Pods */,
+				864F584024B5A205003E64DE /* todoapp-Bridging-Header.h */,
 			);
 			indentWidth = 2;
 			sourceTree = "<group>";
@@ -294,7 +299,7 @@
 					};
 					13B07F861A680F5B00A75B9A = {
 						DevelopmentTeam = BT5P9SVS6P;
-						LastSwiftMigration = 1120;
+						LastSwiftMigration = 1150;
 					};
 					2D02E47A1E0B4A5D006451C7 = {
 						CreatedOnToolsVersion = 8.2.1;
@@ -629,6 +634,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */,
+				864F584224B5A205003E64DE /* File.swift in Sources */,
 				13B07FC11A68108700A75B9A /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -682,6 +688,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = C7717F77C138443E8357B9D8 /* Pods-todoapp-todoappTests.debug.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
@@ -705,6 +712,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = E5CD6862367D43AF124D1836 /* Pods-todoapp-todoappTests.release.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				COPY_PHASE_STRIP = NO;
 				INFOPLIST_FILE = todoappTests/Info.plist;
@@ -743,6 +751,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = org.reactjs.native.example.todoapp123;
 				PRODUCT_NAME = todoapp;
+				SWIFT_OBJC_BRIDGING_HEADER = "todoapp-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
@@ -766,6 +775,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = org.reactjs.native.example.todoapp123;
 				PRODUCT_NAME = todoapp;
+				SWIFT_OBJC_BRIDGING_HEADER = "todoapp-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
 			};

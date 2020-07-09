@@ -787,22 +787,22 @@ class detailtask extends Component {
                                                     <TouchableOpacity
                                                         style={{
                                                             flex: 1,
-                                                            backgroundColor:
-                                                                item.color,
+                                                            // backgroundColor:
+                                                            //     item.color,
                                                             padding: 5,
                                                             marginRight: 5,
                                                         }}
-                                                        onPress={() => {
-                                                            this.props.navigation.navigate(
-                                                                'UpdateColor',
-                                                                {
-                                                                    id:
-                                                                        item.key,
-                                                                    data:
-                                                                        item.data,
-                                                                }
-                                                            )
-                                                        }}
+                                                        // onPress={() => {
+                                                        //     this.props.navigation.navigate(
+                                                        //         'UpdateColor',
+                                                        //         {
+                                                        //             id:
+                                                        //                 item.key,
+                                                        //             data:
+                                                        //                 item.data,
+                                                        //         }
+                                                        //     )
+                                                        // }}
                                                     >
                                                         <Text>
                                                             {item.label}

@@ -23,6 +23,8 @@ import {
 } from 'react-native-chart-kit'
 import NetInfo from '@react-native-community/netinfo'
 import Statistic from '../components/statistic'
+import WeekStackBarChar from '../components/WeekStackBarChar'
+import MonthStartStackBarChar from '../components/MonthStartStackBarChar'
 //import React Native chart Kit for different kind of Chart
 var today = new Date()
 
@@ -247,8 +249,11 @@ export default class ChartKit extends React.Component {
                         >
                             Thống kê công việc
                         </Text>
-                        <Statistic />
-
+                        <ScrollView style={{ height: 200 }}>
+                            {/* <Statistic /> */}
+                            <WeekStackBarChar />
+                            <MonthStartStackBarChar />
+                        </ScrollView>
                         {/* <StackedBarChart
                                 data={{
                                     labels: [

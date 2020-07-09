@@ -7,6 +7,8 @@ import {
     TouchableOpacity,
 } from 'react-native'
 import AntDesign from 'react-native-vector-icons/AntDesign'
+import FontAwesome from 'react-native-vector-icons/FontAwesome'
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
 import Swipeable from 'react-native-gesture-handler/Swipeable'
 
@@ -29,7 +31,7 @@ const RightActions = ({ progress, dragX, onPress }) => {
     )
 }
 
-const GroupTaskItem = ({ icon, name, onRightPress, onClick }) => (
+const GroupTaskItem = ({ icon, name, color, onRightPress, onClick }) => (
     <Swipeable
         renderRightActions={(progress, dragX) => (
             <RightActions
@@ -40,12 +42,13 @@ const GroupTaskItem = ({ icon, name, onRightPress, onClick }) => (
         )}
     >
         <TouchableOpacity style={styles.itemContainer} onPress={onClick}>
-            <MaterialCommunityIcons name={icon} size={26} color="#1e1e1e" />
+            <MaterialIcons name="color-lens" size={30} color={color} />
             <Text style={[styles.itemText, { marginLeft: icon ? 20 : 0 }]}>
                 {name}
             </Text>
-            {/* <FontAwesome name="angle-right" size={26} color="#1e1e1e" /> */}
+            <FontAwesome name="angle-right" size={26} color="#1e1e1e" />
         </TouchableOpacity>
+        <View style={styles.seperator}></View>
     </Swipeable>
 )
 
@@ -94,6 +97,13 @@ const styles = StyleSheet.create({
     itemText: {
         flex: 1,
         color: '#1e1e1e',
-        fontSize: 22,
+        fontSize: 20,
+    },
+    seperator: {
+        height: 0.5,
+        width: '100%',
+        backgroundColor: '#979797',
+        alignSelf: 'center',
+        // marginVertical: 5,
     },
 })
