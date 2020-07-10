@@ -140,6 +140,12 @@ export default class App extends Component {
                                 resizeMode="contain"
                             />
                         </TouchableOpacity>
+                        <Text style={styles.newTask}>Thêm nhãn</Text>
+                        <View
+                            style={{
+                                width: 40,
+                            }}
+                        ></View>
                     </View>
                     {/* <ScrollView
                         contentContainerStyle={{

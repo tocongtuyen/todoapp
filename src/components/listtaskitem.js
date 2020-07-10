@@ -75,7 +75,7 @@ const ListTaskItem = ({ data, currentday, hour, date, render, navigation }) => (
                         onSwipeFromLeft={() => {
                             Alert.alert(
                                 'Thông báo',
-                                'Xác nhận cập nhật trạng thái công việc',
+                                'Bạn có chắc hoàn thành công việc này chưa?',
                                 [
                                     {
                                         text: 'Huỷ bỏ',

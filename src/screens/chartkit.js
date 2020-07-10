@@ -41,7 +41,6 @@ const renderMonth = (num) => {
     }
     return futureMonth
 }
-
 export default class ChartKit extends React.Component {
     constructor(props) {
         super(props)

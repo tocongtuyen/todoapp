@@ -347,7 +347,7 @@ export default class Dashboard extends Component {
                                         onSwipeFromLeft={() => {
                                             Alert.alert(
                                                 'Thông báo',
-                                                'Xác nhận cập nhật trạng thái công việc',
+                                                'Bạn có chắc hoàn thành công việc này chưa?',
                                                 [
                                                     {
                                                         text: 'Huỷ bỏ',
@@ -473,7 +473,6 @@ export default class Dashboard extends Component {
                                 )
                             }}
                         />
-                        {/* <ProfileItem icon="alarm-check" name="Công việc quan trọng" /> */}
                         <View style={styles.seperator}></View>
                         <ProfileItem
                             icon="chart-bar"
@@ -484,6 +483,18 @@ export default class Dashboard extends Component {
                                 })
                             }}
                         />
+                        <View style={styles.seperator}></View>
+                        <ProfileItem
+                            icon="select-color"
+                            name="Quản lý màu nhãn"
+                            onPress={() => {
+                                this.props.navigation.navigate('ColorList', {
+                                    userid: this.state.uid,
+                                })
+                            }}
+                        />
+                        {/* <ProfileItem icon="alarm-check" name="Công việc quan trọng" /> */}
+
                         {/*  */}
                         <View style={styles.divider} />
                         <TouchableOpacity
@@ -499,7 +510,7 @@ export default class Dashboard extends Component {
                             </Text>
                             {/* <FontAwesome name="angle-right" size={26} color="#1e1e1e" /> */}
                         </TouchableOpacity>
-                        <View style={styles.divider} />
+                        {/* <View style={styles.divider} />
                         <FlatList
                             data={this.state.arrColor}
                             renderItem={({ item }) => (
@@ -564,7 +575,7 @@ export default class Dashboard extends Component {
                                     // console.log(this.state.keyGroupCurrent)
                                 }
                             }}
-                        />
+                        /> */}
                     </View>
                     {/* </ScrollView> */}
                     <TouchableOpacity

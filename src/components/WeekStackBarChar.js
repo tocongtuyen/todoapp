@@ -18,6 +18,20 @@ const renderDay = (num, b) => {
     if (b == true) return moment().add(num, 'd').format('DD/MM')
     return day
 }
+function nextDate(num, b) {
+    let today = moment()
+    let nextday = moment(today).add(num, 'days')
+    let stringday =
+        moment(nextday).format('YYYY') +
+        '/' +
+        moment(nextday).format('MM') +
+        '/' +
+        moment(nextday).format('DD')
+    if (b) {
+        return moment(nextday).format('DD') + '/' + moment(nextday).format('MM')
+    }
+    return stringday
+}
 
 const checkThu2 = () => {
     let current_day = new Date().getDay()
@@ -49,23 +63,28 @@ const checkThu2 = () => {
     return day_name
 }
 
-const checkCN = () => {
-    return checkThu2() + 6
+const checkThu3 = () => {
+    return checkThu2() + 1
 }
 
-function nextDate(num, b) {
-    let today = moment()
-    let nextday = moment(today).add(num, 'days')
-    let stringday =
-        moment(nextday).format('YYYY') +
-        '/' +
-        moment(nextday).format('MM') +
-        '/' +
-        moment(nextday).format('DD')
-    if (b) {
-        return moment(nextday).format('DD') + '/' + moment(nextday).format('MM')
-    }
-    return stringday
+const checkThu4 = () => {
+    return checkThu2() + 2
+}
+
+const checkThu5 = () => {
+    return checkThu2() + 3
+}
+
+const checkThu6 = () => {
+    return checkThu2() + 4
+}
+
+const checkThu7 = () => {
+    return checkThu2() + 5
+}
+
+const checkCN = () => {
+    return checkThu2() + 6
 }
 
 class WeekStackBarChar extends React.Component {
@@ -191,13 +210,41 @@ class WeekStackBarChar extends React.Component {
                         style={styles.chart}
                         xAxis={{
                             valueFormatter: [
-                                'Thứ 2',
-                                'Thứ 3',
-                                'Thứ 4',
-                                'Thứ 5',
-                                'Thứ 6',
-                                'Thứ 7',
-                                'CN',
+                                'Thứ 2\n' +
+                                    `${nextDate(
+                                        checkThu2() + this.state.number,
+                                        true
+                                    )}`,
+                                'Thứ 3\n' +
+                                    `${nextDate(
+                                        checkThu3() + this.state.number,
+                                        true
+                                    )}`,
+                                'Thứ 4\n' +
+                                    `${nextDate(
+                                        checkThu4() + this.state.number,
+                                        true
+                                    )}`,
+                                'Thứ 5\n' +
+                                    `${nextDate(
+                                        checkThu5() + this.state.number,
+                                        true
+                                    )}`,
+                                'Thứ 6\n' +
+                                    `${nextDate(
+                                        checkThu6() + this.state.number,
+                                        true
+                                    )}`,
+                                'Thứ 7\n' +
+                                    `${nextDate(
+                                        checkThu7() + this.state.number,
+                                        true
+                                    )}`,
+                                'CN\n' +
+                                    `${nextDate(
+                                        checkCN() + this.state.number,
+                                        true
+                                    )}`,
                             ],
                             granularityEnabled: true,
                             granularity: 1,
@@ -392,7 +439,7 @@ class WeekStackBarChar extends React.Component {
                                     label: `Thống kê công việc ${renderDay(
                                         checkThu2() + this.state.number,
                                         true
-                                    )}-${renderDay(
+                                    )}/${today.getFullYear()}-${renderDay(
                                         checkThu2() + 6 + this.state.number,
                                         true
                                     )}/${today.getFullYear()}`,
